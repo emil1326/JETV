@@ -9,21 +9,21 @@
                 <ul class="navbar-nav ">
 
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Accueil</a>
+                        <a class="nav-link active" aria-current="page" href="/">Accueil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" style="15px;">Shop</a>
+                        <a class="nav-link" href="/shop">Shop</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Enigma</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Inventaire</a>
+                        <a class="nav-link" href="/enigma">Enigma</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Cart</a>
+                        <a class="nav-link" href="/backpack">Backpack</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cart">Cart</a>
                     </li>
                     <!-- <div class="d-grid gap-2 d-md-flex justify-content-md-end" style="padding-left:20px;">
                         <button class="btn btn-outline-secondary me-md-2 btn-sm" type="button">Sign
