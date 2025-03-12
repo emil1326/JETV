@@ -769,6 +769,7 @@ end;
 delimiter ;
 
 -- cart
+
 drop procedure if exists AddItemToCart;
 delimiter //
 create procedure AddItemToCart(
