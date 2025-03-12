@@ -9,7 +9,7 @@ class UserModel
     public function selectById(int $id): null|User
     {
         try {
-            $stm = $this->pdo->prepare('SELECT alias, nom, prenom, caps, dexteriter, pv, poidsMax, isAdmin, playerPassword FROM joueure WHERE id=:id');
+            $stm = $this->pdo->prepare('SELECT alias, nom, prenom, caps, dexteriter, pv, poidsMax, isAdmin, playerPassword FROM joueure WHERE joueureID=:id');
             $stm->bindValue(':id', $id, PDO::PARAM_INT);
             $stm->execute();
 
