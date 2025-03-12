@@ -1,33 +1,32 @@
 <?php
-//ne peux pas acceder si deja connecter
-/*if (isAuthenticated()) {
-    redirect('/');
-}*/
 
 require 'src/class/Database.php';
 require 'src/session.php';
 require 'models/UserModel.php';
 
+// Ne peux pas accéder à la page si déjà connecté
+if (isAuthenticated()) {
+    echo 'DEV log: You are already logged in. You shouldn\'t be able to see this';
+    //redirect('/');
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
 
-    $db = Database::getInstance();
-    $pdo = $db->getPDO();
-
+    $pdo = Database::getInstance()->getPDO();
     $userModel = new UserModel($pdo);
 
     $id = $userModel->authentify($username, $password);
 
     if ($id != -1) {
         sessionStart();
-
-        //  TODO: Set ID in Session
+        $_SESSION['playerID'] = $id;
 
         redirect('/');
+    } else {
+        $messageKey = '<div class="alert alert-danger">Échec de connexion: l\'alias et/ou le mot de passe sont invalide</div>';
     }
-
-    $messageKey = '<div class="alert alert-danger">Connexion impossible</div>';
 }
 
 require 'views/login.php';

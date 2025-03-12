@@ -9,7 +9,6 @@ function sessionStart(): void
 
 function sessionDestroy(): void
 {
-    $_SESSION = [];
     session_destroy();
 
     $name = session_name();
@@ -26,4 +25,10 @@ function sessionDestroy(): void
         $params["secure"],
         $params["httponly"]
     );
+}
+
+function isAuthenticated(): bool
+{
+    sessionStart();
+    return isset($_SESSION['playerID']) && $_SESSION['playerID'] != -1;
 }
