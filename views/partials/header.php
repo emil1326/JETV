@@ -47,12 +47,12 @@
 
                     <form class="container-fluid justify-content-start">
                         <button class="btn btn-outline-secondary buttonsw" type="button"
-                            style="margin-right:10px;  border-radius: 8px;"><a href="/connexion"
+                            style="margin-right:10px;  border-radius: 8px;"><a href="/login"
                                 class="buttonst buttonsw" style="color:white;">Sign
                                 in</a>
                         </button>
                         <button class="btn  btn-outline-secondary buttonsw" type="button"
-                            style="background-color:white; border-radius: 8px;"><a href="/register"
+                            style="background-color:white; border-radius: 8px;"><a href="/signup"
                                 class="buttonst buttonsw" style="color:black;">Register</a></button>
                     </form>
                 </ul>

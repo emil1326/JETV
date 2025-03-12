@@ -8,7 +8,8 @@ const ROUTES = [
     '/shop' => 'shop.php',
     '/login' => 'login.php',
     '/signup' => 'signup.php',
-    '/enigma' => 'enigma.php'
+    '/enigma' => 'enigma.php',
+    '/details' => 'details.php'
 
 ];
 
