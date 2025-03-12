@@ -35,4 +35,20 @@ class UserModel
             throw new PDOException($e->getMessage(), $e->getCode());
         }
     }
+
+    public function authentify(string $username, string $password): int
+    {
+        try {
+            $stm = $this->pdo->prepare('SELECT CheckLogin(:username, :password)');
+            $stm->bindValue(':username', $username, PDO::PARAM_STR);
+            $stm->bindValue(':password', $password, PDO::PARAM_STR);
+            $stm->execute();
+
+            $data = $stm->fetch(PDO::FETCH_ASSOC);
+
+            return array_values($data)[0];
+        } catch (PDOException $e) {
+            throw new PDOException($e->getMessage(), $e->getCode());
+        }
+    }
 }

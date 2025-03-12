@@ -5,38 +5,29 @@
 }*/
 
 require 'src/class/Database.php';
+require 'src/session.php';
 require 'models/UserModel.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {    
-    $email = $_POST['email'] ?? '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
 
-    // Va créer l'instance ou retourner l'instance
-    $db = Database::getInstance(CONFIGURATIONS['database'], DB_PARAMS);
+    $db = Database::getInstance();
     $pdo = $db->getPDO();
-    
+
     $userModel = new UserModel($pdo);
-    $user = $userModel->selectByEmail($email);
 
-    if ($user) {
+    $id = $userModel->authentify($username, $password);
 
-        if ( password_verify($password, $user->getPassword())) {
+    if ($id != -1) {
+        sessionStart();
 
-            sessionStart();
+        //  TODO: Set ID in Session
 
-            $_SESSION['user'] = [
-                'id' => $user->getId(),
-                'role' => $user->getRole()
-            ];
-
-            session_regenerate_id();
-
-            redirect('/');
-
-        }
+        redirect('/');
     }
-   
-    $messageKey = '<div class="alert alert-danger">Connexion impossible</div>';
 
+    $messageKey = '<div class="alert alert-danger">Connexion impossible</div>';
 }
+
 require 'views/login.php';
