@@ -25,6 +25,8 @@ create table joueure
     joueureID int auto_increment primary key,
     
     alias varchar(50),
+    playerPassword varbinary(256) not null, -- todo
+    isAdmin tinyint unsigned default 0 not null, -- 0 non, 1 oui
     nom varchar(50) not null,
     prenom varchar(50) not null,
     caps int default 1000 not null,
@@ -115,6 +117,7 @@ create table Medicaments
     
     foreign key (itemID) references item(itemID),
     
+    healthGain int not null default 0,
     effect varchar(50),
     duration varchar(50),
     unwantedEffect varchar(50)
@@ -125,7 +128,8 @@ create table Nourriture
     itemID int not null primary key,
     
     foreign key (itemID) references item(itemID),
-    
+
+    healthGain int not null default 0,
     apportCalorique varchar(50),
     composantNutritivePrincipale varchar(50),
     mineralPrincipale varchar(50)
@@ -277,9 +281,9 @@ select avg(evaluations) as moyenne_etoiles from commentaires where itemID = 0;
 -- Shop Preview Item (One)
 drop procedure if exists GetOneShopPreviewItem;
 delimiter //
-create procedure GetOneShopPreviewItem(in itemID int)
+create procedure GetOneShopPreviewItem(in p_itemID int)
 begin
-    select * from ShopPreview where ShopPreview.itemID = itemID;
+    select * from ShopPreview where ShopPreview.itemID = p_itemID;
 end;
 //
 delimiter ;
@@ -297,7 +301,7 @@ delimiter ;
 -- Shop Item (One)
 drop procedure if exists GetOneShopItem;
 delimiter //
-create procedure GetOneShopItem(in itemID int)
+create procedure GetOneShopItem(in p_itemID int)
 begin
     select *
     from Shop
@@ -306,7 +310,7 @@ begin
     left join Medicaments on Medicaments.itemID = Shop.itemID
     left join Nourriture on Nourriture.itemID = Shop.itemID
     left join Munition on Munition.itemID = Shop.itemID
-    where Shop.itemID = itemID;
+    where Shop.itemID = p_itemID;
 end;
 //
 delimiter ;
@@ -330,9 +334,9 @@ delimiter ;
 -- Cart Preview Item (One)
 drop procedure if exists GetOneCartPreviewItem;
 delimiter //
-create procedure GetOneCartPreviewItem(in itemID int, in joueureID int)
+create procedure GetOneCartPreviewItem(in p_itemID int, in p_joueureID int)
 begin
-    select * from CartPreview where CartPreview.itemID = itemID and CartPreview.joueureID = joueureID;
+    select * from CartPreview where CartPreview.itemID = p_itemID and CartPreview.joueureID = p_joueureID;
 end;
 //
 delimiter ;
@@ -340,9 +344,9 @@ delimiter ;
 -- Cart Preview Items (All)
 drop procedure if exists GetAllCartPreviewItems;
 delimiter //
-create procedure GetAllCartPreviewItems(in joueureID int)
+create procedure GetAllCartPreviewItems(in p_joueureID int)
 begin
-    select * from CartPreview where CartPreview.joueureID = joueureID;
+    select * from CartPreview where CartPreview.joueureID = p_joueureID;
 end;
 //
 delimiter ;
@@ -350,7 +354,7 @@ delimiter ;
 -- Cart Item (One)
 drop procedure if exists GetOneCartItem;
 delimiter //
-create procedure GetOneCartItem(in itemID int, in joueureID int)
+create procedure GetOneCartItem(in p_itemID int, in p_joueureID int)
 begin
     select *
     from CartItems
@@ -359,7 +363,7 @@ begin
     left join Medicaments on Medicaments.itemID = CartItems.itemID
     left join Nourriture on Nourriture.itemID = CartItems.itemID
     left join Munition on Munition.itemID = CartItems.itemID
-    where CartItems.itemID = itemID and CartItems.joueureID = joueureID;
+    where CartItems.itemID = p_itemID and CartItems.joueureID = p_joueureID;
 end;
 //
 delimiter ;
@@ -367,7 +371,7 @@ delimiter ;
 -- Cart Items (All)
 drop procedure if exists GetAllCartItems;
 delimiter //
-create procedure GetAllCartItems(in joueureID int)
+create procedure GetAllCartItems(in p_joueureID int)
 begin
     select *
     from CartItems
@@ -376,7 +380,7 @@ begin
     left join Medicaments on Medicaments.itemID = CartItems.itemID
     left join Nourriture on Nourriture.itemID = CartItems.itemID
     left join Munition on Munition.itemID = CartItems.itemID
-    where CartItems.joueureID = joueureID;
+    where CartItems.joueureID = p_joueureID;
 end;
 //
 delimiter ;
@@ -384,9 +388,9 @@ delimiter ;
 -- Inventory Preview Item (One)
 drop procedure if exists GetOneInventoryPreviewItem;
 delimiter //
-create procedure GetOneInventoryPreviewItem(in itemID int, in joueureID int)
+create procedure GetOneInventoryPreviewItem(in p_itemID int, in p_joueureID int)
 begin
-    select * from InventoryPreview where InventoryPreview.itemID = itemID and InventoryPreview.joueureID = joueureID;
+    select * from InventoryPreview where InventoryPreview.itemID = p_itemID and InventoryPreview.joueureID = p_joueureID;
 end;
 //
 delimiter ;
@@ -394,9 +398,9 @@ delimiter ;
 -- Inventory Preview Items (All)
 drop procedure if exists GetAllInventoryPreviewItems;
 delimiter //
-create procedure GetAllInventoryPreviewItems(in joueureID int)
+create procedure GetAllInventoryPreviewItems(in p_joueureID int)
 begin
-    select * from InventoryPreview where InventoryPreview.joueureID = joueureID;
+    select * from InventoryPreview where InventoryPreview.joueureID = p_joueureID;
 end;
 //
 delimiter ;
@@ -404,7 +408,7 @@ delimiter ;
 -- Inventory Item (One)
 drop procedure if exists GetOneInventoryItem;
 delimiter //
-create procedure GetOneInventoryItem(in itemID int, in joueureID int)
+create procedure GetOneInventoryItem(in p_itemID int, in p_joueureID int)
 begin
     select * 
     from Inventory 
@@ -413,7 +417,7 @@ begin
     left join Medicaments on Medicaments.itemID = Inventory.itemID
     left join Nourriture on Nourriture.itemID = Inventory.itemID
     left join Munition on Munition.itemID = Inventory.itemID
-    where Inventory.itemID = itemID and Inventory.joueureID = joueureID;
+    where Inventory.itemID = p_itemID and Inventory.joueureID = p_joueureID;
 end;
 //
 delimiter ;
@@ -421,7 +425,7 @@ delimiter ;
 -- Inventory Items (All)
 drop procedure if exists GetAllInventoryItems;
 delimiter //
-create procedure GetAllInventoryItems(in joueureID int)
+create procedure GetAllInventoryItems(in p_joueureID int)
 begin
     select * 
     from Inventory 
@@ -430,7 +434,7 @@ begin
     left join Medicaments on Medicaments.itemID = Inventory.itemID
     left join Nourriture on Nourriture.itemID = Inventory.itemID
     left join Munition on Munition.itemID = Inventory.itemID
-    where Inventory.joueureID = joueureID;
+    where Inventory.joueureID = p_joueureID;
 end;
 //
 delimiter ;
@@ -438,7 +442,7 @@ delimiter ;
 -- Item Details (One)
 drop procedure if exists GetOneItemDetails;
 delimiter //
-create procedure GetOneItemDetails(in itemID int)
+create procedure GetOneItemDetails(in p_itemID int)
 begin
     select *
     from item
@@ -447,7 +451,7 @@ begin
     left join Medicaments on Medicaments.itemID = item.itemID
     left join Nourriture on Nourriture.itemID = item.itemID
     left join Munition on Munition.itemID = item.itemID
-    where item.itemID = itemID;
+    where item.itemID = p_itemID;
 end;
 //
 delimiter ;
@@ -477,22 +481,23 @@ delimiter ;
 drop procedure if exists CreateJoueur;
 delimiter //
 create procedure CreateJoueur(
-    in alias varchar(50),
-    in nom varchar(50),
-    in prenom varchar(50)
+    in p_alias varchar(50),
+    in p_nom varchar(50),
+    in p_prenom varchar(50),
+    in p_playerPassword varchar(50)
 )
 begin
-    insert into joueure (alias, nom, prenom)
-    values (alias, nom, prenom);
+    insert into joueure (alias, nom, prenom, playerPassword)
+        values (p_alias, p_nom, p_prenom, SHA2(p_playerPassword, 256)); 
 end;
 //
 delimiter ;
 
 drop procedure if exists SetCaps;
 delimiter //
-create procedure SetCaps(in joueureID int, in amount int)
+create procedure SetCaps(in p_joueureID int, in p_amount int)
 begin
-    update joueure set caps = amount where joueureID = joueureID;
+    update joueure set caps = p_amount where joueureID = p_joueureID;
 end;
 //
 delimiter ;
@@ -500,51 +505,51 @@ delimiter ;
 drop procedure if exists CreateItem;
 delimiter //
 create procedure CreateItem(
-    in itemName varchar(50),
-    in description varchar(500),
-    in poidItem int,
-    in buyPrice int,
-    in sellPrice int,
-    in imageLink varchar(100),
-    in utiliter tinyint unsigned,
-    in itemStatus tinyint unsigned,
+    in p_itemName varchar(50),
+    in p_description varchar(500),
+    in p_poidItem int,
+    in p_buyPrice int,
+    in p_sellPrice int,
+    in p_imageLink varchar(100),
+    in p_utiliter tinyint unsigned,
+    in p_itemStatus tinyint unsigned,
 
-    in types varchar(10), -- => arme, armure, med, food, mun
+    in p_types varchar(10), -- => arme, armure, med, food, mun
 
-    in details1 varchar(50),
-    in details2 varchar(50),
-    in details3 varchar(50),       -- => juste pour display de quoi dedans les classes
+    in p_details1 varchar(50),
+    in p_details2 varchar(50),
+    in p_details3 varchar(50),       -- => juste pour display de quoi dedans les classes
 
-    in qt int
+    in p_qt int
 )
 begin
     declare itemID int;
     
     insert into item (itemName, description, poidItem, buyPrice, sellPrice, imageLink, utiliter, itemStatus)
-    values (itemName, description, poidItem, buyPrice, sellPrice, imageLink, utiliter, itemStatus);
+    values (p_itemName, p_description, p_poidItem, p_buyPrice, p_sellPrice, p_imageLink, p_utiliter, p_itemStatus);
 
     set itemID = LAST_INSERT_ID();
 
-    if types = 'arme' then
+    if p_types = 'arme' then
         insert into Arme (itemID, efficiency, genre, calibre)
-        values (itemID, details1, details2, details3);
-    elseif types = 'armure' then
+        values (itemID, p_details1, p_details2, p_details3);
+    elseif p_types = 'armure' then
         insert into Armure (itemID, material, size)
-        values (itemID, details1, details2);
-    elseif types = 'med' then
+        values (itemID, p_details1, p_details2);
+    elseif p_types = 'med' then
         insert into Medicaments (itemID, effect, duration, unwantedEffect)
-        values (itemID, details1, details2, details3);
-    elseif types = 'food' then
+        values (itemID, p_details1, p_details2, p_details3);
+    elseif p_types = 'food' then
         insert into Nourriture (itemID, apportCalorique, composantNutritivePrincipale, mineralPrincipale)
-        values (itemID, details1, details2, details3);
-    elseif types = 'mun' then
+        values (itemID, p_details1, p_details2, p_details3);
+    elseif p_types = 'mun' then
         insert into Munition (itemID, calibre)
-        values (itemID, details1);
+        values (itemID, p_details1);
     end if;
 
-    if itemStatus = 0 or itemStatus = 1 then
+    if p_itemStatus = 0 or p_itemStatus = 1 then
         insert into shop(itemID, qt)
-        values(itemID, qt);
+        values(itemID, p_qt);
     end if;
 end;
 //
@@ -552,24 +557,88 @@ delimiter ;
 
 drop procedure if exists DeleteItem;
 delimiter //
-create procedure DeleteItem(in itemID int)
+create procedure DeleteItem(in p_itemID int)
 begin
-    delete from item where itemID = itemID;
+    delete from item where itemID = p_itemID;
 
-    delete from Arme where itemID = itemID;
-    delete from Armure where itemID = itemID;
-    delete from Medicaments where itemID = itemID;
-    delete from Nourriture where itemID = itemID;
-    delete from Munition where itemID = itemID;
+    delete from Arme where itemID = p_itemID;
+    delete from Armure where itemID = p_itemID;
+    delete from Medicaments where itemID = p_itemID;
+    delete from Nourriture where itemID = p_itemID;
+    delete from Munition where itemID = p_itemID;
 end;
 //
 delimiter ;
 
 drop procedure if exists UseItem;
 delimiter //
-create procedure UseItem(in itemID int, in joueureID int)
+create procedure UseItem(in p_itemID int, in p_joueureID int)
 begin
-    -- todo
+    declare healthGain int;
+    declare itemQT int;
+
+    select qt into itemQT
+    from inventaire
+    where itemID = p_itemID and joueureID = p_joueureID;
+
+    select healthGain into healthGain
+    from Medicaments
+    where itemID = p_itemID;
+
+    if healthGain is null then
+        select healthGain into healthGain
+        from Nourriture
+        where itemID = p_itemID;
+    end if;
+
+    if healthGain is not null then
+        update joueure
+        set pv = pv + healthGain
+        where joueureID = p_joueureID;
+
+        if itemQT <= 1 then
+            delete from inventaire
+            where itemID = p_itemID and joueureID = p_joueureID;
+        else
+            update inventaire
+            set qt = itemQT - 1
+            where itemID = p_itemID and joueureID = p_joueureID;
+        end if;
+    else
+        signal sqlstate '45000' set message_text = 'Item cannot be used';
+    end if;
+end;
+//
+delimiter ;
+
+-- login/passwords
+
+drop function if exists CheckLogin;
+delimiter //
+create function CheckLogin(p_alias varchar(50), p_playerPassword varchar(50)) returns int
+begin    
+    declare idJoueur int;
+    
+    select joueureID into idJoueur
+    from joueure
+    where alias = p_alias and playerPassword = SHA2(p_playerPassword, 256);
+    
+    if idJoueur is not null then
+        return idJoueur;
+    else
+        return -1;
+    end if;
+end;
+//
+delimiter ;
+
+drop procedure if exists ChangePassword;
+delimiter //
+create procedure ChangePassword(in p_alias varchar(50), in p_playerPassword varchar(50))
+begin
+    update joueure
+    set playerPassword = SHA2(p_playerPassword, 256)
+    where alias = p_alias;
 end;
 //
 delimiter ;
@@ -579,16 +648,16 @@ delimiter ;
 drop procedure if exists CreateCommentaireEvaluation;
 delimiter //
 create procedure CreateCommentaireEvaluation(
-    in itemID int,
-    in joueureID int,
-    in commentaireID int,
-    in commentaire varchar(1200),
-    in evaluations smallint
+    in p_itemID int,
+    in p_joueureID int,
+    in p_commentaireID int,
+    in p_commentaire varchar(1200),
+    in p_evaluations smallint
 )
 begin
-    if exists(select 1 from commentaires where itemID = itemID and joueureID = joueureID and commentaireID = commentaireID limit 1) then
+    if exists(select 1 from commentaires where itemID = p_itemID and joueureID = p_joueureID and commentaireID = p_commentaireID limit 1) then
         insert into commentaires (itemID, joueureID, commentaireID, commentaire, evaluations)
-        values (itemID, joueureID, commentaireID, commentaire, evaluations);
+        values (p_itemID, p_joueureID, p_commentaireID, p_commentaire, p_evaluations);
     end if;
 end;
 //
@@ -596,27 +665,32 @@ delimiter ;
 
 drop procedure if exists DeleteCommentaire;
 delimiter //
-create procedure DeleteCommentaire(in itemID int, in joueureID int, in commentaireID int)
+create procedure DeleteCommentaire(in p_itemID int, in p_joueureID int, in p_commentaireID int)
 begin
-    delete from commentaires where itemID = itemID and joueureID = joueureID and commentaireID = commentaireID;
+    delete from commentaires where itemID = p_itemID and joueureID = p_joueureID and commentaireID = p_commentaireID;
 end;
 //
 delimiter ;
 
 drop procedure if exists GetEval;
 delimiter //
-create procedure GetEval(in itemID int, in joueureID int)
+create procedure GetEval(in p_itemID int, in p_joueureID int)
 begin
-    select evaluations from commentaire where itemID = itemID and joueureID = joueureID and evaluations is not null limit 1;
+    select evaluations from commentaire where itemID = p_itemID and joueureID = p_joueureID and evaluations is not null limit 1;
 end;
 //
 delimiter ;
 
-drop procedure if exists GetAverageEval;
+drop function if exists GetAverageEval;
 delimiter //
-create procedure GetAverageEval(in itemID int)
+create function GetAverageEval(p_itemID int)
+returns decimal(10,2)
 begin
-    select avg(evaluations) from commentaire where itemID = itemID and joueureID = joueureID and evaluations is not null limit 1;
+    declare avgEval decimal(10,2);
+    select avg(evaluations) into avgEval
+    from commentaire
+    where itemID = p_itemID and evaluations is not null;
+    return avgEval;
 end;
 //
 delimiter ;
@@ -625,8 +699,8 @@ delimiter ;
 drop procedure if exists CreateQuest;
 delimiter //
 create procedure CreateQuest(
-    in diffID int,
-    in question varchar(200),
+    in p_diffID int,
+    in p_question varchar(200),
     in reponse1 varchar(200), 
     in flagEstVrai1 smallint,
     in reponse2 varchar(200), 
@@ -640,7 +714,7 @@ begin
     declare questID int;
     
     insert into listeQuetes (diffID, question)
-    values (diffID, question);
+    values (p_diffID, p_question);
     
     set questID = LAST_INSERT_ID();
     
@@ -657,10 +731,10 @@ delimiter ;
 
 drop procedure if exists DeleteQuest;
 delimiter //
-create procedure DeleteQuest(in questID int)
+create procedure DeleteQuest(in p_questID int)
 begin
-    delete from reponsesQuetes where questID = questID;
-    delete from listeQuetes where questID = questID;
+    delete from reponsesQuetes where questID = p_questID;
+    delete from listeQuetes where questID = p_questID;
 end;
 //
 delimiter ;
@@ -668,15 +742,15 @@ delimiter ;
 drop procedure if exists DoQuest; -- utiliser pour checker si la reponse est la bonne et donner les caps
 delimiter //
 create procedure DoQuest(
-    in questID int,
-    in joueureID int,
-    in answerID int
+    in p_questID int,
+    in p_joueureID int,
+    in p_answerID int
 )
 begin
     declare correctAnswerExists boolean;
     declare reward int;
 
-    select exists (select 1 from reponsesQuetes where questID = questID and awnserID = answerID and flagEstVrai = 1) into correctAnswerExists;
+    select exists (select 1 from reponsesQuetes where questID = p_questID and awnserID = p_answerID and flagEstVrai = 1) into correctAnswerExists;
 
     if correctAnswerExists then
         select dq.nbCaps into reward
@@ -698,18 +772,18 @@ delimiter ;
 drop procedure if exists AddItemToCart;
 delimiter //
 create procedure AddItemToCart(
-    in joueureID int,
-    in itemID int,
-    in quantity int
+    in p_joueureID int,
+    in p_itemID int,
+    in p_quantity int
 )
 begin
-    if exists (select 1 from cart where joueureID = joueureID and itemID = itemID) then
+    if exists (select 1 from cart where joueureID = p_joueureID and itemID = p_itemID) then
         update cart
-        set qt = qt + quantity
-        where joueureID = joueureID and itemID = itemID;
+        set qt = qt + p_quantity
+        where joueureID = p_joueureID and itemID = p_itemID;
     else
         insert into cart (joueureID, itemID, qt)
-        values (joueureID, itemID, quantity);
+        values (p_joueureID, p_itemID, p_quantity);
     end if;
 end;
 //
@@ -718,7 +792,7 @@ delimiter ;
 drop procedure if exists PassCommande;
 delimiter //
 create procedure PassCommande(
-    in joueureID int
+    in p_joueureID int
 )
 begin
     declare totalCost decimal(10,2);
@@ -726,17 +800,17 @@ begin
     select sum(c.qt * i.buyPrice) into totalCost
     from cart c
     join item i on c.itemID = i.itemID
-    where c.joueureID = joueureID;
+    where c.joueureID = p_joueureID;
     
-    if exists (select 1 from joueure where joueureID = joueureID and caps >= totalCost) then
+    if exists (select 1 from joueure where joueureID = p_joueureID and caps >= totalCost) then
         update joueure
         set caps = caps - totalCost
-        where joueureID = joueureID;
+        where joueureID = p_joueureID;
         
         insert into inventaire (joueureID, itemID, qt)
-        select joueureID, itemID, qt from cart where joueureID = joueureID;
+        select joueureID, itemID, qt from cart where joueureID = p_joueureID; -- todo repeat thingy??
         
-        delete from cart where joueureID = joueureID;
+        delete from cart where joueureID = p_joueureID;
     else
         signal sqlstate '45000' set message_text = 'Insufficient caps to complete the purchase'; -- check manque items dans shop
     end if;
@@ -747,11 +821,11 @@ delimiter ;
 drop procedure if exists RemoveItemFromCart;
 delimiter //
 create procedure RemoveItemFromCart(
-    in joueureID int,
-    in itemID int
+    in p_joueureID int,
+    in p_itemID int
 )
 begin
-    delete from cart where joueureID = joueureID and itemID = itemID;
+    delete from cart where joueureID = p_joueureID and itemID = p_itemID;
 end;
 //
 delimiter ;
@@ -759,14 +833,14 @@ delimiter ;
 drop procedure if exists UpdateCartItemQuantity;
 delimiter //
 create procedure UpdateCartItemQuantity(
-    in joueureID int,
-    in itemID int,
-    in quantity int
+    in p_joueureID int,
+    in p_itemID int,
+    in p_quantity int
 )
 begin
     update cart
-    set qt = quantity
-    where joueureID = joueureID and itemID = itemID;
+    set qt = p_quantity
+    where joueureID = p_joueureID and itemID = p_itemID;
 end;
 //
 delimiter ;
@@ -774,10 +848,10 @@ delimiter ;
 drop procedure if exists ClearCart;
 delimiter //
 create procedure ClearCart(
-    in joueureID int
+    in p_joueureID int
 )
 begin
-    delete from cart where joueureID = joueureID;
+    delete from cart where joueureID = p_joueureID;
 end;
 //
 delimiter ;
@@ -785,13 +859,13 @@ delimiter ;
 drop procedure if exists GetCartContents;
 delimiter //
 create procedure GetCartContents(
-    in joueureID int
+    in p_joueureID int
 )
 begin
     select cart.itemID, item.itemName, cart.qt, item.buyPrice, (cart.qt * item.buyPrice) as totalPrice
     from cart
     join item on cart.itemID = item.itemID
-    where cart.joueureID = joueureID;
+    where cart.joueureID = p_joueureID;
 end;
 //
 delimiter ;
@@ -910,7 +984,7 @@ call CreateItem('Lance', 'Une lance pour les combats rapproches', 6, 180.0, 90.0
 call CreateItem('Gants en maille', 'Des gants en maille pour la protection', 1, 50.0, 25.0, 'gants.png', 5, 0, 'armure', 'Maille', 'Petit', '', 60);
 call CreateItem('Serum de regeneration', 'Un serum pour regenerer les cellules', 1, 100.0, 50.0, 'serum.png', 255, 0, 'med', 'Regenere les cellules', 'Injection', 'Aucun', 10);
 call CreateItem('Steak', 'Un steak juteux et savoureux', 2, 30.0, 15.0, 'steak.png', 250, 0, 'food', '250 kcal', 'Proteines', 'Fer', 20);
-call CreateItem('Fleche', 'Une fleche pour l\'arc', 1, 2.0, 1.0, 'fleche.png', 0, 0, 'mun', 'Fleche', '', '', 1000);
+call CreateItem('Fleche', 'Une fleche', 1, 2.0, 1.0, 'fleche.png', 0, 0, 'mun', 'Fleche', '', '', 1000);
 call CreateItem('Dague', 'Une dague legere et tranchante', 1, 80.0, 40.0, 'dague.png', 10, 0, 'arme', '55', 'Dague', '', 15);
 call CreateItem('Bouclier en fer', 'Un bouclier solide en fer', 5, 200.0, 100.0, 'bouclier_fer.png', 20, 0, 'armure', 'Fer', 'Grand', '', 30);
 call CreateItem('Pommade antiseptique', 'Une pommade pour desinfecter les plaies', 1, 60.0, 30.0, 'pommade.png', 255, 0, 'med', 'Desinfecte les plaies', 'Application locale', 'Aucun', 20);
@@ -922,11 +996,11 @@ call CreateItem('Orange', 'Une orange juteuse et vitaminee', 1, 10.0, 5.0, 'oran
 call CreateItem('Pistolet', 'Un pistolet de calibre 9mm', 3, 250.0, 125.0, 'pistolet.png', 0, 0, 'mun', '9mm', '', '', 300);
 
 -- joueurs
-call CreateJoueur('je vins, je vus, je construit', 'bob', 'leBricoleur');
+call CreateJoueur('je vins, je vus, je construit', 'bob', 'leBricoleur', 'passbob');
 
-call CreateJoueur('joueur1', 'John', 'Doe');
-call CreateJoueur('joueur2', 'Jane', 'Smith');
-call CreateJoueur('joueur3', 'Alice', 'Johnson');
+call CreateJoueur('joueur1', 'John', 'Doe', 'passjohn');
+call CreateJoueur('joueur2', 'Jane', 'Smith', 'passjane');
+call CreateJoueur('joueur3', 'Alice', 'Johnson', 'passalice');
 
 -- evaluations 
 call CreateCommentaireEvaluation(1, 1, 1, 'Tres bon produit !', 5);
