@@ -83,7 +83,6 @@
 </div>
 
 <script>
-
     function clickedIt() {
         alert("hi");
     }

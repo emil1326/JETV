@@ -19,13 +19,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $id = $userModel->authentify($username, $password);
 
-    if ($id != -1) {
+    if (emptyFields($username, $password)) {
+        $messageKey = '<div class="alert alert-danger">Tous les renseignements doivent être remplis</div>';
+    } else if ($id == -1) {
+        $messageKey = '<div class="alert alert-danger">Échec de connexion: l\'alias et/ou le mot de passe sont invalide</div>';
+    } else {
         sessionStart();
         $_SESSION['playerID'] = $id;
 
         redirect('/');
-    } else {
-        $messageKey = '<div class="alert alert-danger">Échec de connexion: l\'alias et/ou le mot de passe sont invalide</div>';
     }
 }
 
