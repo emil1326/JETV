@@ -51,4 +51,34 @@ class UserModel
             throw new PDOException($e->getMessage(), $e->getCode());
         }
     }
+
+    public function isUsernameAvailable(string $username): bool
+    {
+        try {
+
+            // Temporary return statement
+            //  TODO: Create stored procedure: AliasAvailable
+            return true;
+
+            $stm = $this->pdo->prepare('SELECT AliasAvailable(:username)');
+            $stm->bindValue(':username', $username, PDO::PARAM_STR);
+            $stm->execute();
+
+            $data = $stm->fetch(PDO::FETCH_ASSOC);
+
+            return array_values($data)[0];
+        } catch (PDOException $e) {
+            throw new PDOException($e->getMessage(), $e->getCode());
+        }
+    }
+
+    public function createUser(string $username, string $firstName, string $lastName, string $password)
+    {
+        $stm = $this->pdo->prepare('CALL CreateJoueur(?, ?, ?, ?)');
+        $stm->execute([$username, $lastName, $firstName, $password]);
+        try {
+        } catch (PDOException $e) {
+            throw new PDOException($e->getMessage(), $e->getCode());
+        }
+    }
 }

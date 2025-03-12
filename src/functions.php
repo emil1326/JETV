@@ -52,3 +52,12 @@ function redirect(string $path): void
     header('Location: ' . $path);
     exit;
 }
+
+function emptyFields(string ...$fields): bool
+{
+    foreach ($fields as $field) {
+        if (empty(trim($field))) return true;
+    }
+
+    return false;
+}
