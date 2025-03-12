@@ -5,7 +5,10 @@ const ROUTES = [
     '/' => 'index.php',
     '/cart' => 'cart.php',
     '/backpack' => 'backpack.php',
-    '/shop' => 'shop.php'
+    '/shop' => 'shop.php',
+    '/login' => 'login.php',
+    '/signup' => 'signup.php',
+    '/enigma' => 'enigma.php'
 
 ];
 
