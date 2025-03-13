@@ -30,5 +30,5 @@ function sessionDestroy(): void
 function isAuthenticated(): bool
 {
     sessionStart();
-    return isset($_SESSION['playerID']) && $_SESSION['playerID'] != -1;
+    return isset($_SESSION) && isset($_SESSION['playerID']) && $_SESSION['playerID'] != -1;
 }
