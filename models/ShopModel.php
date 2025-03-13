@@ -6,7 +6,7 @@ class ShopModel
 
     public function selectAll(): null|array
     {
-        $items = [[]];
+        $items = [];
 
         try {
             $stm = $this->pdo->prepare('SELECT itemID, qt FROM shop');
@@ -16,7 +16,10 @@ class ShopModel
 
             if (!empty($data)) {
                 foreach ($data as $row) {
-                    $items[] = [$this->itemModel->selectById($row['itemID']), $row['qt']];
+                    $items[] = [
+                        'item' => $this->itemModel->selectById($row['itemID']),
+                        'quantity' => $row['qt']
+                    ];
                 }
 
                 return $items;
