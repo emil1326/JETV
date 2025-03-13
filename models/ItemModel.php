@@ -6,6 +6,11 @@ class ItemModel
 {
     public function __construct(private PDO $pdo) {}
 
+    public function getPDO(): PDO
+    {
+        return $this->pdo;
+    }
+
     public function selectById(int $id): null|Item
     {
         try {
