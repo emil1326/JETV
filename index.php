@@ -13,6 +13,4 @@ $itemModel = new ItemModel($pdo);
 
 $comment = $itemModel->selectById(2);
 
-$itemModel->createItem('itemName', 'itemDescription', 'itemWeight', 'itemPrice', 'itemSellPrice', 'itemImageLink', 'itemUtility', 'itemStatus');
-
 routeToController(uriPath());

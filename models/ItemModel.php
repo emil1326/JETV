@@ -34,5 +34,48 @@ class ItemModel
             throw new PDOException($e->getMessage(), $e->getCode());
         }
     }
+    public function selectAll() : null|array {
+        
+        $items = [];
+
+        try{
+
+            $stm = $this->pdo->prepare('SELECT * FROM item');
+    
+            $stm->execute();
+    
+            $data = $stm->fetchAll(PDO::FETCH_ASSOC);
+
+            if (! empty($data)) {
+
+                foreach ($data as $row) {
+
+                    $items[] = new Item(
+                        $row['id'], 
+                        $row['name'], 
+                        $row['description'], 
+                        $row['itemWeight'], 
+                        $row['buyPrice'],
+                        $row['sellPrice'],
+                        $row['imageLink'],
+                        $row['utility'],
+                        $row['itemStatus'],
+                        );
+
+                }
+
+                return $items;
+
+            }
+            
+            return null;
+            
+        } catch (PDOException $e) {
+    
+            throw new PDOException($e->getMessage(), $e->getCode());
+            
+        }
+
+    }
 }
 
