@@ -33,6 +33,7 @@ class Item
         $this->utility = $utility;
         $this->itemStatus = $itemStatus;
     }
+
     // GETTERS //
     public function getId(): int
     {
@@ -105,4 +106,3 @@ class Item
         $this->itemStatus = $itemStatus;
     }
 }
-
