@@ -2,14 +2,14 @@
 
 require_once 'src/class/Item.php';
 
-class UserModel
+class ItemModel
 {
     public function __construct(private PDO $pdo) {}
 
     public function selectById(int $id): null|Item
     {
         try {
-            $stm = $this->pdo->prepare('SELECT id, name, description, poidItem, buyPrice, sellPrice, imagelink, utiliter, itemStatus FROM item WHERE itemID=:id');
+            $stm = $this->pdo->prepare('SELECT itemID, itemName, description, poidItem, buyPrice, sellPrice, imageLink, utiliter, itemStatus FROM item WHERE itemID=:id');
             $stm->bindValue(':id', $id, PDO::PARAM_INT);
             $stm->execute();
 
@@ -18,12 +18,12 @@ class UserModel
             if (!empty($data)) {
                 return new Item(
                     $id,
-                    $data['name'],
+                    $data['itemName'],
                     $data['description'],
                     $data['poidItem'],
                     $data['buyPrice'],
                     $data['sellPrice'],
-                    $data['imagelink'],
+                    $data['imageLink'],
                     $data['utiliter'],
                     $data['itemStatus']
                 );
@@ -34,14 +34,5 @@ class UserModel
             throw new PDOException($e->getMessage(), $e->getCode());
         }
     }
-
-    public function createItem(string $name, string $description, int $poidItem, int $buyPrice, int $sellPrice, string $imagelink, int $utiliter, int $itemStatus)
-    {
-        $stm = $this->pdo->prepare('CALL CreateItem(?, ?, ?, ?, ?, ?, ?, ?)');
-        $stm->execute([$name, $description, $poidItem, $buyPrice, $sellPrice, $imagelink, $utiliter, $itemStatus]);
-        try {
-        } catch (PDOException $e) {
-            throw new PDOException($e->getMessage(), $e->getCode());
-        }
-    }
 }
+
