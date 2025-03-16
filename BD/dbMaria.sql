@@ -739,7 +739,7 @@ delimiter ;
 
 -- commentaire
 
-drop procedure if exists CreateCommentaireEvaluation;
+drop procedure if exists CreateCommentaireEvaluation; -- todo tf did i do here??????????
 delimiter //
 create procedure CreateCommentaireEvaluation(
     in p_itemID int,
