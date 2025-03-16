@@ -49,6 +49,7 @@ create table item
     imageLink varchar(100),
     utiliter tinyint unsigned default 0 not null, -- 0-255
     itemStatus tinyint unsigned default 0 not null, -- 0 = normal, 1 : inventory disabled, 2: shop diabled, 3: shop && inventory disabled 
+    typeItem varchar(10),
     
     constraint ck_Item_ItemStatus check(itemStatus between 0 and 4)
 );
@@ -197,61 +198,63 @@ create table reponsesQuetes
 
 -- [  VIEWS  ] --
 
+-- removed les view pcq sa aide pas pis sa add du clutter pour a rien
+
 -- shop
 drop view if exists ShopPreview; -- preview info for shop
-create view ShopPreview as
-select itemName, poidItem, imageLink, buyPrice 
-from shop
-join item
-on shop.itemID = item.itemID;
+-- create view ShopPreview as
+-- select itemName, poidItem, imageLink, buyPrice 
+-- from shop
+-- join item
+-- on shop.itemID = item.itemID;
 
-drop view if exists Shop;   -- all main info for all items in shop, but not the details ==> use la procedure stoquer pour
-create view Shop as
-select itemName, poidItem, utiliter, imageLink, buyPrice, qt 
-from shop
-join item
-on shop.itemID = item.itemID;
+drop view if exists ShopView;   -- all main info for all items in shop, but not the details ==> use la procedure stoquer pour
+-- create view ShopView as
+-- select shop.itemID, itemName, poidItem, utiliter, imageLink, buyPrice, qt 
+-- from shop
+-- join item
+-- on shop.itemID = item.itemID;
 
 -- cart
 drop view if exists CartPreview; -- preview info for cart
-create view CartPreview as
-select itemName, poidItem, imageLink, buyPrice 
-from cart
-join item
-on cart.itemID = item.itemID;
+-- create view CartPreview as
+-- select itemName, poidItem, imageLink, buyPrice 
+-- from cart
+-- join item
+-- on cart.itemID = item.itemID;
 
 drop view if exists CartItems;   -- all main info for all items in cart, but not the details ==> use la procedure stoquer pour
-create view CartItems as
-select itemName, poidItem, utiliter, imageLink, buyPrice, qt 
-from shop
-join item
-on shop.itemID = item.itemID;
+-- create view CartItems as
+-- select itemName, poidItem, utiliter, imageLink, buyPrice, qt 
+-- from shop
+-- join item
+-- on shop.itemID = item.itemID;
 
 -- inventaire
 
 drop view if exists InventoryPreview;   -- preview info for inventory
-create view InventoryPreview as
-select itemName, poidItem, imageLink 
-from inventaire
-join item
-on inventaire.itemID = item.itemID;
+-- create view InventoryPreview as
+-- select itemName, poidItem, imageLink 
+-- from inventaire
+-- join item
+-- on inventaire.itemID = item.itemID;
 
 drop view if exists Inventory;  -- all in inventory of all joueurs
-create view Inventory as
-select 
-    inventaire.joueureID,
-    inventaire.itemID,
-    inventaire.qt,
-    item.itemName,
-    item.description,
-    item.poidItem,
-    item.buyPrice,
-    item.sellPrice,
-    item.imageLink,
-    item.utiliter,
-    item.itemStatus
-from inventaire
-join item on inventaire.itemID = item.itemID;
+-- create view Inventory as
+-- select 
+--     inventaire.joueureID,
+--     inventaire.itemID,
+--     inventaire.qt,
+--     item.itemName,
+--     item.description,
+--     item.poidItem,
+--     item.buyPrice,
+--     item.sellPrice,
+--     item.imageLink,
+--     item.utiliter,
+--     item.itemStatus
+-- from inventaire
+-- join item on inventaire.itemID = item.itemID;
 
 
 -- [ SELECTS ] --                just tests, utuliser 
@@ -278,39 +281,55 @@ select avg(evaluations) as moyenne_etoiles from commentaires where itemID = 0;
 
 -- tous a des version one item ou multiple items, peut demander l'id du joueur concerner
 
--- Shop Preview Item (One)
-drop procedure if exists GetOneShopPreviewItem;
-delimiter //
-create procedure GetOneShopPreviewItem(in p_itemID int)
-begin
-    select * from ShopPreview where ShopPreview.itemID = p_itemID;
-end;
-//
-delimiter ;
-
--- Shop Preview Items (All)
-drop procedure if exists GetAllShopPreviewItems;
-delimiter //
-create procedure GetAllShopPreviewItems()
-begin
-    select * from ShopPreview;
-end;
-//
-delimiter ;
-
 -- Shop Item (One)
 drop procedure if exists GetOneShopItem;
 delimiter //
 create procedure GetOneShopItem(in p_itemID int)
 begin
-    select *
-    from Shop
-    left join Arme on Arme.itemID = Shop.itemID
-    left join Armure on Armure.itemID = Shop.itemID
-    left join Medicaments on Medicaments.itemID = Shop.itemID
-    left join Nourriture on Nourriture.itemID = Shop.itemID
-    left join Munition on Munition.itemID = Shop.itemID
-    where Shop.itemID = p_itemID;
+    declare p_itemType varchar(10);
+
+    select typeItem into p_itemType
+    from item
+    where item.itemID= p_itemID;
+
+    -- arme armure med food mun
+
+    if p_itemType= 'arme' then
+        select * from shop
+        inner join item
+        on shop.itemID = item.itemID and shop.itemID= p_itemID
+        inner join Arme 
+        on shop.itemID = Arme.itemID
+        where item.itemStatus= 0 or item.itemStatus= 1;
+    elseif p_itemType= 'armure' then
+        select * from shop
+        inner join item
+        on shop.itemID = item.itemID and shop.itemID= p_itemID
+        inner join Armure
+        on shop.itemID = Armure.itemID
+        where item.itemStatus= 0 or item.itemStatus= 1;
+    elseif p_itemType= 'med' then
+        select * from shop
+        inner join item
+        on shop.itemID = item.itemID and shop.itemID= p_itemID
+        inner join Medicaments
+        on shop.itemID = Medicaments.itemID
+        where item.itemStatus= 0 or item.itemStatus= 1;
+    elseif p_itemType= 'food' then
+        select * from shop
+        inner join item
+        on shop.itemID = item.itemID and shop.itemID= p_itemID
+        inner join Nourriture 
+        on shop.itemID = Nourriture.itemID
+        where item.itemStatus= 0 or item.itemStatus= 1;
+    elseif p_itemType= 'mun' then
+        select * from shop
+        inner join item
+        on shop.itemID = item.itemID and shop.itemID= p_itemID
+        inner join Munition
+        on shop.itemID = Munition.itemID
+        where item.itemStatus= 0 or item.itemStatus= 1;
+	end if;
 end;
 //
 delimiter ;
@@ -321,32 +340,12 @@ delimiter //
 create procedure GetAllShopItems()
 begin
     select *
-    from Shop
-    left join Arme on Arme.itemID = Shop.itemID
-    left join Armure on Armure.itemID = Shop.itemID
-    left join Medicaments on Medicaments.itemID = Shop.itemID
-    left join Nourriture on Nourriture.itemID = Shop.itemID
-    left join Munition on Munition.itemID = Shop.itemID;
-end;
-//
-delimiter ;
-
--- Cart Preview Item (One)
-drop procedure if exists GetOneCartPreviewItem;
-delimiter //
-create procedure GetOneCartPreviewItem(in p_itemID int, in p_joueureID int)
-begin
-    select * from CartPreview where CartPreview.itemID = p_itemID and CartPreview.joueureID = p_joueureID;
-end;
-//
-delimiter ;
-
--- Cart Preview Items (All)
-drop procedure if exists GetAllCartPreviewItems;
-delimiter //
-create procedure GetAllCartPreviewItems(in p_joueureID int)
-begin
-    select * from CartPreview where CartPreview.joueureID = p_joueureID;
+    from shop
+    left join Arme on Arme.itemID = shop.itemID
+    left join Armure on Armure.itemID = shop.itemID
+    left join Medicaments on Medicaments.itemID = shop.itemID
+    left join Nourriture on Nourriture.itemID = shop.itemID
+    left join Munition on Munition.itemID = shop.itemID;
 end;
 //
 delimiter ;
@@ -356,14 +355,50 @@ drop procedure if exists GetOneCartItem;
 delimiter //
 create procedure GetOneCartItem(in p_itemID int, in p_joueureID int)
 begin
-    select *
-    from CartItems
-    left join Arme on Arme.itemID = CartItems.itemID
-    left join Armure on Armure.itemID = CartItems.itemID
-    left join Medicaments on Medicaments.itemID = CartItems.itemID
-    left join Nourriture on Nourriture.itemID = CartItems.itemID
-    left join Munition on Munition.itemID = CartItems.itemID
-    where CartItems.itemID = p_itemID and CartItems.joueureID = p_joueureID;
+    declare p_itemType varchar(10);
+
+    select typeItem into p_itemType
+    from item
+    where item.itemID= p_itemID;
+
+    -- arme armure med food mun
+
+    if p_itemType= 'arme' then
+        select * from cart
+        inner join item
+        on cart.itemID = item.itemID and cart.itemID= p_itemID
+        inner join Arme 
+        on cart.itemID = Arme.itemID
+        where item.itemStatus= 0 or item.itemStatus= 1;
+    elseif p_itemType= 'armure' then
+        select * from cart
+        inner join item
+        on cart.itemID = item.itemID and cart.itemID= p_itemID
+        inner join Armure
+        on cart.itemID = Armure.itemID
+        where item.itemStatus= 0 or item.itemStatus= 1;
+    elseif p_itemType= 'med' then
+        select * from cart
+        inner join item
+        on cart.itemID = item.itemID and cart.itemID= p_itemID
+        inner join Medicaments
+        on cart.itemID = Medicaments.itemID
+        where item.itemStatus= 0 or item.itemStatus= 1;
+    elseif p_itemType= 'food' then
+        select * from cart
+        inner join item
+        on cart.itemID = item.itemID and cart.itemID= p_itemID
+        inner join Nourriture 
+        on cart.itemID = Nourriture.itemID
+        where item.itemStatus= 0 or item.itemStatus= 1;
+    elseif p_itemType= 'mun' then
+        select * from cart
+        inner join item
+        on cart.itemID = item.itemID and cart.itemID= p_itemID
+        inner join Munition
+        on cart.itemID = Munition.itemID
+        where item.itemStatus= 0 or item.itemStatus= 1;
+	end if;
 end;
 //
 delimiter ;
@@ -374,33 +409,13 @@ delimiter //
 create procedure GetAllCartItems(in p_joueureID int)
 begin
     select *
-    from CartItems
-    left join Arme on Arme.itemID = CartItems.itemID
-    left join Armure on Armure.itemID = CartItems.itemID
-    left join Medicaments on Medicaments.itemID = CartItems.itemID
-    left join Nourriture on Nourriture.itemID = CartItems.itemID
-    left join Munition on Munition.itemID = CartItems.itemID
-    where CartItems.joueureID = p_joueureID;
-end;
-//
-delimiter ;
-
--- Inventory Preview Item (One)
-drop procedure if exists GetOneInventoryPreviewItem;
-delimiter //
-create procedure GetOneInventoryPreviewItem(in p_itemID int, in p_joueureID int)
-begin
-    select * from InventoryPreview where InventoryPreview.itemID = p_itemID and InventoryPreview.joueureID = p_joueureID;
-end;
-//
-delimiter ;
-
--- Inventory Preview Items (All)
-drop procedure if exists GetAllInventoryPreviewItems;
-delimiter //
-create procedure GetAllInventoryPreviewItems(in p_joueureID int)
-begin
-    select * from InventoryPreview where InventoryPreview.joueureID = p_joueureID;
+    from cart
+    left join Arme on Arme.itemID = cart.itemID
+    left join Armure on Armure.itemID = cart.itemID
+    left join Medicaments on Medicaments.itemID = cart.itemID
+    left join Nourriture on Nourriture.itemID = cart.itemID
+    left join Munition on Munition.itemID = cart.itemID
+    where cart.joueureID = p_joueureID;
 end;
 //
 delimiter ;
@@ -410,14 +425,50 @@ drop procedure if exists GetOneInventoryItem;
 delimiter //
 create procedure GetOneInventoryItem(in p_itemID int, in p_joueureID int)
 begin
-    select * 
-    from Inventory 
-    left join Arme on Arme.itemID = Inventory.itemID
-    left join Armure on Armure.itemID = Inventory.itemID
-    left join Medicaments on Medicaments.itemID = Inventory.itemID
-    left join Nourriture on Nourriture.itemID = Inventory.itemID
-    left join Munition on Munition.itemID = Inventory.itemID
-    where Inventory.itemID = p_itemID and Inventory.joueureID = p_joueureID;
+    declare p_itemType varchar(10);
+
+    select typeItem into p_itemType
+    from item
+    where item.itemID= p_itemID;
+
+    -- arme armure med food mun
+
+    if p_itemType= 'arme' then
+        select * from inventaire
+        inner join item
+        on inventaire.itemID = item.itemID and inventaire.itemID= p_itemID
+        inner join Arme 
+        on inventaire.itemID = Arme.itemID
+        where item.itemStatus= 0 or item.itemStatus= 1;
+    elseif p_itemType= 'armure' then
+        select * from inventaire
+        inner join item
+        on inventaire.itemID = item.itemID and inventaire.itemID= p_itemID
+        inner join Armure
+        on inventaire.itemID = Armure.itemID
+        where item.itemStatus= 0 or item.itemStatus= 1;
+    elseif p_itemType= 'med' then
+        select * from inventaire
+        inner join item
+        on inventaire.itemID = item.itemID and inventaire.itemID= p_itemID
+        inner join Medicaments
+        on inventaire.itemID = Medicaments.itemID
+        where item.itemStatus= 0 or item.itemStatus= 1;
+    elseif p_itemType= 'food' then
+        select * from inventaire
+        inner join item
+        on inventaire.itemID = item.itemID and inventaire.itemID= p_itemID
+        inner join Nourriture 
+        on inventaire.itemID = Nourriture.itemID
+        where item.itemStatus= 0 or item.itemStatus= 1;
+    elseif p_itemType= 'mun' then
+        select * from inventaire
+        inner join item
+        on inventaire.itemID = item.itemID and inventaire.itemID= p_itemID
+        inner join Munition
+        on inventaire.itemID = Munition.itemID
+        where item.itemStatus= 0 or item.itemStatus= 1;
+	end if;
 end;
 //
 delimiter ;
@@ -428,30 +479,56 @@ delimiter //
 create procedure GetAllInventoryItems(in p_joueureID int)
 begin
     select * 
-    from Inventory 
-    left join Arme on Arme.itemID = Inventory.itemID
-    left join Armure on Armure.itemID = Inventory.itemID
-    left join Medicaments on Medicaments.itemID = Inventory.itemID
-    left join Nourriture on Nourriture.itemID = Inventory.itemID
-    left join Munition on Munition.itemID = Inventory.itemID
-    where Inventory.joueureID = p_joueureID;
+    from inventaire 
+    left join Arme on Arme.itemID = inventaire.itemID
+    left join Armure on Armure.itemID = inventaire.itemID
+    left join Medicaments on Medicaments.itemID = inventaire.itemID
+    left join Nourriture on Nourriture.itemID = inventaire.itemID
+    left join Munition on Munition.itemID = inventaire.itemID
+    where inventaire.joueureID = p_joueureID;
 end;
 //
 delimiter ;
 
--- Item Details (One)
+-- Item Details (One) => from item tableplutot quune table specialiser, pas trop a utuliser a par peutetre pour action admin?
 drop procedure if exists GetOneItemDetails;
 delimiter //
 create procedure GetOneItemDetails(in p_itemID int)
 begin
-    select *
+    declare p_itemType varchar(10);
+
+    select typeItem into p_itemType
     from item
-    left join Arme on Arme.itemID = item.itemID
-    left join Armure on Armure.itemID = item.itemID
-    left join Medicaments on Medicaments.itemID = item.itemID
-    left join Nourriture on Nourriture.itemID = item.itemID
-    left join Munition on Munition.itemID = item.itemID
-    where item.itemID = p_itemID;
+    where item.itemID= p_itemID;
+
+    -- arme armure med food mun
+
+    if p_itemType= 'arme' then
+        select * from item
+        inner join Arme 
+        on item.itemID = Arme.itemID and item.itemID = p_itemID
+        where item.itemStatus= 0 or item.itemStatus= 1;
+    elseif p_itemType= 'armure' then
+        select * from item
+        inner join Armure
+        on item.itemID = Armure.itemID and item.itemID = p_itemID
+        where item.itemStatus= 0 or item.itemStatus= 1;
+    elseif p_itemType= 'med' then
+        select * from item
+        inner join Medicaments
+        on item.itemID = Medicaments.itemID and item.itemID = p_itemID
+        where item.itemStatus= 0 or item.itemStatus= 1;
+    elseif p_itemType= 'food' then
+        select * from item
+        inner join Nourriture 
+        on item.itemID = Nourriture.itemID and item.itemID = p_itemID
+        where item.itemStatus= 0 or item.itemStatus= 1;
+    elseif p_itemType= 'mun' then
+        select * from item
+        inner join Munition
+        on item.itemID = Munition.itemID and item.itemID = p_itemID
+        where item.itemStatus= 0 or item.itemStatus= 1;
+	end if;
 end;
 //
 delimiter ;
@@ -471,10 +548,6 @@ begin
 end;
 //
 delimiter ;
-
-
-
-
 
 -- [ Procedures CRUD ] -- 
 
@@ -525,8 +598,8 @@ create procedure CreateItem(
 begin
     declare itemID int;
     
-    insert into item (itemName, description, poidItem, buyPrice, sellPrice, imageLink, utiliter, itemStatus)
-    values (p_itemName, p_description, p_poidItem, p_buyPrice, p_sellPrice, p_imageLink, p_utiliter, p_itemStatus);
+    insert into item (itemName, description, poidItem, buyPrice, sellPrice, imageLink, utiliter, itemStatus, typeItem)
+    values (p_itemName, p_description, p_poidItem, p_buyPrice, p_sellPrice, p_imageLink, p_utiliter, p_itemStatus, p_types);
 
     set itemID = LAST_INSERT_ID();
 
@@ -547,7 +620,7 @@ begin
         values (itemID, p_details1);
     end if;
 
-    if p_itemStatus = 0 or p_itemStatus = 1 then
+    if p_itemStatus = 0 or p_itemStatus = 1 then -- maybe remove ? todo   ==> add to shop => peut etre dans shop, cart ou cart mais pas besoin detre nimporte ou et peu etre removed pis tout
         insert into shop(itemID, qt)
         values(itemID, p_qt);
     end if;
@@ -555,9 +628,9 @@ end;
 //
 delimiter ;
 
-drop procedure if exists DeleteItem;
+drop procedure if exists DeleteItemCompletely;
 delimiter //
-create procedure DeleteItem(in p_itemID int)
+create procedure DeleteItemCompletely(in p_itemID int)
 begin
     delete from item where itemID = p_itemID;
 
@@ -570,9 +643,11 @@ end;
 //
 delimiter ;
 
+-- todo -> remove from shop, cart or inventory
+
 drop procedure if exists UseItem;
 delimiter //
-create procedure UseItem(in p_itemID int, in p_joueureID int)
+create procedure UseItem(in p_itemID int, in p_joueureID int) -- will rmove de linventaire
 begin
     declare healthGain int;
     declare itemQT int;
@@ -639,6 +714,25 @@ begin
     update joueure
     set playerPassword = SHA2(p_playerPassword, 256)
     where alias = p_alias;
+end;
+//
+delimiter ;
+
+drop function if exists AliasAvailable;
+delimiter //
+create function AliasAvailable(p_alias varchar(50)) returns int
+begin
+    declare idJoueur int;
+
+    select joueureID into idJoueur
+    from joueure
+    where alias = p_alias;
+
+    if idJoueur is not null then 
+        return 0;
+    else 
+        return 1;
+    end if;
 end;
 //
 delimiter ;
