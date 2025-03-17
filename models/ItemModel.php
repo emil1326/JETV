@@ -27,17 +27,7 @@ class ItemModel extends Model
             $data = $stm->fetch(PDO::FETCH_ASSOC);
 
             if (!empty($data)) {
-                return new Item(
-                    $id,
-                    $data['itemName'],
-                    $data['description'],
-                    $data['poidItem'],
-                    $data['buyPrice'],
-                    $data['sellPrice'],
-                    $data['imageLink'],
-                    $data['utiliter'],
-                    $data['itemStatus']
-                );
+                return $this->makeItem($data);
             }
 
             return null;
@@ -245,9 +235,8 @@ class ItemModel extends Model
                     $itemInfo['imageLink'],
                     $itemInfo['utuliter'],
                     $itemInfo['itemStatus'],
-                    $itemInfo['efficiency'],
-                    $itemInfo['genre'],
-                    $itemInfo['caliber']
+                    $itemInfo['material'],
+                    $itemInfo['size']
                 );
                 break;
             case 'med':
