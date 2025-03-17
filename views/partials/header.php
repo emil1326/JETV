@@ -45,6 +45,8 @@
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span> <i class="fa fa-navicon" style="color:#fff; font-size:28px;"></i></span>
             </button>
+            <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" style="width: 50px;"
+                alt="Avatar" />
             <div class="collapse navbar-collapse d-md-flex justify-content-md-end" id="navbarNavDropdown">
                 <ul class="navbar-nav ">
 

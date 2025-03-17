@@ -3,9 +3,70 @@ require 'views/partials/head.php';
 require 'views/partials/header.php';
 ?>
 
-:>
-<br>
---emil
+<style>
+    .card-group .card {
+        max-width: 325px !important;
+        min-width: 270px !important;
+        min-height: 400px !important;
+        border: 1px
+    }
+
+    .card-group .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px #6c757d;
+    }
+
+    @media (max-width: 576px) {
+        .card-group {
+            display: flex;
+            flex-flow: row wrap;
+        }
+    }
+</style>
+
+<div class="card text-center" style="background-color: #303030;">
+
+    <div class="card-body" style="padding-top:200px; padding-bottom: 200px;">
+        <h1 class="card-title" style="font-size:60px;font-weight: bold;">JETV™</h1>
+        <p class="card-text" style="font-size:30px;">Le magasin</p>
+        <div style="display:flex; flex-direction:row; justify-content:center;">
+            <button class="btn btn-outline-secondary buttonsw" type="button"
+                style="margin-right:10px;  border-radius: 8px;padding-top:4px; background-color: #303030;"><a
+                    href="/shop" class="buttonst buttonsw" style="color:white;">Shop</a>
+            </button>
+            <button class="btn  btn-outline-secondary buttonsw" type="button"
+                style="background-color:white; border-radius: 8px;padding-top:4px;"><a href="/enigma"
+                    class="buttonst buttonsw" style="color:black;">Enigma</a></button>
+        </div>
+    </div>
+
+</div>
+<div style="display:flex; flex-direction:column; height:auto; width:100%;padding:64px;">
+    <div style="display:flex; flex-direction: column;">
+        <p style="font-size:30px;font-weight:bold;"><a href="" style="text-decoration: none; color:white;">Shop</a></p>
+        <p style="font-size:20px; margin-top:-10px;margin-bottom:30px;"><a href=""
+                style="text-decoration: none; color:white;">View more</a></p>
+    </div>
+    <div style="display:flex; justify-content:center;">
+        <div class="card-group" style="display:flex; justify-content: center; row-gap: 1ch;">
+            <?php for ($i = 0; $i < 3; $i++): ?>
+                <div class="card"
+                    style="background-color:#1E1E1E !important; padding:10px; cursor:pointer;border:1px white solid;border-color: #6c757d; border-radius:8px; margin:20px; margin-top:0px; margin-bottom:0px;"
+                    onclick="window.location.href='/shop';">
+                    <img class="card-img-top"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-YtnuV2n_8xuMZbIQ8voSyC4hjGBN6DLC8w&s"
+                        alt="Card image cap">
+                    <div class="card-body" style="margin-bottom:20px;">
+                        <h5 class="card-title">Sword</h5>
+                        <p class="card-text">$777</p>
+                        <p class="card-text"><small class="text-muted">Poids : 50kg</small></p>
+                    </div>
+
+                </div>
+            <?php endfor; ?>
+        </div>
+    </div>
+</div>
 
 <?php
 require 'views/partials/footer.php';

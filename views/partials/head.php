@@ -17,4 +17,4 @@
 
 </head>
 
-<body class="bg-dark text-light d-flex flex-column min-vh-100">
+<body class=" text-light d-flex flex-column min-vh-100" style="background-color:#1E1E1E !important;">

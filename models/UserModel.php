@@ -59,28 +59,23 @@ class UserModel extends Model
     public function isUsernameAvailable(string $username): bool
     {
         try {
-
-            // Temporary return statement
-            //  TODO: Create stored procedure: AliasAvailable
-            return true;
-
             $stm = $this->pdo->prepare('SELECT AliasAvailable(:username)');
             $stm->bindValue(':username', $username, PDO::PARAM_STR);
             $stm->execute();
 
             $data = $stm->fetch(PDO::FETCH_ASSOC);
 
-            return array_values($data)[0];
+            return array_values($data)[0] == 1 ? true : false;
         } catch (PDOException $e) {
             throw new PDOException($e->getMessage(), $e->getCode());
         }
     }
 
-    public function createUser(string $username, string $firstName, string $lastName, string $password)
+    public function createUser(string $username, string $firstName, string $lastName, string $password): void
     {
-        $stm = $this->pdo->prepare('CALL CreateJoueur(?, ?, ?, ?)');
-        $stm->execute([$username, $lastName, $firstName, $password]);
         try {
+            $stm = $this->pdo->prepare('SELECT CreateJoueur(?, ?, ?, ?)');
+            $stm->execute([$username, $lastName, $firstName, $password]);
         } catch (PDOException $e) {
             throw new PDOException($e->getMessage(), $e->getCode());
         }
