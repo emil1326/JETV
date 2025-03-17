@@ -8,6 +8,7 @@ class Weapon extends Item
 
     public function __construct(
         int $id,
+        string $type,
         string $name,
         string $description,
         int $itemWeight,
@@ -27,6 +28,7 @@ class Weapon extends Item
 
         parent::__construct(
             $id,
+            $type,
             $name,
             $description,
             $itemWeight,

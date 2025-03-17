@@ -7,6 +7,7 @@ class Armor extends Item
 
     public function __construct(
         int $id,
+        string $type,
         string $name,
         string $description,
         int $itemWeight,
@@ -25,6 +26,7 @@ class Armor extends Item
         parent::__construct(
             $id,
             $name,
+            $type,
             $description,
             $itemWeight,
             $buyPrice,
