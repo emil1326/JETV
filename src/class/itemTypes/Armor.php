@@ -6,11 +6,33 @@ class Armor extends Item
     private string $size;
 
     public function __construct(
+        int $id,
+        string $name,
+        string $description,
+        int $itemWeight,
+        int $buyPrice,
+        int $sellPrice,
+        string $imageLink,
+        int $utility,
+        int $itemStatus,
+
         string $material,
         string $size,
     ) {
         $this->material = $material;
         $this->size = $size;
+
+        parent::__construct(
+            $id,
+            $name,
+            $description,
+            $itemWeight,
+            $buyPrice,
+            $sellPrice,
+            $imageLink,
+            $utility,
+            $itemStatus,
+        );
     }
 
     // SETTERS //
