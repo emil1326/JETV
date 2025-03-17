@@ -10,4 +10,3 @@ $model = new ShopModel($pdo, new ItemModel($pdo));
 $items = $model->selectAll();
 
 require 'views/shop.php';
-

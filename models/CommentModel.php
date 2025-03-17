@@ -1,10 +1,14 @@
 <?php
 
+require_once 'models/Model.php';
 require_once 'src/class/Comment.php';
 
-class CommentModel
+class CommentModel extends Model
 {
-    public function __construct(private PDO $pdo) {}
+    public function __construct(protected PDO $pdo)
+    {
+        parent::__construct($pdo);
+    }
 
     public function selectById(int $id): null|Comment
     {

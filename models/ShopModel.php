@@ -1,8 +1,13 @@
 <?php
 
-class ShopModel
+require_once 'models/Model.php';
+
+class ShopModel extends Model
 {
-    public function __construct(private PDO $pdo, private ItemModel $itemModel) {}
+    public function __construct(protected PDO $pdo, private ItemModel $itemModel)
+    {
+        parent::__construct($pdo);
+    }
 
     public function selectAll(): null|array
     {
@@ -29,4 +34,11 @@ class ShopModel
             throw new PDOException($e->getMessage(), $e->getCode());
         }
     }
+
+    /*
+    public function selectFiltered(ItemFilter $filter): null|array
+    {
+        //
+    }
+    */
 }
