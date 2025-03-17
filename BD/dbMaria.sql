@@ -551,17 +551,29 @@ delimiter ;
 
 -- [ Procedures CRUD ] -- 
 
-drop procedure if exists CreateJoueur;
+drop function if exists CreateJoueur;
 delimiter //
-create procedure CreateJoueur(
+create function CreateJoueur(
     in p_alias varchar(50),
     in p_nom varchar(50),
     in p_prenom varchar(50),
     in p_playerPassword varchar(50)
-)
+) returns int
 begin
-    insert into joueure (alias, nom, prenom, playerPassword)
-        values (p_alias, p_nom, p_prenom, SHA2(p_playerPassword, 256)); 
+    declare p_playerID int;
+
+    select joueureID into p_playerID
+    from joueure
+    where joueur.alias = p_alias
+    limit 1;
+
+    if p_playerID is not null then
+        insert into joueure (alias, nom, prenom, playerPassword)
+            values (p_alias, p_nom, p_prenom, SHA2(p_playerPassword, 256)); 
+        return p_playerID;
+    else
+        return -1;
+    end if;
 end;
 //
 delimiter ;
@@ -726,7 +738,8 @@ begin
 
     select joueureID into idJoueur
     from joueure
-    where alias = p_alias;
+    where alias = p_alias
+    limit 1;
 
     if idJoueur is not null then 
         return 0;
