@@ -58,17 +58,7 @@ class ItemModel extends Model
 
             if (! empty($data)) {
                 foreach ($data as $row) {
-                    $items[] = new Item(
-                        $row['id'],
-                        $row['name'],
-                        $row['description'],
-                        $row['itemWeight'],
-                        $row['buyPrice'],
-                        $row['sellPrice'],
-                        $row['imageLink'],
-                        $row['utility'],
-                        $row['itemStatus'],
-                    );
+                    $items[] = $this->makeItem($row);
                 }
 
                 return $items;
@@ -225,33 +215,96 @@ class ItemModel extends Model
     {
         $objc = null;
 
-        switch ($itemInfo['typeItem']){
+        switch ($itemInfo['typeItem']) {
             case 'arme':
                 $objc = new Weapon(
-                    $row['id'],
-                    $row['name'],
-                    $row['description'],
-                    $row['']
-
+                    $itemInfo['itemID'],
+                    $itemInfo['typeItem'],
+                    $itemInfo['itemName'],
+                    $itemInfo['description'],
+                    $itemInfo['poidItem'],
+                    $itemInfo['buyPrice'],
+                    $itemInfo['sellPrice'],
+                    $itemInfo['imageLink'],
+                    $itemInfo['utuliter'],
+                    $itemInfo['itemStatus'],
+                    $itemInfo['efficiency'],
+                    $itemInfo['genre'],
+                    $itemInfo['caliber']
                 );
                 break;
             case 'armure':
-                //ok
+                $objc = new Armor(
+                    $itemInfo['itemID'],
+                    $itemInfo['typeItem'],
+                    $itemInfo['itemName'],
+                    $itemInfo['description'],
+                    $itemInfo['poidItem'],
+                    $itemInfo['buyPrice'],
+                    $itemInfo['sellPrice'],
+                    $itemInfo['imageLink'],
+                    $itemInfo['utuliter'],
+                    $itemInfo['itemStatus'],
+                    $itemInfo['efficiency'],
+                    $itemInfo['genre'],
+                    $itemInfo['caliber']
+                );
                 break;
             case 'med':
-                //ok
+                $objc = new Meds(
+                    $itemInfo['itemID'],
+                    $itemInfo['typeItem'],
+                    $itemInfo['itemName'],
+                    $itemInfo['description'],
+                    $itemInfo['poidItem'],
+                    $itemInfo['buyPrice'],
+                    $itemInfo['sellPrice'],
+                    $itemInfo['imageLink'],
+                    $itemInfo['utuliter'],
+                    $itemInfo['itemStatus'],
+                    $itemInfo['efficiency'],
+                    $itemInfo['genre'],
+                    $itemInfo['caliber']
+                );
                 break;
             case 'food':
-                //ok
+                $objc = new Food(
+                    $itemInfo['itemID'],
+                    $itemInfo['typeItem'],
+                    $itemInfo['itemName'],
+                    $itemInfo['description'],
+                    $itemInfo['poidItem'],
+                    $itemInfo['buyPrice'],
+                    $itemInfo['sellPrice'],
+                    $itemInfo['imageLink'],
+                    $itemInfo['utuliter'],
+                    $itemInfo['itemStatus'],
+                    $itemInfo['healthGain'],
+                    $itemInfo['apportCalorique'],
+                    $itemInfo['composantNutritivePrincipale'],
+                    $itemInfo['mineralPrincipale']
+                );
                 break;
             case 'mun':
-                //ok
+                $objc = new Ammo(
+                    $itemInfo['itemID'],
+                    $itemInfo['typeItem'],
+                    $itemInfo['itemName'],
+                    $itemInfo['description'],
+                    $itemInfo['poidItem'],
+                    $itemInfo['buyPrice'],
+                    $itemInfo['sellPrice'],
+                    $itemInfo['imageLink'],
+                    $itemInfo['utuliter'],
+                    $itemInfo['itemStatus'],
+                    $itemInfo['calibre']
+                );
                 break;
             case null:
                 //err
                 break;
         }
 
-        return null;
+        return $objc;
     }
 }
