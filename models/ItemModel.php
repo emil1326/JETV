@@ -41,7 +41,7 @@ class ItemModel extends Model
         $items = [];
 
         try {
-            $stm = $this->pdo->prepare('SELECT * FROM item');
+            $stm = $this->pdo->prepare('call GetAllShopItem()');
             $stm->execute();
 
             $data = $stm->fetchAll(PDO::FETCH_ASSOC);
