@@ -3,6 +3,7 @@
 class Item
 {
     private int $id;
+    private string $type;
     private string $name;
     private string $description;
     private int $itemWeight;
@@ -14,6 +15,7 @@ class Item
 
     public function __construct(
         int $id,
+        string $type,
         string $name,
         string $description,
         int $itemWeight,
@@ -24,6 +26,7 @@ class Item
         int $itemStatus
     ) {
         $this->id = $id;
+        $this->type = $type;
         $this->name = $name;
         $this->description = $description;
         $this->itemWeight = $itemWeight;
@@ -38,6 +41,10 @@ class Item
     public function getId(): int
     {
         return $this->id;
+    }
+    public function getType(): string
+    {
+        return $this->type;
     }
     public function getName(): string
     {
