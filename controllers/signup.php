@@ -30,7 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else if (!$userModel->isUsernameAvailable($username)) {
         $messageKey = '<div class="alert alert-danger">Cet alias est déjà pris</div>';
     } else {
-
         $userModel->createUser($username, $firstName, $lastName, $password);
         header("Location: /login");
     }
