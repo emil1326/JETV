@@ -71,13 +71,14 @@ class UserModel extends Model
         }
     }
 
-    public function createUser(string $username, string $firstName, string $lastName, string $password): void
+    public function createUser(string $username, string $firstName, string $lastName, string $password): null|PDOException
     {
         try {
             $stm = $this->pdo->prepare('SELECT CreateJoueur(?, ?, ?, ?)');
             $stm->execute([$username, $lastName, $firstName, $password]);
+            return null;
         } catch (PDOException $e) {
-            throw new PDOException($e->getMessage(), $e->getCode());
+            return $e;
         }
     }
 }
