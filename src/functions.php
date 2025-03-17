@@ -61,3 +61,13 @@ function emptyFields(string ...$fields): bool
 
     return false;
 }
+
+function displayError(string $message): string
+{
+    return '<div class="alert alert-danger">' . $message . '</div>';
+}
+
+function displaySQLError(PDOException $exception): string
+{
+    return '<div class="alert alert-danger">' . $exception->getMessage() . '</div>';
+}

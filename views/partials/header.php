@@ -36,6 +36,27 @@
     .nopadding {
         padding-top: 2px;
     }
+
+    @media(min-width:992px) {
+        #balance {
+
+            display: none;
+        }
+    }
+
+    @media (max-width: 992px) {
+        .navbar-collapse {
+            justify-content: flex-start !important;
+            margin-top: 30px;
+        }
+
+
+
+        #signinregister {
+            margin-top: 30px;
+            padding-left: 0px !important;
+        }
+    }
 </style>
 
 <div class="container-fluid" style="padding-top:20px;background-color:#1E1E1E; padding-bottom:20px;">
@@ -45,11 +66,21 @@
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span> <i class="fa fa-navicon" style="color:#fff; font-size:28px;"></i></span>
             </button>
-            <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" style="width: 50px;"
-                alt="Avatar" />
+            <div
+                style="display:flex; flex-direction:row;align-items:center; width:160px; padding-right:10px; cursor:pointer;">
+                <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle"
+                    style="width: 50px; border-radius:10% !important;" alt="Avatar" />
+                <p style="margin:0px; margin-left:20px;"> Thomas</p>
+            </div>
+
+
             <div class="collapse navbar-collapse d-md-flex justify-content-md-end" id="navbarNavDropdown">
                 <ul class="navbar-nav ">
+                    <div id="balance">
 
+                        <p>5000</p>
+                        <p>123/1000</p>
+                    </div>
                     <li class="nav-item nopadding">
                         <a class="nav-link navtagsw nopadding active" aria-current="page" href="/">Accueil</a>
                     </li>
@@ -68,7 +99,7 @@
                         <a class="nav-link navtagsw nopadding" href="/cart">Cart</a>
                     </li>
 
-                    <form class="container-fluid justify-content-start">
+                    <form class="container-fluid justify-content-start" id="signinregister">
                         <button class="btn btn-outline-secondary buttonsw" type="button"
                             style="margin-right:10px;  border-radius: 8px;padding-top:4px; background-color: #303030;"><a
                                 href="/login" class="buttonst buttonsw" style="color:white;">Sign
@@ -85,7 +116,6 @@
 </div>
 
 <script>
-    function clickedIt() {
-        alert("hi");
-    }
+
+
 </script>

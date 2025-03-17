@@ -22,13 +22,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Check for empty fields
     if (emptyFields($firstName, $lastName, $username, $password, $passwordConfirm)) {
-        $messageKey = '<div class="alert alert-danger">Tous les renseignements doivent être remplis</div>';
+        $messageKey = displayError('Tous les renseignements doivent être remplis');
     } else if (strlen($password) < 8) {
-        $messageKey = '<div class="alert alert-danger">Le mot de passe dois être au moins 8 caractères</div>';
+        $messageKey = displayError('Le mot de passe dois être au moins 8 caractères');
     } else if ($password != $passwordConfirm) {
-        $messageKey = '<div class="alert alert-danger">Les deux mots de passe ne sont pas identiques</div>';
+        $messageKey = displayError('Les deux mots de passe ne sont pas identiques');
     } else if (!$userModel->isUsernameAvailable($username)) {
-        $messageKey = '<div class="alert alert-danger">Cet alias est déjà pris</div>';
+        $messageKey = displayError('Cet alias est déjà pris');
     } else {
         $userModel->createUser($username, $firstName, $lastName, $password);
         header("Location: /login");
