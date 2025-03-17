@@ -554,24 +554,30 @@ delimiter ;
 drop function if exists CreateJoueur;
 delimiter //
 create function CreateJoueur(
-    in p_alias varchar(50),
-    in p_nom varchar(50),
-    in p_prenom varchar(50),
-    in p_playerPassword varchar(50)
+    p_alias varchar(50),
+    p_nom varchar(50),
+    p_prenom varchar(50),
+    p_playerPassword varchar(50)
 ) returns int
 begin
     declare p_playerID int;
 
     select joueureID into p_playerID
     from joueure
-    where joueur.alias = p_alias
+    where joueure.alias = p_alias
     limit 1;
 
-    if p_playerID is not null then
+    if p_playerID is null then
         insert into joueure (alias, nom, prenom, playerPassword)
             values (p_alias, p_nom, p_prenom, SHA2(p_playerPassword, 256)); 
+
+        select joueureID into p_playerID
+        from joueure
+        where joueure.alias = p_alias
+        limit 1;
         return p_playerID;
     else
+        signal sqlstate '45000' set message_text = 'alias deja utuliser'; -- todo check if keep
         return -1;
     end if;
 end;
@@ -1104,11 +1110,11 @@ call CreateItem('Orange', 'Une orange juteuse et vitaminee', 1, 10.0, 5.0, 'oran
 call CreateItem('Pistolet', 'Un pistolet de calibre 9mm', 3, 250.0, 125.0, 'pistolet.png', 0, 0, 'mun', '9mm', '', '', 300);
 
 -- joueurs
-call CreateJoueur('je vins, je vus, je construit', 'bob', 'leBricoleur', 'passbob');
+select CreateJoueur('je vins, je vus, je construit', 'bob', 'leBricoleur', 'passbob');
 
-call CreateJoueur('joueur1', 'John', 'Doe', 'passjohn');
-call CreateJoueur('joueur2', 'Jane', 'Smith', 'passjane');
-call CreateJoueur('joueur3', 'Alice', 'Johnson', 'passalice');
+select CreateJoueur('joueur1', 'John', 'Doe', 'passjohn');
+select CreateJoueur('joueur2', 'Jane', 'Smith', 'passjane');
+select CreateJoueur('joueur3', 'Alice', 'Johnson', 'passalice');
 
 -- evaluations 
 call CreateCommentaireEvaluation(1, 1, 1, 'Tres bon produit !', 5);
