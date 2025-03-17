@@ -45,9 +45,8 @@ require 'partials/header.php';
             </form>
 
         </div>
+
     </div>
-
-
 
 </div>
 <?php

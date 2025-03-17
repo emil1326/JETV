@@ -5,9 +5,31 @@ class Ammo extends Item
     private string $caliber;
 
     public function __construct(
+        int $id,
+        string $name,
+        string $description,
+        int $itemWeight,
+        int $buyPrice,
+        int $sellPrice,
+        string $imageLink,
+        int $utility,
+        int $itemStatus,
+
         string $caliber
     ) {
         $this->caliber = $caliber;
+
+        parent::__construct(
+            $id,
+            $name,
+            $description,
+            $itemWeight,
+            $buyPrice,
+            $sellPrice,
+            $imageLink,
+            $utility,
+            $itemStatus,
+        );
     }
 
     // SETTERS //

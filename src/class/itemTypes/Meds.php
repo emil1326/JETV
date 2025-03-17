@@ -8,6 +8,16 @@ class Meds extends Item
     private string $unwantedEffect;
 
     public function __construct(
+        int $id,
+        string $name,
+        string $description,
+        int $itemWeight,
+        int $buyPrice,
+        int $sellPrice,
+        string $imageLink,
+        int $utility,
+        int $itemStatus,
+
         int $healthGain,
         string $effect,
         string $duration,
@@ -17,6 +27,18 @@ class Meds extends Item
         $this->effect = $effect;
         $this->duration = $duration;
         $this->unwantedEffect = $unwantedEffect;
+
+        parent::__construct(
+            $id,
+            $name,
+            $description,
+            $itemWeight,
+            $buyPrice,
+            $sellPrice,
+            $imageLink,
+            $utility,
+            $itemStatus,
+        );
     }
 
     // SETTERS //
@@ -24,15 +46,15 @@ class Meds extends Item
     {
         return $this->healthGain;
     }
-    public function getEffect(): int
+    public function getEffect(): string
     {
         return $this->effect;
     }
-    public function getDuration(): int
+    public function getDuration(): string
     {
         return $this->duration;
     }
-    public function getUnwantedEffect(): int
+    public function getUnwantedEffect(): string
     {
         return $this->unwantedEffect;
     }

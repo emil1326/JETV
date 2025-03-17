@@ -29,9 +29,8 @@ require 'partials/head.php';
             </form>
 
         </div>
+        
     </div>
-
-
 
 </div>
 <?php
