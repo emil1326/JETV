@@ -4,6 +4,11 @@
     #footerjetv .py-5 {
         padding-top: 0 !important;
     }
+
+    .p-0 {
+        text-decoration: none;
+        color: white !important;
+    }
 </style>
 <hr class="hr" style="align-self:center; width:98%; margin-top:50px;" />
 

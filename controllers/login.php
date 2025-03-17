@@ -1,7 +1,6 @@
 <?php
 
 require 'src/class/Database.php';
-require 'src/session.php';
 require 'models/UserModel.php';
 
 // Ne peux pas accéder à la page si déjà connecté
