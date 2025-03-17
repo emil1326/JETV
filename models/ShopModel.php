@@ -2,9 +2,9 @@
 
 require_once 'models/Model.php';
 
-class ShopModel extends Model
+class ShopModel extends ItemModel
 {
-    public function __construct(protected PDO $pdo, private ItemModel $itemModel)
+    public function __construct(protected PDO $pdo)
     {
         parent::__construct($pdo);
     }
@@ -22,7 +22,7 @@ class ShopModel extends Model
             if (!empty($data)) {
                 foreach ($data as $row) {
                     $items[] = [
-                        'item' => $this->itemModel->selectOneFromShop($row['itemID']),
+                        'item' => parent::selectOneFromShop($row['itemID']),
                         'quantity' => $row['qt']
                     ];
                 }
@@ -35,10 +35,20 @@ class ShopModel extends Model
         }
     }
 
-    /*
-    public function selectFiltered(ItemFilter $filter): null|array
+    public function selectFiltered(array $items, ItemFilter $filter): null|array
     {
-        //
+        $filteredItems = [];
+
+        foreach ($items as $item) {
+            if (
+                in_array($item->getType(), $filter->getItemTypes())
+                && $item->getBuyPrice() >= $filter->getPriceMin()
+                && $item->getBuyPrice() <= $filter->getPriceMax()
+            ) {
+                $filteredItems[] = $item;
+            }
+        }
+
+        return $filteredItems;
     }
-    */
 }

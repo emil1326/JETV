@@ -10,6 +10,18 @@
         color: #303030 !important;
     }
 
+    .navbar-dark .nav-item>.nav-link.active {
+        background-color: #444 !important;
+        color: white !important;
+        border-radius: 8px;
+    }
+
+    .navbar-dark .nav-item>.nav-link.active:hover {
+        background-color: #444 !important;
+        color: #303030 !important;
+        border-radius: 8px;
+    }
+
     .nav-link.active {
         background-color: #444 !important;
         color: white !important;
@@ -58,7 +70,13 @@
         }
     }
 </style>
+<!-- <script>
+    $('.navbar-nav .nav-link').click(function () {
+        $('.navbar-nav .nav-link').removeClass('active');
+        $(this).addClass('active');
+    })
 
+</script> -->
 <div class="container-fluid" style="padding-top:20px;background-color:#1E1E1E; padding-bottom:20px;">
     <nav class="navbar navbar-expand-lg" style="background-color:#1E1E1E !important;">
         <div class="container-fluid">
@@ -77,7 +95,7 @@
             <div class="collapse navbar-collapse d-md-flex justify-content-md-end" id="navbarNavDropdown">
                 <ul class="navbar-nav ">
                     <div id="balance">
-
+                        <!-- TO DO : -->
                         <p>5000</p>
                         <p>123/1000</p>
                     </div>
@@ -114,8 +132,3 @@
         </div>
     </nav>
 </div>
-
-<script>
-
-
-</script>
