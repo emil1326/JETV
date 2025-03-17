@@ -251,9 +251,10 @@ class ItemModel extends Model
                     $itemInfo['imageLink'],
                     $itemInfo['utuliter'],
                     $itemInfo['itemStatus'],
-                    $itemInfo['efficiency'],
-                    $itemInfo['genre'],
-                    $itemInfo['caliber']
+                    $itemInfo['healthGain'],
+                    $itemInfo['effect'],
+                    $itemInfo['duration'],
+                    $itemInfo['unwantedEffect']
                 );
                 break;
             case 'food':
