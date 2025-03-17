@@ -233,7 +233,7 @@ class ItemModel extends Model
                     $itemInfo['buyPrice'],
                     $itemInfo['sellPrice'],
                     $itemInfo['imageLink'],
-                    $itemInfo['utuliter'],
+                    $itemInfo['utiliter'],
                     $itemInfo['itemStatus'],
                     $itemInfo['material'],
                     $itemInfo['size']
@@ -249,7 +249,7 @@ class ItemModel extends Model
                     $itemInfo['buyPrice'],
                     $itemInfo['sellPrice'],
                     $itemInfo['imageLink'],
-                    $itemInfo['utuliter'],
+                    $itemInfo['utiliter'],
                     $itemInfo['itemStatus'],
                     $itemInfo['healthGain'],
                     $itemInfo['effect'],
@@ -267,7 +267,7 @@ class ItemModel extends Model
                     $itemInfo['buyPrice'],
                     $itemInfo['sellPrice'],
                     $itemInfo['imageLink'],
-                    $itemInfo['utuliter'],
+                    $itemInfo['utiliter'],
                     $itemInfo['itemStatus'],
                     $itemInfo['healthGain'],
                     $itemInfo['apportCalorique'],
@@ -285,7 +285,7 @@ class ItemModel extends Model
                     $itemInfo['buyPrice'],
                     $itemInfo['sellPrice'],
                     $itemInfo['imageLink'],
-                    $itemInfo['utuliter'],
+                    $itemInfo['utiliter'],
                     $itemInfo['itemStatus'],
                     $itemInfo['calibre']
                 );

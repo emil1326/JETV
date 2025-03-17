@@ -3,7 +3,7 @@
 require_once 'itemTypes/Ammo.php';
 require_once 'itemTypes/Armor.php';
 require_once 'itemTypes/Food.php';
-require_once 'itemTypes/Food.php';
+require_once 'itemTypes/Meds.php';
 require_once 'itemTypes/Weapon.php';
 
 class Item

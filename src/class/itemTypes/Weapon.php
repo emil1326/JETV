@@ -4,7 +4,7 @@ class Weapon extends Item
 {
     private string $efficiency;
     private string $genre;
-    private string $caliber;
+    private string|null $caliber;
 
     public function __construct(
         int $id,
@@ -20,7 +20,7 @@ class Weapon extends Item
 
         string $efficiency,
         string $genre,
-        string $caliber
+        string|null $caliber
     ) {
         $this->efficiency = $efficiency;
         $this->genre = $genre;
@@ -49,7 +49,7 @@ class Weapon extends Item
     {
         return $this->genre;
     }
-    public function getCaliber(): string
+    public function getCaliber(): string|null
     {
         return $this->caliber;
     }
@@ -63,7 +63,7 @@ class Weapon extends Item
     {
         $this->genre = $genre;
     }
-    public function setCaliber(int $caliber): void
+    public function setCaliber(int|null $caliber): void
     {
         $this->caliber = $caliber;
     }
