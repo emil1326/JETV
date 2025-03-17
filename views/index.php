@@ -49,21 +49,30 @@ require 'views/partials/header.php';
     </div>
     <div style="display:flex; justify-content:center;">
         <div class="card-group" style="display:flex; justify-content: center; row-gap: 1ch;">
-            <?php for ($i = 0; $i < 3; $i++): ?>
-                <div class="card"
-                    style="background-color:#1E1E1E !important; padding:10px; cursor:pointer;border:1px white solid;border-color: #6c757d; border-radius:8px; margin:20px; margin-top:0px; margin-bottom:0px;"
-                    onclick="window.location.href='/shop';">
-                    <img class="card-img-top"
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-YtnuV2n_8xuMZbIQ8voSyC4hjGBN6DLC8w&s"
-                        alt="Card image cap">
-                    <div class="card-body" style="margin-bottom:20px;">
-                        <h5 class="card-title">Sword</h5>
-                        <p class="card-text">$777</p>
-                        <p class="card-text"><small class="text-muted">Poids : 50kg</small></p>
-                    </div>
+            <?php $count = 0 ?>
+            <?php if (isset($items)): ?>
+                <?php foreach ($items as $index => $item): ?>
+                    <?php if ($count < 3): ?>
+                        <div class="card"
+                            style="background-color:#1E1E1E !important; padding:10px; cursor:pointer;border:1px white solid;border-color: #6c757d; border-radius:8px; margin:20px; margin-top:0px; margin-bottom:0px;"
+                            onclick="window.location.href='/shop';">
+                            <img class="card-img-top"
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-YtnuV2n_8xuMZbIQ8voSyC4hjGBN6DLC8w&s"
+                                alt="Card image cap">
+                            <div class="card-body" style="margin-bottom:20px;">
+                                <h5 class="card-title">
+                                    <?= $item['item']->getName() ?>
+                                </h5>
+                                <p class="card-text">$<?= $item['item']->getBuyPrice() ?></p>
+                                <p class="card-text"><small class="text-muted">Poids : <?= $item['item']->getItemWeight() ?>
+                                        kg<br></small></p>
+                            </div>
 
-                </div>
-            <?php endfor; ?>
+                        </div>
+                    <?php endif ?>
+                    <?php $count++ ?>
+                <?php endforeach; ?>
+            <?php endif ?>
         </div>
     </div>
 </div>

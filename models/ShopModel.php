@@ -22,7 +22,7 @@ class ShopModel extends Model
             if (!empty($data)) {
                 foreach ($data as $row) {
                     $items[] = [
-                        'item' => $this->itemModel->selectById($row['itemID']),
+                        'item' => $this->itemModel->selectOneFromShop($row['itemID']),
                         'quantity' => $row['qt']
                     ];
                 }
