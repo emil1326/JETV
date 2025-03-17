@@ -7,6 +7,16 @@ class Weapon extends Item
     private string $caliber;
 
     public function __construct(
+        int $id,
+        string $name,
+        string $description,
+        int $itemWeight,
+        int $buyPrice,
+        int $sellPrice,
+        string $imageLink,
+        int $utility,
+        int $itemStatus,
+
         string $efficiency,
         string $genre,
         string $caliber
@@ -14,6 +24,18 @@ class Weapon extends Item
         $this->efficiency = $efficiency;
         $this->genre = $genre;
         $this->caliber = $caliber;
+
+        parent::__construct(
+            $id,
+            $name,
+            $description,
+            $itemWeight,
+            $buyPrice,
+            $sellPrice,
+            $imageLink,
+            $utility,
+            $itemStatus,
+        );
     }
 
     // SETTERS //
