@@ -80,35 +80,35 @@ class Item
     }
 
     // SETTERS //
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
-    public function setDescription(string $description)
+    public function setDescription(string $description): void
     {
         $this->name = $description;
     }
-    public function setItemWeight(string $itemWeight)
+    public function setItemWeight(string $itemWeight): void
     {
         $this->itemWeight = $itemWeight;
     }
-    public function setBuyPrice(string $buyPrice)
+    public function setBuyPrice(string $buyPrice): void
     {
         $this->buyPrice = $buyPrice;
     }
-    public function setSellPrice(string $sellPrice)
+    public function setSellPrice(string $sellPrice): void
     {
         $this->sellPrice = $sellPrice;
     }
-    public function setImageLink(string $imageLink)
+    public function setImageLink(string $imageLink): void
     {
         $this->imageLink = $imageLink;
     }
-    public function setUtility(string $utility)
+    public function setUtility(int $utility): void
     {
         $this->utility = $utility;
     }
-    public function setItemStatus(string $itemStatus)
+    public function setItemStatus(int $itemStatus): void
     {
         $this->itemStatus = $itemStatus;
     }
