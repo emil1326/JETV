@@ -82,21 +82,21 @@
                         <p>123/1000</p>
                     </div>
                     <li class="nav-item nopadding">
-                        <a class="nav-link navtagsw nopadding active" aria-current="page" href="/">Accueil</a>
+                        <a class="nav-link navtagsw nopadding <?php if ($accueilActif) echo 'active'?>" aria-current="page" href="/">Accueil</a>
                     </li>
                     <li class="nav-item nopadding">
-                        <a class="nav-link navtagsw nopadding" href="/shop">Shop</a>
+                        <a class="nav-link navtagsw nopadding <?php if ($shopActif) echo 'active'?>" href="/shop">Shop</a>
                     </li>
                     <li class="nav-item nopadding">
-                        <a class="nav-link navtagsw nopadding" href="/enigma">Enigma</a>
-                    </li>
-
-                    <li class="nav-item nopadding">
-                        <a class="nav-link navtagsw nopadding" href="/backpack">Backpack</a>
+                        <a class="nav-link navtagsw nopadding <?php if ($enigmaActif) echo 'active'?>" href="/enigma">Enigma</a>
                     </li>
 
                     <li class="nav-item nopadding">
-                        <a class="nav-link navtagsw nopadding" href="/cart">Cart</a>
+                        <a class="nav-link navtagsw nopadding <?php if ($backActif) echo 'active'?>" href="/backpack">Backpack</a>
+                    </li>
+
+                    <li class="nav-item nopadding">
+                        <a class="nav-link navtagsw nopadding <?php if ($cartActif) echo 'active'?>" href="/cart">Cart</a>
                     </li>
 
                     <form class="container-fluid justify-content-start" id="signinregister">

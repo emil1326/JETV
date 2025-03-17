@@ -11,5 +11,5 @@ $pdo = Database::getInstance()->getPDO();
 $model = new ShopModel($pdo, new ItemModel($pdo));
 
 $items = $model->selectAll();
-
+$shopActif = true;
 require 'views/shop.php';
