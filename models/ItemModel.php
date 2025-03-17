@@ -216,11 +216,11 @@ class ItemModel extends Model
                     $itemInfo['buyPrice'],
                     $itemInfo['sellPrice'],
                     $itemInfo['imageLink'],
-                    $itemInfo['utuliter'],
+                    $itemInfo['utiliter'],
                     $itemInfo['itemStatus'],
                     $itemInfo['efficiency'],
                     $itemInfo['genre'],
-                    $itemInfo['caliber']
+                    $itemInfo['calibre']
                 );
                 break;
             case 'armure':
