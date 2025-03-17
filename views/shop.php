@@ -31,12 +31,6 @@ require 'views/partials/header.php';
     <?php endforeach; ?>
 <?php endif; ?>
 
-
-<br>
-shop
-<br>
---emil
-
 <?php
 require 'views/partials/footer.php';
 ?>

@@ -43,11 +43,11 @@ class Weapon extends Item
     {
         return $this->efficiency;
     }
-    public function getGenre(): int
+    public function getGenre(): string
     {
         return $this->genre;
     }
-    public function getCaliber(): int
+    public function getCaliber(): string
     {
         return $this->caliber;
     }

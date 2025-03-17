@@ -40,7 +40,7 @@ class Armor extends Item
     {
         return $this->material;
     }
-    public function getSize(): int
+    public function getSize(): string
     {
         return $this->size;
     }
