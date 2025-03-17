@@ -59,23 +59,28 @@
 
             <div class="col mb-3">
                 <h5>Navigation</h5>
-                <ul class="nav flex-column">
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Home</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Features</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Pricing</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">FAQs</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">About</a></li>
+                <ul class="nav flex-column" style="margin-top:20px;">
+                    <li class="nav-item mb-2"><a href="/" class="nav-link p-0 text-body-secondary">Accueil</a></li>
+                    <li class="nav-item mb-2"><a href="/shop" class="nav-link p-0 text-body-secondary">Shop</a></li>
+                    <li class="nav-item mb-2"><a href="/enigma" class="nav-link p-0 text-body-secondary">Enigma</a></li>
+                    <li class="nav-item mb-2"><a href="/backpack" class="nav-link p-0 text-body-secondary">Backpack</a>
+                    </li>
+                    <li class="nav-item mb-2"><a href="/cart" class="nav-link p-0 text-body-secondary">Cart</a></li>
                 </ul>
             </div>
 
             <div class="col mb-3">
                 <h5>Découvrez l'équipe</h5>
-                <ul class="nav flex-column">
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Home</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Features</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Pricing</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">FAQs</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">About</a></li>
+                <ul class="nav flex-column" style="margin-top:20px;">
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Jonathan Basque</a>
+                    </li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Emilien
+                            Devauchelle</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Thomas Roeung</a>
+                    </li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Victor Thibodeau</a>
+                    </li>
+
                 </ul>
             </div>
         </footer>
