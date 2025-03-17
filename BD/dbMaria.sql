@@ -726,7 +726,8 @@ begin
 
     select joueureID into idJoueur
     from joueure
-    where alias = p_alias;
+    where alias = p_alias
+    limit 1;
 
     if idJoueur is not null then 
         return 0;
