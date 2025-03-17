@@ -24,15 +24,15 @@ class Meds extends Item
     {
         return $this->healthGain;
     }
-    public function getEffect(): int
+    public function getEffect(): string
     {
         return $this->effect;
     }
-    public function getDuration(): int
+    public function getDuration(): string
     {
         return $this->duration;
     }
-    public function getUnwantedEffect(): int
+    public function getUnwantedEffect(): string
     {
         return $this->unwantedEffect;
     }

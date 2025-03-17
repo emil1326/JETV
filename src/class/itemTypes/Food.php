@@ -37,7 +37,7 @@ class Food extends Item
         return $this->mainMineral;
     }
 
-    // SETTERS //
+    // Getters //
     public function setHealthGain(int $healthGain): void
     {
         $this->healthGain = $healthGain;
