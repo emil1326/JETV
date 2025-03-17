@@ -8,6 +8,16 @@ class Food extends Item
     private string $mainMineral;
 
     public function __construct(
+        int $id,
+        string $name,
+        string $description,
+        int $itemWeight,
+        int $buyPrice,
+        int $sellPrice,
+        string $imageLink,
+        int $utility,
+        int $itemStatus,
+
         int $healthGain,
         string $calories,
         string $mainNutriment,
@@ -17,6 +27,18 @@ class Food extends Item
         $this->calories = $calories;
         $this->mainNutriment = $mainNutriment;
         $this->mainMineral = $mainMineral;
+
+        parent::__construct(
+            $id,
+            $name,
+            $description,
+            $itemWeight,
+            $buyPrice,
+            $sellPrice,
+            $imageLink,
+            $utility,
+            $itemStatus,
+        );
     }
 
     // SETTERS //
@@ -37,7 +59,7 @@ class Food extends Item
         return $this->mainMineral;
     }
 
-    // SETTERS //
+    // Getters //
     public function setHealthGain(int $healthGain): void
     {
         $this->healthGain = $healthGain;

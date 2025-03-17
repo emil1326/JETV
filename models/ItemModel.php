@@ -15,10 +15,12 @@ class ItemModel extends Model
         return $this->pdo;
     }
 
-    public function selectById(int $id): null|Item
+    // shop
+
+    public function selectOneFromShop(int $id): null|Item
     {
         try {
-            $stm = $this->pdo->prepare('SELECT itemID, itemName, description, poidItem, buyPrice, sellPrice, imageLink, utiliter, itemStatus FROM item WHERE itemID=:id');
+            $stm = $this->pdo->prepare('call GetOneShopItem(:id)');
             $stm->bindValue(':id', $id, PDO::PARAM_INT);
             $stm->execute();
 
@@ -44,8 +46,7 @@ class ItemModel extends Model
         }
     }
 
-    //  TODO: TEST
-    public function selectAll(): null|array
+    public function selectAllFromShop(): null|array
     {
         $items = [];
 
@@ -78,8 +79,8 @@ class ItemModel extends Model
         }
     }
 
-    //  TODO: TEST
-    public function selectByUserId(int $joueureID): null|array
+    //  cart
+    public function selectOneByPlayerIdFromCart(int $itemID, int $joueureID): null|Item
     {
         $items = [];
         try {
@@ -112,5 +113,145 @@ class ItemModel extends Model
 
             throw new PDOException($e->getMessage(), $e->getCode());
         }
+    }
+
+    public function selectAllByPlayerIdFromCart(int $joueureID): null|array
+    {
+        $items = [];
+        try {
+            $stm = $this->pdo->prepare('SELECT * FROM inventaire WHERE joueureID=:joueureID');
+            $stm->bindValue(":joueureID", $joueureID, PDO::PARAM_INT);
+
+            $stm->execute();
+            $data = $stm->fetchAll(PDO::FETCH_ASSOC);
+
+            if (! empty($data)) {
+                foreach ($data as $row) {
+                    $items[] = new Item(
+                        $row['id'],
+                        $row['name'],
+                        $row['description'],
+                        $row['itemWeight'],
+                        $row['buyPrice'],
+                        $row['sellPrice'],
+                        $row['imageLink'],
+                        $row['utility'],
+                        $row['itemStatus'],
+                    );
+                }
+
+                return $items;
+            }
+
+            return null;
+        } catch (PDOException $e) {
+
+            throw new PDOException($e->getMessage(), $e->getCode());
+        }
+    }
+
+    //  Inventory
+    public function selectOneByPlayerIdFromInventory(int $itemID, int $joueureID): null|Item
+    {
+        $items = [];
+        try {
+            $stm = $this->pdo->prepare('SELECT * FROM inventaire WHERE joueureID=:joueureID');
+            $stm->bindValue(":joueureID", $joueureID, PDO::PARAM_INT);
+
+            $stm->execute();
+            $data = $stm->fetchAll(PDO::FETCH_ASSOC);
+
+            if (! empty($data)) {
+                foreach ($data as $row) {
+                    $items[] = new Item(
+                        $row['id'],
+                        $row['name'],
+                        $row['description'],
+                        $row['itemWeight'],
+                        $row['buyPrice'],
+                        $row['sellPrice'],
+                        $row['imageLink'],
+                        $row['utility'],
+                        $row['itemStatus'],
+                    );
+                }
+
+                return $items;
+            }
+
+            return null;
+        } catch (PDOException $e) {
+
+            throw new PDOException($e->getMessage(), $e->getCode());
+        }
+    }
+
+    public function selectAllByPlayerIdFromInventory(int $joueureID): null|array
+    {
+        $items = [];
+        try {
+            $stm = $this->pdo->prepare('SELECT * FROM inventaire WHERE joueureID=:joueureID');
+            $stm->bindValue(":joueureID", $joueureID, PDO::PARAM_INT);
+
+            $stm->execute();
+            $data = $stm->fetchAll(PDO::FETCH_ASSOC);
+
+            if (! empty($data)) {
+                foreach ($data as $row) {
+                    $items[] = new Item(
+                        $row['id'],
+                        $row['name'],
+                        $row['description'],
+                        $row['itemWeight'],
+                        $row['buyPrice'],
+                        $row['sellPrice'],
+                        $row['imageLink'],
+                        $row['utility'],
+                        $row['itemStatus'],
+                    );
+                }
+
+                return $items;
+            }
+
+            return null;
+        } catch (PDOException $e) {
+
+            throw new PDOException($e->getMessage(), $e->getCode());
+        }
+    }
+
+    private function makeItem($itemInfo): Item|null
+    {
+        $objc = null;
+
+        switch ($itemInfo['typeItem']){
+            case 'arme':
+                $objc = new Weapon(
+                    $row['id'],
+                    $row['name'],
+                    $row['description'],
+                    $row['']
+
+                );
+                break;
+            case 'armure':
+                //ok
+                break;
+            case 'med':
+                //ok
+                break;
+            case 'food':
+                //ok
+                break;
+            case 'mun':
+                //ok
+                break;
+            case null:
+                //err
+                break;
+        }
+
+        return null;
     }
 }
