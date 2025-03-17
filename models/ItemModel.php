@@ -62,30 +62,17 @@ class ItemModel extends Model
     //  cart
     public function selectOneByPlayerIdFromCart(int $itemID, int $joueureID): null|Item
     {
-        $items = [];
+        $items = null;
         try {
-            $stm = $this->pdo->prepare('SELECT * FROM inventaire WHERE joueureID=:joueureID');
+            $stm = $this->pdo->prepare('call GetOneCartItem( :id , :joueureID)');
+            $stm->bindValue(':id', $itemID, PDO::PARAM_INT);
             $stm->bindValue(":joueureID", $joueureID, PDO::PARAM_INT);
 
             $stm->execute();
             $data = $stm->fetchAll(PDO::FETCH_ASSOC);
 
             if (! empty($data)) {
-                foreach ($data as $row) {
-                    $items[] = new Item(
-                        $row['id'],
-                        $row['name'],
-                        $row['description'],
-                        $row['itemWeight'],
-                        $row['buyPrice'],
-                        $row['sellPrice'],
-                        $row['imageLink'],
-                        $row['utility'],
-                        $row['itemStatus'],
-                    );
-                }
-
-                return $items;
+                return $this->makeItem($data);
             }
 
             return null;
@@ -99,7 +86,7 @@ class ItemModel extends Model
     {
         $items = [];
         try {
-            $stm = $this->pdo->prepare('SELECT * FROM inventaire WHERE joueureID=:joueureID');
+            $stm = $this->pdo->prepare('call GetAllCartItems( :joueureID )');
             $stm->bindValue(":joueureID", $joueureID, PDO::PARAM_INT);
 
             $stm->execute();
@@ -107,17 +94,7 @@ class ItemModel extends Model
 
             if (! empty($data)) {
                 foreach ($data as $row) {
-                    $items[] = new Item(
-                        $row['id'],
-                        $row['name'],
-                        $row['description'],
-                        $row['itemWeight'],
-                        $row['buyPrice'],
-                        $row['sellPrice'],
-                        $row['imageLink'],
-                        $row['utility'],
-                        $row['itemStatus'],
-                    );
+                    $items[] = $this->makeItem($row);
                 }
 
                 return $items;
@@ -135,28 +112,15 @@ class ItemModel extends Model
     {
         $items = [];
         try {
-            $stm = $this->pdo->prepare('SELECT * FROM inventaire WHERE joueureID=:joueureID');
+            $stm = $this->pdo->prepare('call GetOneInventoryItem( :id , :joueureID )');
+            $stm->bindValue(':id', $itemID, PDO::PARAM_INT);
             $stm->bindValue(":joueureID", $joueureID, PDO::PARAM_INT);
 
             $stm->execute();
             $data = $stm->fetchAll(PDO::FETCH_ASSOC);
 
             if (! empty($data)) {
-                foreach ($data as $row) {
-                    $items[] = new Item(
-                        $row['id'],
-                        $row['name'],
-                        $row['description'],
-                        $row['itemWeight'],
-                        $row['buyPrice'],
-                        $row['sellPrice'],
-                        $row['imageLink'],
-                        $row['utility'],
-                        $row['itemStatus'],
-                    );
-                }
-
-                return $items;
+                return   $this->makeItem($data);
             }
 
             return null;
@@ -170,7 +134,7 @@ class ItemModel extends Model
     {
         $items = [];
         try {
-            $stm = $this->pdo->prepare('SELECT * FROM inventaire WHERE joueureID=:joueureID');
+            $stm = $this->pdo->prepare('call GetAllInventoryItems( :joueureID )');
             $stm->bindValue(":joueureID", $joueureID, PDO::PARAM_INT);
 
             $stm->execute();
@@ -178,17 +142,7 @@ class ItemModel extends Model
 
             if (! empty($data)) {
                 foreach ($data as $row) {
-                    $items[] = new Item(
-                        $row['id'],
-                        $row['name'],
-                        $row['description'],
-                        $row['itemWeight'],
-                        $row['buyPrice'],
-                        $row['sellPrice'],
-                        $row['imageLink'],
-                        $row['utility'],
-                        $row['itemStatus'],
-                    );
+                    $items[] = $this->makeItem($row);
                 }
 
                 return $items;
