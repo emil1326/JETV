@@ -6,8 +6,6 @@ if (!isAuthenticated()) {
 require 'src/class/Database.php';
 require 'models/ItemModel.php';
 
-require 'models/ItemModel.php';
-
 $item = [
 
 ];
