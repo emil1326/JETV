@@ -44,7 +44,8 @@ require 'views/partials/header.php';
 </div>
 <div style="display:flex; flex-direction:column; height:auto; width:100%;padding:64px;">
     <div style="display:flex; flex-direction: column;">
-        <p style="font-size:30px;font-weight:bold;"><a href="" style="text-decoration: none; color:white;">Shop</a></p>
+        <p style="font-size:30px;font-weight:bold;"><a href="/shop" style="text-decoration: none; color:white;">Shop</a>
+        </p>
         <p style="font-size:20px; margin-top:-10px;margin-bottom:30px;"><a href="/shop"
                 style="text-decoration: none; color:white;">View more</a></p>
     </div>
@@ -57,7 +58,7 @@ require 'views/partials/header.php';
                         <div class="card"
                             style="background-color:#1E1E1E !important; padding:10px; cursor:pointer;border:1px white solid;border-color: #6c757d; border-radius:8px; margin:20px; margin-top:0px; margin-bottom:0px;"
                             onclick="window.location.href='/shop';">
-                            <div class="numberCircle">30</div>
+                            <div class="numberCircle"><?= $item['quantity'] ?></div>
                             <img class="card-img-top"
                                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-YtnuV2n_8xuMZbIQ8voSyC4hjGBN6DLC8w&s"
                                 alt="Card image cap">
