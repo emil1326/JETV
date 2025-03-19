@@ -13,23 +13,23 @@ class ShopModel extends ItemModel
     {
         $items = [];
 
-        try {
-            $stm = $this->pdo->prepare('SELECT itemID, qt FROM shop');
-            $stm->execute();
+        $stm = $this->pdo->prepare('call GetAllShopItems()');
+        $stm->execute();
 
-            $data = $stm->fetchAll(PDO::FETCH_ASSOC);
+        $data = $stm->fetchAll(PDO::FETCH_ASSOC);
 
-            if (!empty($data)) {
-                foreach ($data as $row) {
-                    $items[] = [
-                        'item' => $this->selectOne($row['itemID']),
-                        'quantity' => $row['qt']
-                    ];
-                }
-
-                return $items;
+        if (!empty($data)) {
+            foreach ($data as $row) {
+                $items[] = [
+                    'item' => parent::makeItem($row),
+                    'quantity' => $row['qt']
+                ];
             }
-            return null;
+
+            return $items;
+        }
+        return null;
+        try {
         } catch (PDOException $e) {
             throw new PDOException($e->getMessage(), $e->getCode());
         }
@@ -37,18 +37,18 @@ class ShopModel extends ItemModel
 
     public function selectOne(int $id): null|Item
     {
+        $stm = $this->pdo->prepare('call GetOneShopItem(:id)');
+        $stm->bindValue(':id', $id, PDO::PARAM_INT);
+        $stm->execute();
+
+        $data = $stm->fetch(PDO::FETCH_ASSOC);
+
+        if (!empty($data)) {
+            return parent::makeItem($data);
+        }
+
+        return null;
         try {
-            $stm = $this->pdo->prepare('call GetOneShopItem(:id)');
-            $stm->bindValue(':id', $id, PDO::PARAM_INT);
-            $stm->execute();
-
-            $data = $stm->fetch(PDO::FETCH_ASSOC);
-
-            if (!empty($data)) {
-                return parent::makeItem($data);
-            }
-
-            return null;
         } catch (PDOException $e) {
             throw new PDOException($e->getMessage(), $e->getCode());
         }
