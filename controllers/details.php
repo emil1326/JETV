@@ -6,9 +6,36 @@ if (!isAuthenticated()) {
 require 'src/class/Database.php';
 require 'models/ItemModel.php';
 
-$item = [
+# input => playerID, itemID
 
-];
+# output => one item or redirect to menu
+
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $parts = parse_url($_SERVER['REQUEST_URI']);
+    parse_str($parts['query'], $query);
+
+    $pdo = Database::getInstance()->getPDO();
 
 
-require 'views/cart.php';
+    $item = null;
+
+    if (isset($query['playerID'])) { // pour l'inventaire
+        $model = new ItemModel(pdo: $pdo);
+        $item = $model->selectOneByPlayerIdFromInventory($query['itemID'], $query['playerID']);
+    } else if (isset($query['itemID'])) { // pour shop et cart
+        $model = new ItemModel(pdo: $pdo); // todo change to shopmodel
+        $item = $model->selectOneFromShop($query['itemID']); // todo change vers 
+    }
+
+    if ($item == null) // pas else pcq les func peuvent return null
+        if (isset($query['playerID']))
+            redirect('/backpack'); // guess qui faut aller au backpack si erreure mais avc un idplayer => peu etre si le le itemID existe pas pour se joueur
+        else
+            redirect('/'); // redirect to homepage si ni playerID ni itemID, peu pas show l'item
+
+    // dans le cart et shop on a les meme pages
+} else {
+    redirect("/");  // todo change vers une page custom ??
+}
+
+require 'views/details.php';

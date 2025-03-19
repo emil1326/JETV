@@ -30,32 +30,32 @@ require 'views/partials/header.php';
 
         <p>Types</p>
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
+            <input class="form-check-input" type="checkbox" value="" id="armes" name="armes">
+            <label class="form-check-label" for="armes">
                 Armes
             </label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
+            <input class="form-check-input" type="checkbox" value="" id="armures" name="armures">
+            <label class="form-check-label" for="armures">
                 Armures
             </label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
+            <input class="form-check-input" type="checkbox" value="" id="meds" name="meds">
+            <label class="form-check-label" for="meds">
                 Médicaments
             </label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
+            <input class="form-check-input" type="checkbox" value="" id="food" name="food">
+            <label class="form-check-label" for="food">
                 Nourriture
             </label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-            <label class="form-check-label" for="flexCheckChecked">
+            <input class="form-check-input" type="checkbox" value="" id="munitions" name="munitions" checked>
+            <label class="form-check-label" for="munitions">
                 Munitions
             </label>
         </div>
@@ -117,7 +117,7 @@ require 'views/partials/header.php';
 
                         <div class="card"
                             style="background-color:#1E1E1E !important; padding:10px; cursor:pointer;border:1px white solid;border-color: #6c757d; border-radius:8px; margin:20px; margin-top:0px; margin-bottom:0px;"
-                            onclick="window.location.href='/shop';">
+                            onclick="window.location.href='/details?id=<?=$item['item']->getId()?>';">
                             <div class="numberCircle" style="margin-right:0px;"><?= $item['quantity'] ?></div>
                             <img class="card-img-top"
                                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-YtnuV2n_8xuMZbIQ8voSyC4hjGBN6DLC8w&s"
@@ -130,10 +130,9 @@ require 'views/partials/header.php';
                                 <p class="card-text">$<?= $item['item']->getBuyPrice() ?></p>
                                 <p class="card-text"><small class="text-muted">Poids : <?= $item['item']->getItemWeight() ?>
                                         kg<br></small></p>
+
                             </div>
-
                         </div>
-
 
                     <?php endforeach; ?>
                 <?php endif ?>

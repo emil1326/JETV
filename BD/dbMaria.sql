@@ -341,6 +341,7 @@ create procedure GetAllShopItems()
 begin
     select *
     from shop
+    inner join item on item.itemID = shop.itemID
     left join Arme on Arme.itemID = shop.itemID
     left join Armure on Armure.itemID = shop.itemID
     left join Medicaments on Medicaments.itemID = shop.itemID
@@ -410,6 +411,7 @@ create procedure GetAllCartItems(in p_joueureID int)
 begin
     select *
     from cart
+    inner join item on item.itemID = shop.itemID
     left join Arme on Arme.itemID = cart.itemID
     left join Armure on Armure.itemID = cart.itemID
     left join Medicaments on Medicaments.itemID = cart.itemID
@@ -480,6 +482,7 @@ create procedure GetAllInventoryItems(in p_joueureID int)
 begin
     select * 
     from inventaire 
+    inner join item on item.itemID = shop.itemID
     left join Arme on Arme.itemID = inventaire.itemID
     left join Armure on Armure.itemID = inventaire.itemID
     left join Medicaments on Medicaments.itemID = inventaire.itemID
