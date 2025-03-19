@@ -10,8 +10,8 @@ if (!isAuthenticated()) {
 }
 
 $pdo = Database::getInstance()->getPDO();
-$model = new ShopModel($pdo, new ItemModel($pdo));
+$model = new ShopModel($pdo);
 
 $items = $model->selectAll();
-$shopActif = true;
+$shopActif = true; // pour le header, savoir quoi highlight
 require 'views/shop.php';

@@ -21,10 +21,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     if (isset($query['playerID'])) // pour l'inventaire
         $item = $model->selectOneByPlayerIdFromInventory($query['itemID'], $query['playerID']);
-    if (isset($query['itemID'])) // pour shop et cart
+    else if (isset($query['itemID'])) // pour shop et cart
         $item = $model->selectOneFromShop($query['itemID']);
 
-    if ($item == null)
+    if ($item == null) // pas else pcq les func peuvent return null
         if (isset($query['playerID']))
             redirect('/backpack'); // guess qui faut aller au backpack si erreure mais avc un idplayer => peu etre si le le itemID existe pas pour se joueur
         else
