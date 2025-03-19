@@ -38,4 +38,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     redirect("/");  // todo change vers une page custom ??
 }
 
-require 'views/cart.php';
+require 'views/details.php';
