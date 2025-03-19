@@ -4,7 +4,7 @@ require 'models/ItemModel.php';
 require 'models/ShopModel.php';
 
 $pdo = Database::getInstance()->getPDO();
-$model = new ShopModel($pdo, new ItemModel($pdo));
+$model = new ShopModel($pdo);
 
 $items = $model->selectAll();
 $accueilActif = true;
