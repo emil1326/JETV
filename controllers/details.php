@@ -6,24 +6,14 @@ if (!isAuthenticated()) {
 require 'src/class/Database.php';
 require 'models/ItemModel.php';
 
-<<<<<<< HEAD
-$id = $_GET['id'];
-$pdo = Database::getInstance()->getPDO();
-$itemModel = new ItemModel($pdo);
-$item = $itemModel->selectOneFromShop($id);
-=======
 # input => playerID, itemID
 
 # output => one item or redirect to menu
->>>>>>> 7307048aa8a57c2adbc9f4439abd8db4ca33a875
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $parts = parse_url($url);
     parse_str($parts['query'], $query);
 
-<<<<<<< HEAD
-require 'views/details.php';
-=======
     $pdo = Database::getInstance()->getPDO();
     $model = new ShopModel($pdo);
 
@@ -46,4 +36,3 @@ require 'views/details.php';
 }
 
 require 'views/cart.php';
->>>>>>> 7307048aa8a57c2adbc9f4439abd8db4ca33a875
