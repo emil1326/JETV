@@ -341,12 +341,12 @@ create procedure GetAllShopItems()
 begin
     select *
     from shop
-    inner join item on item.itemID = shop.itemID
     left join Arme on Arme.itemID = shop.itemID
     left join Armure on Armure.itemID = shop.itemID
     left join Medicaments on Medicaments.itemID = shop.itemID
     left join Nourriture on Nourriture.itemID = shop.itemID
-    left join Munition on Munition.itemID = shop.itemID;
+    left join Munition on Munition.itemID = shop.itemID
+    inner join item on item.itemID = shop.itemID;
 end;
 //
 delimiter ;
@@ -411,12 +411,12 @@ create procedure GetAllCartItems(in p_joueureID int)
 begin
     select *
     from cart
-    inner join item on item.itemID = shop.itemID
     left join Arme on Arme.itemID = cart.itemID
     left join Armure on Armure.itemID = cart.itemID
     left join Medicaments on Medicaments.itemID = cart.itemID
     left join Nourriture on Nourriture.itemID = cart.itemID
     left join Munition on Munition.itemID = cart.itemID
+    inner join item on item.itemID = shop.itemID
     where cart.joueureID = p_joueureID;
 end;
 //
@@ -482,12 +482,12 @@ create procedure GetAllInventoryItems(in p_joueureID int)
 begin
     select * 
     from inventaire 
-    inner join item on item.itemID = shop.itemID
     left join Arme on Arme.itemID = inventaire.itemID
     left join Armure on Armure.itemID = inventaire.itemID
     left join Medicaments on Medicaments.itemID = inventaire.itemID
     left join Nourriture on Nourriture.itemID = inventaire.itemID
     left join Munition on Munition.itemID = inventaire.itemID
+    inner join item on item.itemID = shop.itemID
     where inventaire.joueureID = p_joueureID;
 end;
 //
@@ -543,11 +543,11 @@ create procedure GetAllItemDetails()
 begin
     select *
     from item
-    left join Arme on Arme.itemID = item.itemID
     left join Armure on Armure.itemID = item.itemID
     left join Medicaments on Medicaments.itemID = item.itemID
     left join Nourriture on Nourriture.itemID = item.itemID
-    left join Munition on Munition.itemID = item.itemID;
+    left join Munition on Munition.itemID = item.itemID
+    left join Arme on Arme.itemID = item.itemID;
 end;
 //
 delimiter ;
