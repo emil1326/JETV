@@ -6,9 +6,10 @@ if (!isAuthenticated()) {
 require 'src/class/Database.php';
 require 'models/ItemModel.php';
 
-$item = [
+$id = $_GET['id'];
+$pdo = Database::getInstance()->getPDO();
+$itemModel = new ItemModel($pdo);
+$item = $itemModel->selectOneFromShop($id);
 
-];
 
-
-require 'views/cart.php';
+require 'views/details.php';
