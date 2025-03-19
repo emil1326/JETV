@@ -11,18 +11,21 @@ require 'models/ItemModel.php';
 # output => one item or redirect to menu
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $parts = parse_url($url);
+    $parts = parse_url($_SERVER['REQUEST_URI']);
     parse_str($parts['query'], $query);
 
     $pdo = Database::getInstance()->getPDO();
-    $model = new ShopModel($pdo);
+
 
     $item = null;
 
-    if (isset($query['playerID'])) // pour l'inventaire
+    if (isset($query['playerID'])) { // pour l'inventaire
+        $model = new ItemModel(pdo: $pdo);
         $item = $model->selectOneByPlayerIdFromInventory($query['itemID'], $query['playerID']);
-    else if (isset($query['itemID'])) // pour shop et cart
-        $item = $model->selectOneFromShop($query['itemID']);
+    } else if (isset($query['itemID'])) { // pour shop et cart
+        $model = new ItemModel(pdo: $pdo); // todo change to shopmodel
+        $item = $model->selectOneFromShop($query['itemID']); // todo change vers 
+    }
 
     if ($item == null) // pas else pcq les func peuvent return null
         if (isset($query['playerID']))
