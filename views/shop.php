@@ -30,32 +30,32 @@ require 'views/partials/header.php';
 
         <p>Types</p>
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
+            <input class="form-check-input" type="checkbox" value="" id="armes" name="armes">
+            <label class="form-check-label" for="armes">
                 Armes
             </label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
+            <input class="form-check-input" type="checkbox" value="" id="armures" name="armures">
+            <label class="form-check-label" for="armures">
                 Armures
             </label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
+            <input class="form-check-input" type="checkbox" value="" id="meds" name="meds">
+            <label class="form-check-label" for="meds">
                 Médicaments
             </label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
+            <input class="form-check-input" type="checkbox" value="" id="food" name="food">
+            <label class="form-check-label" for="food">
                 Nourriture
             </label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-            <label class="form-check-label" for="flexCheckChecked">
+            <input class="form-check-input" type="checkbox" value="" id="munitions" name="munitions" checked>
+            <label class="form-check-label" for="munitions">
                 Munitions
             </label>
         </div>
