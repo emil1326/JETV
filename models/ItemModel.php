@@ -17,25 +17,7 @@ class ItemModel extends Model
 
     // shop
 
-    public function selectOneFromShop(int $id): null|Item
-    {
-        try {
-            $stm = $this->pdo->prepare('call GetOneShopItem(:id)');
-            $stm->bindValue(':id', $id, PDO::PARAM_INT);
-            $stm->execute();
-
-            $data = $stm->fetch(PDO::FETCH_ASSOC);
-
-            if (!empty($data)) {
-                return $this->makeItem($data);
-            }
-
-            return null;
-        } catch (PDOException $e) {
-            throw new PDOException($e->getMessage(), $e->getCode());
-        }
-    }
-
+    //  FIXME: procedure not working
     public function selectAllFromShop(): null|array
     {
         $items = [];
@@ -62,7 +44,6 @@ class ItemModel extends Model
     //  cart
     public function selectOneByPlayerIdFromCart(int $itemID, int $joueureID): null|Item
     {
-        $items = null;
         try {
             $stm = $this->pdo->prepare('call GetOneCartItem( :id , :joueureID)');
             $stm->bindValue(':id', $itemID, PDO::PARAM_INT);
@@ -110,7 +91,6 @@ class ItemModel extends Model
     //  Inventory
     public function selectOneByPlayerIdFromInventory(int $itemID, int $joueureID): null|Item
     {
-        $items = [];
         try {
             $stm = $this->pdo->prepare('call GetOneInventoryItem( :id , :joueureID )');
             $stm->bindValue(':id', $itemID, PDO::PARAM_INT);
@@ -155,97 +135,86 @@ class ItemModel extends Model
         }
     }
 
-    private function makeItem($itemInfo): Item|null
+    public function selectFiltered(array $items, ItemFilter $filter): null|array
+    {
+        $filteredItems = [];
+
+        foreach ($items as $item) {
+            if (
+                in_array($item->getType(), $filter->getItemTypes())
+                && $item->getBuyPrice() >= $filter->getPriceMin()
+                && $item->getBuyPrice() <= $filter->getPriceMax()
+            ) {
+                $filteredItems[] = $item;
+            }
+        }
+
+        return $filteredItems;
+    }
+
+    protected function makeItem(array $itemInfo): Item|null
     {
         $objc = null;
+        $infos = [
+            $itemInfo['itemID'],
+            $itemInfo['typeItem'],
+            $itemInfo['itemName'],
+            $itemInfo['description'],
+            $itemInfo['poidItem'],
+            $itemInfo['buyPrice'],
+            $itemInfo['sellPrice'],
+            $itemInfo['imageLink'],
+            $itemInfo['utiliter'],
+            $itemInfo['itemStatus'],
+        ];
 
         switch ($itemInfo['typeItem']) {
             case 'arme':
-                $objc = new Weapon(
-                    $itemInfo['itemID'],
-                    $itemInfo['typeItem'],
-                    $itemInfo['itemName'],
-                    $itemInfo['description'],
-                    $itemInfo['poidItem'],
-                    $itemInfo['buyPrice'],
-                    $itemInfo['sellPrice'],
-                    $itemInfo['imageLink'],
-                    $itemInfo['utiliter'],
-                    $itemInfo['itemStatus'],
+                array_push(
+                    $infos,
                     $itemInfo['efficiency'],
                     $itemInfo['genre'],
                     $itemInfo['calibre']
                 );
+                $objc = new Weapon(...$infos,);
                 break;
             case 'armure':
-                $objc = new Armor(
-                    $itemInfo['itemID'],
-                    $itemInfo['typeItem'],
-                    $itemInfo['itemName'],
-                    $itemInfo['description'],
-                    $itemInfo['poidItem'],
-                    $itemInfo['buyPrice'],
-                    $itemInfo['sellPrice'],
-                    $itemInfo['imageLink'],
-                    $itemInfo['utiliter'],
-                    $itemInfo['itemStatus'],
+                array_push(
+                    $infos,
                     $itemInfo['material'],
-                    $itemInfo['size']
+                    $itemInfo['size'],
                 );
+                $objc = new Armor(...$infos);
                 break;
             case 'med':
-                $objc = new Meds(
-                    $itemInfo['itemID'],
-                    $itemInfo['typeItem'],
-                    $itemInfo['itemName'],
-                    $itemInfo['description'],
-                    $itemInfo['poidItem'],
-                    $itemInfo['buyPrice'],
-                    $itemInfo['sellPrice'],
-                    $itemInfo['imageLink'],
-                    $itemInfo['utiliter'],
-                    $itemInfo['itemStatus'],
+                array_push(
+                    $infos,
                     $itemInfo['healthGain'],
                     $itemInfo['effect'],
                     $itemInfo['duration'],
-                    $itemInfo['unwantedEffect']
+                    $itemInfo['unwantedEffect'],
                 );
+                $objc = new Meds(...$infos);
                 break;
             case 'food':
-                $objc = new Food(
-                    $itemInfo['itemID'],
-                    $itemInfo['typeItem'],
-                    $itemInfo['itemName'],
-                    $itemInfo['description'],
-                    $itemInfo['poidItem'],
-                    $itemInfo['buyPrice'],
-                    $itemInfo['sellPrice'],
-                    $itemInfo['imageLink'],
-                    $itemInfo['utiliter'],
-                    $itemInfo['itemStatus'],
+                array_push(
+                    $infos,
                     $itemInfo['healthGain'],
                     $itemInfo['apportCalorique'],
                     $itemInfo['composantNutritivePrincipale'],
-                    $itemInfo['mineralPrincipale']
+                    $itemInfo['mineralPrincipale'],
                 );
+                $objc = new Food(...$infos);
                 break;
             case 'mun':
-                $objc = new Ammo(
-                    $itemInfo['itemID'],
-                    $itemInfo['typeItem'],
-                    $itemInfo['itemName'],
-                    $itemInfo['description'],
-                    $itemInfo['poidItem'],
-                    $itemInfo['buyPrice'],
-                    $itemInfo['sellPrice'],
-                    $itemInfo['imageLink'],
-                    $itemInfo['utiliter'],
-                    $itemInfo['itemStatus'],
-                    $itemInfo['calibre']
+                array_push(
+                    $infos,
+                    $itemInfo['calibre'],
                 );
+                $objc = new Ammo(...$infos);
                 break;
             case null:
-                //err
+                // Error
                 break;
         }
 

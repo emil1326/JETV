@@ -2,7 +2,7 @@
 
 require_once 'models/Model.php';
 
-class ShopModel extends ItemModel
+class CartModel extends ItemModel
 {
     public function __construct(protected PDO $pdo)
     {
@@ -14,7 +14,7 @@ class ShopModel extends ItemModel
         $items = [];
 
         try {
-            $stm = $this->pdo->prepare('SELECT itemID, qt FROM shop');
+            $stm = $this->pdo->prepare('SELECT itemID, qt FROM cart');
             $stm->execute();
 
             $data = $stm->fetchAll(PDO::FETCH_ASSOC);
@@ -22,32 +22,13 @@ class ShopModel extends ItemModel
             if (!empty($data)) {
                 foreach ($data as $row) {
                     $items[] = [
-                        'item' => $this->selectOne($row['itemID']),
+                        'item' => parent::selectOneFromShop($row['itemID']),
                         'quantity' => $row['qt']
                     ];
                 }
 
                 return $items;
             }
-            return null;
-        } catch (PDOException $e) {
-            throw new PDOException($e->getMessage(), $e->getCode());
-        }
-    }
-
-    public function selectOne(int $id): null|Item
-    {
-        try {
-            $stm = $this->pdo->prepare('call GetOneShopItem(:id)');
-            $stm->bindValue(':id', $id, PDO::PARAM_INT);
-            $stm->execute();
-
-            $data = $stm->fetch(PDO::FETCH_ASSOC);
-
-            if (!empty($data)) {
-                return parent::makeItem($data);
-            }
-
             return null;
         } catch (PDOException $e) {
             throw new PDOException($e->getMessage(), $e->getCode());
