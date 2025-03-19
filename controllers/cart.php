@@ -3,5 +3,5 @@ if (!isAuthenticated()) {
     echo 'DEV log: You are not logged in. You shouldn\'t be able to see this';
     //redirect('/');
 }
-$cartActif = true;
+$cartActif = true; // pour le header, savoir quoi highlight
 require 'views/cart.php';
