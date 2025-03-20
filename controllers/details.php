@@ -19,12 +19,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     $item = null;
 
-    if (isset($query['playerID'])) { // pour l'inventaire
-        $model = new ItemModel(pdo: $pdo);
+    if (isset($query['player_id'])) { // pour l'inventaire
+        $itemModel = new ItemModel(pdo: $pdo);
         $item = $model->selectOneByPlayerIdFromInventory($query['itemID'], $query['playerID']);
-    } else if (isset($query['itemID'])) { // pour shop et cart
-        $model = new ItemModel(pdo: $pdo); // todo change to shopmodel
-        $item = $model->selectOneFromShop($query['itemID']); // todo change vers 
+    } else if (isset($query['item_id'])) { // pour shop et cart
+        $shopModel = new ShopModel(pdo: $pdo); // todo change to shopmodel
+        $item = $shopModel->selectOne($query['itemID']); // todo change vers
     }
 
     if ($item == null) // pas else pcq les func peuvent return null

@@ -13,7 +13,7 @@ class ShopModel extends ItemModel
     {
         $items = [];
 
-        $stm = $this->pdo->prepare('call GetAllShopItems()');
+        $stm = $this->pdo->prepare('SELECT itemID, qt FROM shop');
         $stm->execute();
 
         $data = $stm->fetchAll(PDO::FETCH_ASSOC);
@@ -21,7 +21,7 @@ class ShopModel extends ItemModel
         if (!empty($data)) {
             foreach ($data as $row) {
                 $items[] = [
-                    'item' => parent::makeItem($row),
+                    'item' => $this->selectOne($row['itemID']),
                     'quantity' => $row['qt']
                 ];
             }
