@@ -25,12 +25,12 @@ class UserModel extends Model
                     $data['alias'],
                     $data['nom'],
                     $data['prenom'],
+                    $data['playerPassword'],
                     $data['caps'],
                     $data['dexteriter'],
                     $data['pv'],
                     $data['poidsMax'],
-                    $data['isAdmin'],
-                    $data['playerPassword']
+                    $data['isAdmin']
                 );
             }
 

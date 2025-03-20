@@ -99,13 +99,14 @@
                     echo $user -> getUsername()?></p>
             </div>
             <?php } ?>
-
             <div class="collapse navbar-collapse d-md-flex justify-content-md-end" id="navbarNavDropdown">
                 <ul class="navbar-nav ">
                     <div id="balance">
                         <!-- TO DO : -->
-                        <p>5000</p>
-                        <p>123/1000</p>
+                        <p><?php echo $user -> getCaps()?></p>
+                        <p><?php echo $user -> getMaxWeight()?></p>
+                        <p><?php echo $user -> getDexterity()?></p>
+                        <p><?php echo $user -> getHealth().'/100'?></p>
                     </div>
                     <li class="nav-item nopadding">
                         <a class="nav-link navtagsw nopadding <?php if ($accueilActif) echo 'active' ?>" aria-current="page" href="/">Accueil</a>
