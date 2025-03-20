@@ -9,6 +9,8 @@ if (!isAuthenticated()) {
     //redirect('/');
 }
 
+var_dump($_POST);
+
 $pdo = Database::getInstance()->getPDO();
 $model = new ShopModel($pdo);
 

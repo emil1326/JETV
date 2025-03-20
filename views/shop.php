@@ -1,6 +1,9 @@
 <?php
 require 'views/partials/head.php';
 require 'views/partials/header.php';
+
+var_dump($_POST);
+
 ?>
 <style>
     .card-group .card {
@@ -25,7 +28,7 @@ require 'views/partials/header.php';
 </style>
 <div style="display:flex; flex-direction:row; column-gap: 20px;justify-content:center;">
 
-    <div
+    <div id="form-check-section"
         style="display:flex; flex-direction: column; width:240px;padding:16px; border:1px #6c757d solid; row-gap: 5px; height:305px; ">
 
         <p>Types</p>
@@ -54,7 +57,7 @@ require 'views/partials/header.php';
             </label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="munitions" name="munitions" checked>
+            <input class="form-check-input" type="checkbox" value="" id="munitions" name="munitions">
             <label class="form-check-label" for="munitions">
                 Munitions
             </label>
@@ -146,3 +149,27 @@ require 'views/partials/header.php';
 <?php
 require 'views/partials/footer.php';
 ?>
+
+<script>
+    $(function() {
+        $("#form-check-section > div > input").change(function(e) {
+            e.preventDefault();
+            var value = $(this).prop("checked");
+            var key = $(this).prop("id");
+            var _data = {
+                key: key,
+                value: value,
+            };
+            console.log(_data);
+            $.ajax({
+                type: "POST",
+                url: "controllers/shop.php",
+                dataType: "json",
+                data: _data,
+                error: function(response) {
+                    console.log("Response:", response);
+                },
+            });
+        });
+    });
+</script>
