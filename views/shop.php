@@ -133,7 +133,6 @@ var_dump($_POST);
                                 <p class="card-text">$<?= $item['item']->getBuyPrice() ?></p>
                                 <p class="card-text"><small class="text-muted">Poids : <?= $item['item']->getItemWeight() ?>
                                         kg<br></small></p>
-
                             </div>
                         </div>
 

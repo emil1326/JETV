@@ -10,6 +10,7 @@ const ROUTES = [
     '/signup' => 'signup.php',
     '/enigma' => 'enigma.php',
     '/details' => 'details.php',
+    '/detailstemp' => 'detailstemp.php',
     '/logout' => 'logout.php'
 
 ];
