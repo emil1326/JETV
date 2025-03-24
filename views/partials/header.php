@@ -116,7 +116,7 @@
                     </p>
                     <p style="margin:0px; margin-left:20px;">
                         <?php
-                        echo $user->getHealth();
+                        echo $user->getHealth()."/100";
                         ?>
                     </p>
                     
