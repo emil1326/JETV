@@ -67,9 +67,10 @@ require 'views/partials/header.php';
 
 
     <div style="display:flex; flex-direction: column; max-width:1000px; row-gap: 40px;">
-        <div style="display:flex; flex-direction: row; col-gap: 10px;column-gap: 20px;  justify-content:center; ">
+        <div style="display:flex; flex-direction: row; col-gap: 10px;column-gap: 20px;  justify-content:center; align-items: center;">
+        <p style="margin-bottom:0px; margin-right:0px;"> Nom : </p>
             <div class="input-group rounded"
-                style="width:286px; background-color:#1E1E1E; border:1px  #6c757d solid; border-radius:100px !important; color:white;">
+                style="width:486px; background-color:#1E1E1E; border:1px  #6c757d solid; border-radius:100px !important; color:white;">
                 <input id="search" type="search" class="form-control rounded searchy" placeholder="Search"
                     aria-label="Search"
                     style="background-color:#1E1E1E; border:0px;border-radius:100px !important; color:white;"
@@ -78,22 +79,6 @@ require 'views/partials/header.php';
                     style="border-radius:100px !important; background-color:#1E1E1E; color:white;">
                     <i class="fas fa-search"></i>
                 </span>
-            </div>
-
-            <div style="display:flex; flex-direction: row; align-items: center;">
-                <p style="margin-bottom:0px; margin-right:10px;"> Étoiles : </p>
-                <div class="input-group rounded"
-                    style="width:120px; background-color:#1E1E1E; border:1px  #6c757d solid; border-radius:100px !important; color:white;">
-
-                    <input id="etoiles" type="search" class="form-control rounded searchy" placeholder="Search"
-                        aria-label="Search"
-                        style="background-color:#1E1E1E; border:0px;border-radius:100px !important; color:white;"
-                        aria-describedby="search-addon" />
-                    <span class="input-group-text border-0" id="search-addon"
-                        style="border-radius:100px !important; background-color:#1E1E1E; color:white;">
-                        <i class="fas fa-search"></i>
-                    </span>
-                </div>
             </div>
             <div style="display:flex; flex-direction: row; column-gap:8px; margin-left:50px;">
 
@@ -158,14 +143,17 @@ require 'views/partials/footer.php';
                 value: value,
             };
             console.log(_data);
+
             $.ajax({
                 type: "POST",
                 url: "controllers/shop.php",
-                dataType: "json",
                 data: _data,
                 error: function(response) {
-                    console.log("Response:", response);
+                    console.log("Error:", response);
                 },
+                success: function(response) {
+                    console.log("Success:", response);
+                }
             });
         });
     });
