@@ -85,24 +85,32 @@
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span> <i class="fa fa-navicon" style="color:#fff; font-size:28px;"></i></span>
             </button>
-            <?php if (isAuthenticated()) { ?>
-                <div
-                    style="display:flex; flex-direction:row;align-items:center; width:160px; padding-right:10px; cursor:pointer;">
+
+            <?php if (isAuthenticated()) : ?>
+                <div style="display:flex; flex-direction:row;align-items:center; width:160px; padding-right:10px; cursor:pointer;">
                     <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle"
                         style="width: 50px; border-radius:10% !important;" alt="Avatar" />
                     <p style="margin:0px; margin-left:20px;">
-                        <?php echo $username ?></p>
+                        <?php
+                        $pdo = Database::getInstance()->getPDO();
+                        $userModel = new UserModel($pdo);
+                        $user = $userModel->selectById($_SESSION['playerID']);
+
+                        echo $user->getUsername();
+                        ?>
+                    </p>
                 </div>
-            <?php } ?>
+            <?php endif; ?>
+
             <div class="collapse navbar-collapse d-md-flex justify-content-md-end" id="navbarNavDropdown">
                 <ul class="navbar-nav ">
                     <?php if (isAuthenticated()) { ?>
                         <div>
                             <!-- TO DO : -->
-                            <p><?php echo $caps ?></p>
-                            <p><?php echo $weight ?></p>
-                            <p><?php echo $dexterity ?></p>
-                            <p><?php echo $health . '/100' ?></p>
+                            <p><?php echo $user->getCaps() ?></p>
+                            <p><?php echo $user->getMaxWeight() ?></p>
+                            <p><?php echo $user->getDexterity() ?></p>
+                            <p><?php echo $user->getHealth() . '/100' ?></p>
                         </div>
                     <?php } ?>
                     <li class="nav-item nopadding">

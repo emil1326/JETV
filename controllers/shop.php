@@ -11,6 +11,8 @@ if (!isAuthenticated()) {
 var_dump($_POST);
 
 $pdo = Database::getInstance()->getPDO();
+$user = null;
+
 $model = new ShopModel($pdo);
 
 $items = $model->selectAll();
