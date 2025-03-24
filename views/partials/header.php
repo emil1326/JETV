@@ -119,17 +119,19 @@
                     <li class="nav-item nopadding">
                         <a class="nav-link navtagsw nopadding <?php if (isset($shopActif) && $shopActif) echo 'active' ?>" href="/shop">Shop</a>
                     </li>
-                    <li class="nav-item nopadding">
-                        <a class="nav-link navtagsw nopadding <?php if (isset($enigmaActif) && $enigmaActif) echo 'active' ?>" href="/enigma">Enigma</a>
-                    </li>
+                    <?php if (isAuthenticated()) : ?>
+                        <li class="nav-item nopadding">
+                            <a class="nav-link navtagsw nopadding <?php if (isset($enigmaActif) && $enigmaActif) echo 'active' ?>" href="/enigma">Enigma</a>
+                        </li>
 
-                    <li class="nav-item nopadding">
-                        <a class="nav-link navtagsw nopadding <?php if (isset($backActif) && $backActif) echo 'active' ?>" href="/backpack">Backpack</a>
-                    </li>
+                        <li class="nav-item nopadding">
+                            <a class="nav-link navtagsw nopadding <?php if (isset($backActif) && $backActif) echo 'active' ?>" href="/backpack">Backpack</a>
+                        </li>
 
-                    <li class="nav-item nopadding">
-                        <a class="nav-link navtagsw nopadding <?php if (isset($cartActif) && $cartActif) echo 'active' ?>" href="/cart">Cart</a>
-                    </li>
+                        <li class="nav-item nopadding">
+                            <a class="nav-link navtagsw nopadding <?php if (isset($cartActif) && $cartActif) echo 'active' ?>" href="/cart">Cart</a>
+                        </li>
+                    <?php endif; ?>
 
                     <form class="container-fluid justify-content-start" id="signinregister">
                         <?php if (!isAuthenticated()) {
