@@ -44,9 +44,5 @@ class ShopModel extends ItemModel
         }
 
         return null;
-        try {
-        } catch (PDOException $e) {
-            throw new PDOException($e->getMessage(), $e->getCode());
-        }
     }
 }
