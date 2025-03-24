@@ -96,15 +96,15 @@ class Item
     }
     public function setItemWeight(string $itemWeight): void
     {
-        $this->itemWeight = $itemWeight;
+        $this->itemWeight =  (int)$itemWeight;
     }
     public function setBuyPrice(string $buyPrice): void
     {
-        $this->buyPrice = $buyPrice;
+        $this->buyPrice = (int)$buyPrice;
     }
     public function setSellPrice(string $sellPrice): void
     {
-        $this->sellPrice = $sellPrice;
+        $this->sellPrice = (int)$sellPrice;
     }
     public function setImageLink(string $imageLink): void
     {

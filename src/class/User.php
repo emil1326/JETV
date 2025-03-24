@@ -98,19 +98,19 @@ class User
     }
     public function setCaps(string $caps)
     {
-        $this->caps = $caps;
+        $this->caps = (int)$caps;
     }
     public function setDexterity(string $dexterity)
     {
-        $this->dexterity = $dexterity;
+        $this->dexterity = (int)$dexterity;
     }
     public function setHealth(string $health)
     {
-        $this->health = $health;
+        $this->health = (int)$health;
     }
     public function setMaxWeight(string $maxWeight)
     {
-        $this->maxWeight = $maxWeight;
+        $this->maxWeight = (int)$maxWeight;
     }
     // cannot set is admin
 }

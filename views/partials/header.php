@@ -99,20 +99,33 @@
                         echo $user->getUsername();
                         ?>
                     </p>
+                    <img style="margin:0px; margin-left:20px;" src="public/images/caps.png" alt="Card image cap" width="30" height="30">
+                    <p style="margin:0px; margin-left:0px;">
+                        <?php
+                        echo ":".$user->getCaps();
+                        ?>
+                    </p>
+                    <p style="margin:0px; margin-left:20px;">
+                        <?php
+                        echo $user->getMaxWeight();
+                        ?>
+                    </p>
+                    <p style="margin:0px; margin-left:20px;">
+                        <?php
+                        echo $user->getDexterity();
+                        ?>
+                    </p>
+                    <p style="margin:0px; margin-left:20px;">
+                        <?php
+                        echo $user->getHealth()."/100";
+                        ?>
+                    </p>
+                    
                 </div>
             <?php endif; ?>
 
             <div class="collapse navbar-collapse d-md-flex justify-content-md-end" id="navbarNavDropdown">
                 <ul class="navbar-nav ">
-                    <?php if (isAuthenticated()) { ?>
-                        <div>
-                            <!-- TO DO : -->
-                            <p><?php echo $user->getCaps() ?></p>
-                            <p><?php echo $user->getMaxWeight() ?></p>
-                            <p><?php echo $user->getDexterity() ?></p>
-                            <p><?php echo $user->getHealth() . '/100' ?></p>
-                        </div>
-                    <?php } ?>
                     <li class="nav-item nopadding">
                         <a class="nav-link navtagsw nopadding <?php if (isset($accueilActif) && $accueilActif) echo 'active' ?>" aria-current="page" href="/">Accueil</a>
                     </li>
