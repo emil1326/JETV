@@ -11,6 +11,7 @@ class User
     private int $dexterity;
     private int $health;
     private int $maxWeight;
+    private bool $IsAdmin;
 
     public function __construct(
         int $id,
@@ -21,7 +22,8 @@ class User
         int $caps,
         int $dexterity,
         int $health,
-        int $maxWeight
+        int $maxWeight,
+        bool $isAdmin
     ) {
         $this->id = $id;
         $this->username = $username;
@@ -32,6 +34,7 @@ class User
         $this->dexterity = $dexterity;
         $this->health = $health;
         $this->maxWeight = $maxWeight;
+        $this->IsAdmin = $isAdmin;
     }
 
     // GETTERS //
@@ -71,6 +74,10 @@ class User
     {
         return $this->maxWeight;
     }
+    public function getIsAdmin(): bool
+    {
+        return $this->IsAdmin;
+    }
 
     // SETTERS //
     public function setUsername(string $username)
@@ -105,4 +112,5 @@ class User
     {
         $this->maxWeight = $maxWeight;
     }
+    // cannot set is admin
 }

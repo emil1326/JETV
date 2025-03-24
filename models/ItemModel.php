@@ -152,7 +152,7 @@ class ItemModel extends Model
         return $filteredItems;
     }
 
-    protected function makeItem(array $itemInfo): Item|null
+    protected function makeItem(array $itemInfo, bool $allData = true): Item|null
     {
         $objc = null;
         $infos = [
@@ -167,6 +167,9 @@ class ItemModel extends Model
             $itemInfo['utiliter'],
             $itemInfo['itemStatus'],
         ];
+
+        if (!$allData)
+            $itemInfo['typeItem'] = null; // force dedans unitem regulier sans details
 
         switch ($itemInfo['typeItem']) {
             case 'arme':
@@ -214,7 +217,7 @@ class ItemModel extends Model
                 $objc = new Ammo(...$infos);
                 break;
             case null:
-                // Error
+                $objc = new Item(...$infos);
                 break;
         }
 
