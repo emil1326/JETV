@@ -102,7 +102,7 @@
                     <img style="margin:0px; margin-left:20px;" src="public/images/caps.png" alt="Card image cap" width="30" height="30">
                     <p style="margin:0px; margin-left:0px;">
                         <?php
-                        echo ":"."100000000";
+                        echo ":".$user->getCaps();
                         ?>
                     </p>
                     <p style="margin:0px; margin-left:20px;">
