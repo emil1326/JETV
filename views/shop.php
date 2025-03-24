@@ -26,49 +26,54 @@ require 'views/partials/header.php';
 </style>
 <div style="display:flex; flex-direction:row; column-gap: 20px;justify-content:center;">
 
-    <div id="form-check-section"
-        style="display:flex; flex-direction: column; width:240px;padding:16px; border:1px #6c757d solid; row-gap: 5px; height:305px; ">
+    <form method='GET'>
 
-        <p>Types</p>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="armes" name="armes">
-            <label class="form-check-label" for="armes">
-                Armes
-            </label>
+        <div id="form-check-section"
+            style="display:flex; flex-direction: column; width:240px;padding:16px; border:1px #6c757d solid; row-gap: 5px; height:305px; ">
+
+            <p>Types</p>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="1" id="armes" name="armes">
+                <label class="form-check-label" for="armes">
+                    Armes
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="1" id="armures" name="armures">
+                <label class="form-check-label" for="armures">
+                    Armures
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="1" id="meds" name="meds">
+                <label class="form-check-label" for="meds">
+                    Médicaments
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="1" id="food" name="food">
+                <label class="form-check-label" for="food">
+                    Nourriture
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="1" id="munitions" name="munitions">
+                <label class="form-check-label" for="munitions">
+                    Munitions
+                </label>
+            </div>
+            <label for="customRange2" class="form-label">Example range</label>
+            <input type="range" class="form-range" min="0" max="5" id="customRange2">
         </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="armures" name="armures">
-            <label class="form-check-label" for="armures">
-                Armures
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="meds" name="meds">
-            <label class="form-check-label" for="meds">
-                Médicaments
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="food" name="food">
-            <label class="form-check-label" for="food">
-                Nourriture
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="munitions" name="munitions">
-            <label class="form-check-label" for="munitions">
-                Munitions
-            </label>
-        </div>
-        <label for="customRange2" class="form-label">Example range</label>
-        <input type="range" class="form-range" min="0" max="5" id="customRange2">
-    </div>
+
+        <input type='submit'>
+    </form>
 
 
 
     <div style="display:flex; flex-direction: column; max-width:1000px; row-gap: 40px;">
         <div style="display:flex; flex-direction: row; col-gap: 10px;column-gap: 20px;  justify-content:center; align-items: center;">
-        <p style="margin-bottom:0px; margin-right:0px;"> Nom : </p>
+            <p style="margin-bottom:0px; margin-right:0px;"> Nom : </p>
             <div class="input-group rounded"
                 style="width:486px; background-color:#1E1E1E; border:1px  #6c757d solid; border-radius:100px !important; color:white;">
                 <input id="search" type="search" class="form-control rounded searchy" placeholder="Search"
@@ -131,30 +136,3 @@ require 'views/partials/header.php';
 <?php
 require 'views/partials/footer.php';
 ?>
-
-<script>
-    $(function() {
-        $("#form-check-section > div > input").change(function(e) {
-            e.preventDefault();
-            var value = $(this).prop("checked");
-            var key = $(this).prop("id");
-            var _data = {
-                key: key,
-                value: value,
-            };
-            console.log(_data);
-
-            $.ajax({
-                type: "POST",
-                url: "controllers/shop.php",
-                data: _data,
-                error: function(response) {
-                    console.log("Error:", response);
-                },
-                success: function(response) {
-                    console.log("Success:", response);
-                }
-            });
-        });
-    });
-</script>
