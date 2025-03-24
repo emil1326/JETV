@@ -8,8 +8,6 @@ if (!isAuthenticated()) {
     //redirect('/');
 }
 
-var_dump($_POST);
-
 $pdo = Database::getInstance()->getPDO();
 $user = null;
 
