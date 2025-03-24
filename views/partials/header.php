@@ -87,22 +87,22 @@
             </button>
             <?php if (isAuthenticated()) { ?>
                 <div
-                style="display:flex; flex-direction:row;align-items:center; width:160px; padding-right:10px; cursor:pointer;">
-                <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle"
-                    style="width: 50px; border-radius:10% !important;" alt="Avatar" />
-                <p style="margin:0px; margin-left:20px;"> 
-                    <?php echo $user -> getUsername()?></p>
-            </div>
+                    style="display:flex; flex-direction:row;align-items:center; width:160px; padding-right:10px; cursor:pointer;">
+                    <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle"
+                        style="width: 50px; border-radius:10% !important;" alt="Avatar" />
+                    <p style="margin:0px; margin-left:20px;">
+                        <?php echo $user->getUsername() ?></p>
+                </div>
             <?php } ?>
             <div class="collapse navbar-collapse d-md-flex justify-content-md-end" id="navbarNavDropdown">
                 <ul class="navbar-nav ">
                     <?php if (isAuthenticated()) { ?>
                         <div>
                             <!-- TO DO : -->
-                            <p><?php echo $user -> getCaps()?></p>
-                            <p><?php echo $user -> getMaxWeight()?></p>
-                            <p><?php echo $user -> getDexterity()?></p>
-                            <p><?php echo $user -> getHealth().'/100'?></p>
+                            <p><?php echo $user->getCaps() ?></p>
+                            <p><?php echo $user->getMaxWeight() ?></p>
+                            <p><?php echo $user->getDexterity() ?></p>
+                            <p><?php echo $user->getHealth() . '/100' ?></p>
                         </div>
                     <?php } ?>
                     <li class="nav-item nopadding">
@@ -124,22 +124,22 @@
                     </li>
 
                     <form class="container-fluid justify-content-start" id="signinregister">
-                    <?php if (!isAuthenticated()){
-                        echo '<button class="btn btn-outline-secondary buttonsw" type="button"
+                        <?php if (!isAuthenticated()) {
+                            echo '<button class="btn btn-outline-secondary buttonsw" type="button"
                             style="margin-right:10px;  border-radius: 8px;padding-top:4px; background-color: #303030;"><a
                                 href="/login" class="buttonst buttonsw" style="color:white;">Sign
                                 in</a>
                         </button>';
-                        echo '<button class="btn  btn-outline-secondary buttonsw" type="button"
+                            echo '<button class="btn  btn-outline-secondary buttonsw" type="button"
                             style="background-color:white; border-radius: 8px;padding-top:4px;"><a href="/signup"
                                 class="buttonst buttonsw" style="color:black;">Register</a></button>';
-                    }else{
-                        echo '<button class="btn btn-outline-secondary buttonsw" type="button"
+                        } else {
+                            echo '<button class="btn btn-outline-secondary buttonsw" type="button"
                             style="margin-right:10px;  border-radius: 8px;padding-top:4px; background-color: #303030;"><a
                                 href="/logout" class="buttonst buttonsw" style="color:white;">Logout</a>
                         </button>';
-                    }
-                    ?>
+                        }
+                        ?>
                     </form>
                 </ul>
             </div>
