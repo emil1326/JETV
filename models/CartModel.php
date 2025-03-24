@@ -9,12 +9,13 @@ class CartModel extends ItemModel
         parent::__construct($pdo);
     }
 
-    public function selectAll(): null|array
+    public function selectAll($playerID): null|array
     {
         $items = [];
 
         try {
-            $stm = $this->pdo->prepare('SELECT itemID, qt FROM cart');
+            $stm = $this->pdo->prepare('call GetAllCartItems(:playerID)');
+            $stm->bindValue(':playerID', $playerID, PDO::PARAM_INT);
             $stm->execute();
 
             $data = $stm->fetchAll(PDO::FETCH_ASSOC);
@@ -22,7 +23,7 @@ class CartModel extends ItemModel
             if (!empty($data)) {
                 foreach ($data as $row) {
                     $items[] = [
-                        'item' => parent::selectOneFromShop($row['itemID']),
+                        'item' => parent::makeItem($row[], false),
                         'quantity' => $row['qt']
                     ];
                 }

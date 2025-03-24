@@ -15,4 +15,5 @@ $model = new ShopModel($pdo);
 
 $items = $model->selectAll();
 $shopActif = true; // pour le header, savoir quoi highlight
+
 require 'views/shop.php';

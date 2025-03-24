@@ -1,4 +1,5 @@
 <?php
+
 sessionStart();
 $_SESSION = [];
 sessionDestroy();

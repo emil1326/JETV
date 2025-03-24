@@ -13,7 +13,7 @@ class ShopModel extends ItemModel
     {
         $items = [];
 
-        $stm = $this->pdo->prepare('SELECT itemID, qt FROM shop');
+        $stm = $this->pdo->prepare('select * from shop inner join item on item.itemID = shop.itemID;');
         $stm->execute();
 
         $data = $stm->fetchAll(PDO::FETCH_ASSOC);
@@ -21,7 +21,7 @@ class ShopModel extends ItemModel
         if (!empty($data)) {
             foreach ($data as $row) {
                 $items[] = [
-                    'item' => $this->selectOne($row['itemID']),
+                    'item' => parent::makeItem($row, false),
                     'quantity' => $row['qt']
                 ];
             }
@@ -29,10 +29,6 @@ class ShopModel extends ItemModel
             return $items;
         }
         return null;
-        try {
-        } catch (PDOException $e) {
-            throw new PDOException($e->getMessage(), $e->getCode());
-        }
     }
 
     public function selectOne(int $id): null|Item
