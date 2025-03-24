@@ -120,7 +120,7 @@ var_dump($_POST);
 
                         <div class="card"
                             style="background-color:#1E1E1E !important; padding:10px; cursor:pointer;border:1px white solid;border-color: #6c757d; border-radius:8px; margin:20px; margin-top:0px; margin-bottom:0px;"
-                            onclick="window.location.href='/details?id=<?= $item['item']->getId() ?>';">
+                            onclick="window.location.href='/details?itemID=<?= $item['item']->getId() ?>';">
                             <div class="numberCircle" style="margin-right:0px;"><?= $item['quantity'] ?></div>
                             <img class="card-img-top"
                                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-YtnuV2n_8xuMZbIQ8voSyC4hjGBN6DLC8w&s"
