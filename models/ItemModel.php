@@ -144,6 +144,8 @@ class ItemModel extends Model
                 in_array($item->getType(), $filter->getItemTypes())
                 && $item->getBuyPrice() >= $filter->getPriceMin()
                 && $item->getBuyPrice() <= $filter->getPriceMax()
+                && $item->getEtoiles() >= $filter->getEtoilesMin() // wont work
+                && str_contains($item->getName(), $filter->getItemName())
             ) {
                 $filteredItems[] = $item;
             }
