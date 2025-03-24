@@ -4,6 +4,7 @@ if (!isAuthenticated()) {
     //redirect('/');
 }
 require 'models/ItemModel.php';
+require 'models/ShopModel.php';
 
 # input => playerID, itemID
 
