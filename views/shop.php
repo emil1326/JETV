@@ -2,8 +2,6 @@
 require 'views/partials/head.php';
 require 'views/partials/header.php';
 
-var_dump($_POST);
-
 ?>
 <style>
     .card-group .card {

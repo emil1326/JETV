@@ -35,9 +35,11 @@ require 'views/partials/header.php';
                 style="margin-right:10px;  border-radius: 8px;padding-top:4px; background-color: #303030;"><a
                     href="/shop" class="buttonst buttonsw" style="color:white;">Shop</a>
             </button>
-            <button class="btn  btn-outline-secondary buttonsw" type="button"
-                style="background-color:white; border-radius: 8px;padding-top:4px;"><a href="/enigma"
-                    class="buttonst buttonsw" style="color:black;">Enigma</a></button>
+            <?php if (isAuthenticated()) : ?>
+                <button class="btn  btn-outline-secondary buttonsw" type="button"
+                    style="background-color:white; border-radius: 8px;padding-top:4px;"><a href="/enigma"
+                        class="buttonst buttonsw" style="color:black;">Enigma</a></button>
+            <?php endif; ?>
         </div>
     </div>
 
