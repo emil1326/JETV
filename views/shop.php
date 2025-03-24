@@ -158,14 +158,17 @@ require 'views/partials/footer.php';
                 value: value,
             };
             console.log(_data);
+
             $.ajax({
                 type: "POST",
                 url: "controllers/shop.php",
-                dataType: "json",
                 data: _data,
                 error: function(response) {
-                    console.log("Response:", response);
+                    console.log("Error:", response);
                 },
+                success: function(response) {
+                    console.log("Success:", response);
+                }
             });
         });
     });
