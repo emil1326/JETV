@@ -4,5 +4,4 @@ if (!isAuthenticated()) {
     //redirect('/');
 }
 $enigmaActif = true; // pour le header, savoir quoi highlight
-require 'src/class/Database.php';
 require 'views/enigma.php';

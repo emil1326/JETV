@@ -1,6 +1,5 @@
 <?php
 
-require 'src/class/Database.php';
 require 'models/ItemModel.php';
 require 'models/ShopModel.php';
 

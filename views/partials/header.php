@@ -70,9 +70,7 @@
         }
     }
 </style>
-<?php
-    require 'models/UserModel.php';
-?>
+
 <!-- <script>
     $('.navbar-nav .nav-link').click(function () {
         $('.navbar-nav .nav-link').removeClass('active');
@@ -93,21 +91,20 @@
                 <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle"
                     style="width: 50px; border-radius:10% !important;" alt="Avatar" />
                 <p style="margin:0px; margin-left:20px;"> 
-                    <?php $pdo = Database::getInstance()->getPDO();
-                    $userModel = new UserModel($pdo);
-                    $user = $userModel -> selectById($_SESSION['playerID']);
-                    echo $user -> getUsername()?></p>
+                    <?php echo $user -> getUsername()?></p>
             </div>
             <?php } ?>
             <div class="collapse navbar-collapse d-md-flex justify-content-md-end" id="navbarNavDropdown">
                 <ul class="navbar-nav ">
-                    <div id="balance">
-                        <!-- TO DO : -->
-                        <p><?php echo $user -> getCaps()?></p>
-                        <p><?php echo $user -> getMaxWeight()?></p>
-                        <p><?php echo $user -> getDexterity()?></p>
-                        <p><?php echo $user -> getHealth().'/100'?></p>
-                    </div>
+                    <?php if (isAuthenticated()) { ?>
+                        <div>
+                            <!-- TO DO : -->
+                            <p><?php echo $user -> getCaps()?></p>
+                            <p><?php echo $user -> getMaxWeight()?></p>
+                            <p><?php echo $user -> getDexterity()?></p>
+                            <p><?php echo $user -> getHealth().'/100'?></p>
+                        </div>
+                    <?php } ?>
                     <li class="nav-item nopadding">
                         <a class="nav-link navtagsw nopadding <?php if (isset($accueilActif) && $accueilActif) echo 'active' ?>" aria-current="page" href="/">Accueil</a>
                     </li>

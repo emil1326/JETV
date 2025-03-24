@@ -1,7 +1,5 @@
 <?php
 
-require 'src/class/Database.php';
-
 // Ne peux pas accéder à la page si déjà connecté
 if (isAuthenticated()) {
     echo 'DEV log: You are already logged in. You shouldn\'t be able to see this';
