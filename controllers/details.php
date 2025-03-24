@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     if (isset($query['playerID'])) { // pour l'inventaire
         $itemModel = new ItemModel(pdo: $pdo);
-        $item = $model->selectOneByPlayerIdFromInventory($query['itemID'], $query['playerID']);
+        $item = $itemModel->selectOneByPlayerIdFromInventory($query['itemID'], $query['playerID']);
     } else if (isset($query['itemID'])) { // pour shop et cart
         $shopModel = new ShopModel(pdo: $pdo); // todo change to shopmodel
         $item = $shopModel->selectOne($query['itemID']); // todo change vers

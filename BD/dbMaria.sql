@@ -973,13 +973,13 @@ end;
 //
 delimiter ;
 
-drop procedure if exists GetCartContents;
+drop procedure if exists GetCartTotalPrice;
 delimiter //
 create procedure GetCartContents(
     in p_joueureID int
 )
 begin
-    select cart.itemID, item.itemName, cart.qt, item.buyPrice, (cart.qt * item.buyPrice) as totalPrice
+    select (cart.qt * item.buyPrice) as totalPrice
     from cart
     join item on cart.itemID = item.itemID
     where cart.joueureID = p_joueureID;

@@ -14,6 +14,8 @@ class ItemFilter
     private array $itemTypes;
     private int $priceMin;
     private int $priceMax;
+    private string $itemName;
+    private int $etoilesMin;
 
     public function __construct(array $itemTypes, int $priceMin, int $priceMax)
     {

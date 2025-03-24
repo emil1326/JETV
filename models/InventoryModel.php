@@ -14,7 +14,7 @@ class InventoryModel extends ItemModel
         $items = [];
 
         try {
-            $stm = $this->pdo->prepare('SELECT itemID, qt FROM inventaire');
+            $stm = $this->pdo->prepare('call GetAllInventoryItems()');
             $stm->execute();
 
             $data = $stm->fetchAll(PDO::FETCH_ASSOC);
@@ -22,7 +22,7 @@ class InventoryModel extends ItemModel
             if (!empty($data)) {
                 foreach ($data as $row) {
                     $items[] = [
-                        'item' => parent::selectOneFromShop($row['itemID']),
+                        'item' => parent::makeItem($row, false),
                         'quantity' => $row['qt']
                     ];
                 }
