@@ -111,14 +111,16 @@
                         echo " : ".$user->getHealth()."/100 PV";
                         ?>
                     </p>
+                    <img style="margin:0px; margin-left:20px;" src="https://static.wikia.nocookie.net/fallout/images/7/75/FO76_icon_weight.png" alt="Card image caps" width="30" height="30">
                     <p style="margin:0px; margin-left:5px;">
                         <?php
-                        echo 'Poid : 0/'.$user->getMaxWeight()." kg";
+                        echo ' : 0/'.$user->getMaxWeight()." kg";
                         ?>
                     </p>
+                    <img style="margin:0px; margin-left:20px;" src="https://static.thenounproject.com/png/4494012-200.png" alt="Card image caps" width="40" height="40">
                     <p style="margin:0px; margin-left:5px;">
                         <?php
-                        echo "Dextérité : ".$user->getDexterity();
+                        echo " : ".$user->getDexterity()." Dex";
                         ?>
                     </p>       
                 </div>
