@@ -1,5 +1,6 @@
 <?php
 
+require_once 'models/ItemModel.php'; // requier ici au lieu de dedans le controller vu qui faut toujour le faire anyways
 require_once 'models/Model.php';
 
 class CartModel extends ItemModel
@@ -33,6 +34,20 @@ class CartModel extends ItemModel
             return null;
         } catch (PDOException $e) {
             throw new PDOException($e->getMessage(), $e->getCode());
+        }
+    }
+
+    public function buyCart($playerID): null|bool
+    {
+        try {
+            $stm = $this->pdo->prepare('call PassCommande(:playerID)');
+            $stm->bindValue(':playerID', $playerID, PDO::PARAM_INT);
+            $stm->execute();
+
+            return true;
+        } catch (PDOException $e) {
+            return false;
+            // throw new PDOException($e->getMessage(), $e->getCode());
         }
     }
 }

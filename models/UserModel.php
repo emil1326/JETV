@@ -1,5 +1,6 @@
 <?php
 
+require_once 'models/ItemModel.php'; // requier ici au lieu de dedans le controller vu qui faut toujour le faire anyways
 require_once 'models/Model.php';
 require_once 'src/class/User.php';
 

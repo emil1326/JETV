@@ -1,6 +1,5 @@
 <?php
 
-require 'models/ItemModel.php';
 require 'models/ShopModel.php';
 require 'src/class/itemFilter.php';
 

@@ -87,9 +87,9 @@
             </button>
 
             <?php if (isAuthenticated()) : ?>
-                <div style="display:flex; flex-direction:row;align-items:center; width:160px; padding-right:10px; cursor:pointer;">
+                <div style="display:flex; flex-direction:row;align-items:center; padding-right:10px; ">
                     <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle"
-                        style="width: 50px; border-radius:10% !important;" alt="Avatar" />
+                        style="width: 50px; border-radius:10% !important; cursor:pointer;" alt="Avatar" />
                     <p style="margin:0px; margin-left:20px;">
                         <?php
                         $pdo = Database::getInstance()->getPDO();
@@ -99,28 +99,30 @@
                         echo $user->getUsername();
                         ?>
                     </p>
-                    <img style="margin:0px; margin-left:20px;" src="public/images/caps.png" alt="Card image cap" width="30" height="30">
-                    <p style="margin:0px; margin-left:0px;">
+                    <img style="margin:0px; margin-left:20px;" src="https://images.fallout.wiki/1/1a/Score_currency_caps_l.webp" alt="Card image caps" width="30" height="30">
+                    <p style="margin:0px; margin-left:5px;">
                         <?php
-                        echo ":".$user->getCaps();
+                        echo " : ".$user->getCaps()." Caps";
                         ?>
                     </p>
-                    <p style="margin:0px; margin-left:20px;">
+                    <img style="margin:0px; margin-left:20px;" src="https://cdn.iconscout.com/icon/free/png-256/free-health-symbol-icon-download-in-svg-png-gif-file-formats--medical-sign-services-pack-healthcare-icons-3401408.png?f=webp&w=256" alt="Card image caps" width="30" height="30">
+                    <p style="margin:0px; margin-left:5px;">
                         <?php
-                        echo $user->getMaxWeight();
+                        echo " : ".$user->getHealth()."/100 PV";
                         ?>
                     </p>
-                    <p style="margin:0px; margin-left:20px;">
+                    <img style="margin:0px; margin-left:20px;" src="https://static.wikia.nocookie.net/fallout/images/7/75/FO76_icon_weight.png" alt="Card image caps" width="30" height="30">
+                    <p style="margin:0px; margin-left:5px;">
                         <?php
-                        echo $user->getDexterity();
+                        echo ' : 0/'.$user->getMaxWeight()." kg";
                         ?>
                     </p>
-                    <p style="margin:0px; margin-left:20px;">
+                    <img style="margin:0px; margin-left:20px;" src="https://static.thenounproject.com/png/4494012-200.png" alt="Card image caps" width="40" height="40">
+                    <p style="margin:0px; margin-left:5px;">
                         <?php
-                        echo $user->getHealth()."/100";
+                        echo " : ".$user->getDexterity()." Dex";
                         ?>
-                    </p>
-                    
+                    </p>       
                 </div>
             <?php endif; ?>
 
