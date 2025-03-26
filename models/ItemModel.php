@@ -66,7 +66,7 @@ class ItemModel extends Model
     public function selectAllByPlayerIdFromCart(int $joueureID): null|array
     {
         $items = [];
-        try {
+        // try {
             $stm = $this->pdo->prepare('call GetAllCartItems( :joueureID )');
             $stm->bindValue(":joueureID", $joueureID, PDO::PARAM_INT);
 
@@ -82,10 +82,10 @@ class ItemModel extends Model
             }
 
             return null;
-        } catch (PDOException $e) {
+        // } catch (PDOException $e) {
 
-            throw new PDOException($e->getMessage(), $e->getCode());
-        }
+            // throw new PDOException($e->getMessage(), $e->getCode());
+        // }
     }
 
     //  Inventory
@@ -144,7 +144,7 @@ class ItemModel extends Model
                 in_array($item->getType(), $filter->getItemTypes())
                 && $item->getBuyPrice() >= $filter->getPriceMin()
                 && $item->getBuyPrice() <= $filter->getPriceMax()
-                && $item->getEtoiles() >= $filter->getEtoilesMin() // wont work
+                // && $item->getEtoiles() >= $filter->getEtoilesMin() // wont work
                 && str_contains($item->getName(), $filter->getItemName())
             ) {
                 $filteredItems[] = $item;
