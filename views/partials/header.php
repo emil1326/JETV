@@ -87,9 +87,9 @@
             </button>
 
             <?php if (isAuthenticated()) : ?>
-                <div style="display:flex; flex-direction:row;align-items:center; width:160px; padding-right:10px; cursor:pointer;">
+                <div style="display:flex; flex-direction:row;align-items:center; width:160px; padding-right:10px; ">
                     <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle"
-                        style="width: 50px; border-radius:10% !important;" alt="Avatar" />
+                        style="width: 50px; border-radius:10% !important; cursor:pointer;" alt="Avatar" />
                     <p style="margin:0px; margin-left:20px;">
                         <?php
                         $pdo = Database::getInstance()->getPDO();

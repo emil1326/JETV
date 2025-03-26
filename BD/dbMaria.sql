@@ -416,7 +416,7 @@ begin
     left join Medicaments on Medicaments.itemID = cart.itemID
     left join Nourriture on Nourriture.itemID = cart.itemID
     left join Munition on Munition.itemID = cart.itemID
-    inner join item on item.itemID = shop.itemID
+    inner join item on item.itemID = cart.itemID
     where cart.joueureID = p_joueureID;
 end;
 //
@@ -487,7 +487,7 @@ begin
     left join Medicaments on Medicaments.itemID = inventaire.itemID
     left join Nourriture on Nourriture.itemID = inventaire.itemID
     left join Munition on Munition.itemID = inventaire.itemID
-    inner join item on item.itemID = shop.itemID
+    inner join item on item.itemID = inventaire.itemID
     where inventaire.joueureID = p_joueureID;
 end;
 //
@@ -914,10 +914,10 @@ create procedure PassCommande(
 begin
     declare totalCost decimal(10,2);
     
-    select sum(c.qt * i.buyPrice) into totalCost
-    from cart c
-    join item i on c.itemID = i.itemID
-    where c.joueureID = p_joueureID;
+    select sum(cart.qt * item.buyPrice) into totalCost
+    from cart
+    join item i on cart.itemID = item.itemID
+    where cart.joueureID = p_joueureID;
     
     if exists (select 1 from joueure where joueureID = p_joueureID and caps >= totalCost) then
         update joueure
@@ -925,7 +925,7 @@ begin
         where joueureID = p_joueureID;
         
         insert into inventaire (joueureID, itemID, qt)
-        select joueureID, itemID, qt from cart where joueureID = p_joueureID; -- todo repeat thingy??
+        select joueureID, itemID, qt from cart where joueureID = p_joueureID;
         
         delete from cart where joueureID = p_joueureID;
     else
