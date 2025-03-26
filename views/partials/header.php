@@ -87,7 +87,7 @@
             </button>
 
             <?php if (isAuthenticated()) : ?>
-                <div style="display:flex; flex-direction:row;align-items:center; width:160px; padding-right:10px; ">
+                <div style="display:flex; flex-direction:row;align-items:center; padding-right:10px; ">
                     <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle"
                         style="width: 50px; border-radius:10% !important; cursor:pointer;" alt="Avatar" />
                     <p style="margin:0px; margin-left:20px;">
@@ -100,34 +100,25 @@
                         ?>
                     </p>
                     <img style="margin:0px; margin-left:20px;" src="https://images.fallout.wiki/1/1a/Score_currency_caps_l.webp" alt="Card image caps" width="30" height="30">
-                    <p style="margin:0px; margin-left:5px;">:</p>
                     <p style="margin:0px; margin-left:5px;">
                         <?php
-                        echo $user->getCaps();
+                        echo " : ".$user->getCaps()." Caps";
                         ?>
                     </p>
-                    <p style="margin:0px; margin-left:5px;">Caps</p>
                     <img style="margin:0px; margin-left:20px;" src="https://cdn.iconscout.com/icon/free/png-256/free-health-symbol-icon-download-in-svg-png-gif-file-formats--medical-sign-services-pack-healthcare-icons-3401408.png?f=webp&w=256" alt="Card image caps" width="30" height="30">
-                    <p style="margin:0px; margin-left:5px;">:</p>
                     <p style="margin:0px; margin-left:5px;">
                         <?php
-                        echo $user->getHealth()."/100";
+                        echo " : ".$user->getHealth()."/100 PV";
                         ?>
                     </p>
-                    <p style="margin:0px; margin-left:5px;">PV</p>
-                    <p style="margin:0px; margin-left:20px;">Poid</p>
-                    <p style="margin:0px; margin-left:5px;">:</p>
                     <p style="margin:0px; margin-left:5px;">
                         <?php
-                        echo '0/'.$user->getMaxWeight();
+                        echo 'Poid : 0/'.$user->getMaxWeight()." kg";
                         ?>
                     </p>
-                    <p style="margin:0px; margin-left:5px;">kg</p>
-                    <p style="margin:0px; margin-left:20px;">Dextérité</p>
-                    <p style="margin:0px; margin-left:5px;">:</p>
                     <p style="margin:0px; margin-left:5px;">
                         <?php
-                        echo $user->getDexterity();
+                        echo "Dextérité : ".$user->getDexterity();
                         ?>
                     </p>       
                 </div>
