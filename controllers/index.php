@@ -1,5 +1,4 @@
 <?php
-require 'models/ItemModel.php';
 require 'models/ShopModel.php';
 
 $auth = isAuthenticated();

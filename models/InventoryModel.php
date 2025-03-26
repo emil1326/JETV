@@ -1,5 +1,6 @@
 <?php
 
+require_once 'models/ItemModel.php';
 require_once 'models/Model.php';
 
 class InventoryModel extends ItemModel
