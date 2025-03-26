@@ -33,31 +33,31 @@ require 'views/partials/header.php';
 
             <p>Types</p>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="1" id="armes" name="armes">
+                <input class="form-check-input" type="checkbox" value="1" id="armes" name="armes" <?= updateCheckFieldFromGET('armes') ?>>
                 <label class="form-check-label" for="armes">
                     Armes
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="1" id="armures" name="armures">
+                <input class="form-check-input" type="checkbox" value="1" id="armures" name="armures" <?= updateCheckFieldFromGET('armures') ?>>
                 <label class="form-check-label" for="armures">
                     Armures
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="1" id="meds" name="meds">
+                <input class="form-check-input" type="checkbox" value="1" id="meds" name="meds" <?= updateCheckFieldFromGET('meds') ?>>
                 <label class="form-check-label" for="meds">
                     Médicaments
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="1" id="food" name="food">
+                <input class="form-check-input" type="checkbox" value="1" id="food" name="food" <?= updateCheckFieldFromGET('food') ?>>
                 <label class="form-check-label" for="food">
                     Nourriture
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="1" id="munitions" name="munitions">
+                <input class="form-check-input" type="checkbox" value="1" id="munitions" name="munitions" <?= updateCheckFieldFromGET('munitions') ?>>
                 <label class="form-check-label" for="munitions">
                     Munitions
                 </label>
