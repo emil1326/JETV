@@ -99,28 +99,37 @@
                         echo $user->getUsername();
                         ?>
                     </p>
-                    <img style="margin:0px; margin-left:20px;" src="public/images/caps.png" alt="Card image cap" width="30" height="30">
-                    <p style="margin:0px; margin-left:0px;">
+                    <img style="margin:0px; margin-left:20px;" src="https://images.fallout.wiki/1/1a/Score_currency_caps_l.webp" alt="Card image caps" width="30" height="30">
+                    <p style="margin:0px; margin-left:5px;">:</p>
+                    <p style="margin:0px; margin-left:5px;">
                         <?php
-                        echo ":".$user->getCaps();
+                        echo $user->getCaps();
                         ?>
                     </p>
-                    <p style="margin:0px; margin-left:20px;">
-                        <?php
-                        echo $user->getMaxWeight();
-                        ?>
-                    </p>
-                    <p style="margin:0px; margin-left:20px;">
-                        <?php
-                        echo $user->getDexterity();
-                        ?>
-                    </p>
-                    <p style="margin:0px; margin-left:20px;">
+                    <p style="margin:0px; margin-left:5px;">Caps</p>
+                    <img style="margin:0px; margin-left:20px;" src="https://cdn.iconscout.com/icon/free/png-256/free-health-symbol-icon-download-in-svg-png-gif-file-formats--medical-sign-services-pack-healthcare-icons-3401408.png?f=webp&w=256" alt="Card image caps" width="30" height="30">
+                    <p style="margin:0px; margin-left:5px;">:</p>
+                    <p style="margin:0px; margin-left:5px;">
                         <?php
                         echo $user->getHealth()."/100";
                         ?>
                     </p>
-                    
+                    <p style="margin:0px; margin-left:5px;">PV</p>
+                    <p style="margin:0px; margin-left:20px;">Poid</p>
+                    <p style="margin:0px; margin-left:5px;">:</p>
+                    <p style="margin:0px; margin-left:5px;">
+                        <?php
+                        echo '0/'.$user->getMaxWeight();
+                        ?>
+                    </p>
+                    <p style="margin:0px; margin-left:5px;">kg</p>
+                    <p style="margin:0px; margin-left:20px;">Dextérité</p>
+                    <p style="margin:0px; margin-left:5px;">:</p>
+                    <p style="margin:0px; margin-left:5px;">
+                        <?php
+                        echo $user->getDexterity();
+                        ?>
+                    </p>       
                 </div>
             <?php endif; ?>
 
