@@ -3,7 +3,6 @@ if (!isAuthenticated()) {
     echo 'DEV log: You are not logged in. You shouldn\'t be able to see this';
     redirect('/shop');
 }
-require 'models/ItemModel.php';
 require 'models/ShopModel.php';
 
 # input => playerID, itemID
