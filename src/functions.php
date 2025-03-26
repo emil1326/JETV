@@ -71,3 +71,8 @@ function displaySQLError(PDOException $exception): string
 {
     return '<div class="alert alert-danger">' . $exception->getMessage() . '</div>';
 }
+
+function updateCheckFieldFromGET(string $field): string
+{
+    return isset($_GET) && isset($_GET[$field]) ? 'checked' : '';
+}

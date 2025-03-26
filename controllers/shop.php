@@ -10,9 +10,11 @@ $model = new ShopModel($pdo);
 
 $items = $model->selectAll();
 $shopActif = true; // pour le header, savoir quoi highlight
+$filters;
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    var_dump($_GET);
+    $filters = $_GET;
 }
+
 
 require 'views/shop.php';
