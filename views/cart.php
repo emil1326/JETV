@@ -99,7 +99,15 @@ require 'views/partials/header.php';
                 style="display:flex; flex-direction: column; width:450px;padding:16px; border:1px #6c757d solid; row-gap: 5px; height:800px; ">
 
                 <p style="font-size:30px">Sommaire de l'achat</p>
-                <div class="row justify-content-between">
+                <div class="row justify-content-between" style="margin-bottom:10px;">
+                    <div class="col-4" style="width:auto;">
+                        Sword x 1
+                    </div>
+                    <div class="col-4" style="width:auto;">
+                        $100 • 100kg
+                    </div>
+                </div>
+                <div class="row justify-content-between" style="margin-bottom:10px;">
                     <div class="col-4" style="width:auto;">
                         One of two columns
                     </div>
@@ -107,29 +115,21 @@ require 'views/partials/header.php';
                         One of two columns
                     </div>
                 </div>
-                <div class="row justify-content-between">
-                    <div class="col-4">
+                <div class="row justify-content-between" style="margin-bottom:10px;">
+                    <div class="col-4" style="width:auto;">
                         One of two columns
                     </div>
-                    <div class="col-4">
-                        One of two columns
-                    </div>
-                </div>
-                <div class="row justify-content-between">
-                    <div class="col-4">
-                        One of two columns
-                    </div>
-                    <div class="col-4">
+                    <div class="col-4" style="width:auto;">
                         One of two columns
                     </div>
                 </div>
                 <hr />
-                <div class="row justify-content-between" style="font-size:30px;">
-                    <div class="col-4">
+                <div class="row justify-content-between" style="font-size:30px; margin-bottom: 20px;">
+                    <div class="col-4" style="width:auto;">
                         Total
                     </div>
-                    <div class="col-4">
-                        $10000 * 10kg
+                    <div class="col-4" style="width:auto;">
+                        $10000 • 10kg
                     </div>
                 </div>
                 <a type="button" href="/cart?buy=true" style="width:420px; height:55px; font-size:20px;" class="btn btn-secondary">Checkout</a>

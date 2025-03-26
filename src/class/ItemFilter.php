@@ -1,29 +1,20 @@
 <?php
 
-enum ItemType
-{
-    case Weapon;
-    case Armor;
-    case Meds;
-    case Food;
-    case Ammo;
-}
-
 class ItemFilter
 {
     private array $itemTypes;
     private int $priceMin;
-    private int $priceMax;
-    private string $itemName;
-    private int $etoilesMin;
+    private int|null $priceMax;
+    private string|null $itemName;
+    private int $starsMin;
 
-    public function __construct(array $itemTypes, int $priceMin, int $priceMax, string $itemName, int $etoilesMin)
+    public function __construct(array $itemTypes, int $priceMin, int|null $priceMax, string|null $itemName, int $starsMin = 0)
     {
         $this->itemTypes = $itemTypes;
         $this->priceMin = $priceMin;
         $this->priceMax = $priceMax;
         $this->itemName = $itemName;
-        $this->etoilesMin = $etoilesMin;
+        $this->starsMin = $starsMin;
     }
 
     // GETTERS //
@@ -43,9 +34,9 @@ class ItemFilter
     {
         return $this->itemName;
     }
-    public function getEtoilesMin(): null|int
+    public function getStarsMin(): null|int
     {
-        return $this->etoilesMin;
+        return $this->starsMin;
     }
 
     // SETTERS //
@@ -57,16 +48,16 @@ class ItemFilter
     {
         $this->priceMin = $price;
     }
-    public function setPriceMax(int $price): void
+    public function setPriceMax(int|null $price): void
     {
         $this->priceMax = $price;
     }
-    public function setItemName(string $name): void
+    public function setItemName(string|null $name): void
     {
         $this->itemName = $name;
     }
-    public function setEtoilesMin(int $min): void
+    public function setStarsMin(int $starsMin): void
     {
-        $this->etoilesMin = $min;
+        $this->starsMin = $starsMin;
     }
 }
