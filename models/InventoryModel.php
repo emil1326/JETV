@@ -35,4 +35,19 @@ class InventoryModel extends ItemModel
             throw new PDOException($e->getMessage(), $e->getCode());
         }
     }
+
+    public function useITem(int $itemID, int $playerID): bool|null
+    {
+        try {
+            $stm = $this->pdo->prepare('call UseItem( :itemID , :playerID )');
+            $stm->bindValue(':itemID', $itemID, PDO::PARAM_INT);
+            $stm->bindValue(':playerID', $playerID, PDO::PARAM_INT);
+            $stm->execute();
+
+            return true;
+        } catch (PDOException $e) {
+            return false;
+            // throw new PDOException($e->getMessage(), $e->getCode());
+        }
+    }
 }

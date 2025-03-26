@@ -72,7 +72,7 @@ require 'views/partials/header.php';
 
 
     <div style="display:flex; flex-direction: column; max-width:1000px; row-gap: 40px;">
-        <div style="display:flex; flex-direction: row; col-gap: 10px;column-gap: 20px;  justify-content:center; align-items: center;">
+        <div style="display:flex; flex-direction: row; column-gap: 20px;  justify-content:center; align-items: center;">
             <p style="margin-bottom:0px; margin-right:0px;"> Nom : </p>
             <div class="input-group rounded"
                 style="width:486px; background-color:#1E1E1E; border:1px  #6c757d solid; border-radius:100px !important; color:white;">
@@ -101,6 +101,9 @@ require 'views/partials/header.php';
                 <label class="btn btn-secondary" for="option4">Quantité</label>
             </div>
         </div>
+
+        <!-- Card -->
+
         <div style="display:flex; justify-content: center; align-items: center; max-width:1000px">
             <div class="card-group" style="display:flex; justify-content: center; row-gap: 3ch;">
                 <?php if (isset($items)): ?>
@@ -125,12 +128,14 @@ require 'views/partials/header.php';
                         </div>
 
                     <?php endforeach; ?>
+                <?php else : ?>
+                    <div style="margin-right: 20vw;"> <!-- todo justify center -->
+                        Rien a afficher ici <br>
+                    </div>
                 <?php endif ?>
             </div>
-
         </div>
     </div>
-
 </div>
 
 <?php
