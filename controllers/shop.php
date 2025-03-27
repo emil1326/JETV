@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && count($_GET) > 0) {
     $filters['name'] = isset($filters['name']) ? $filters['name'] : null;
 
 
-    $filter = new ItemFilter($types, $filters['price_min'], $filters['price_max'], $filters['name']);
+    $filter = new ItemFilter($types, (int)$filters['price_min'], (int)$filters['price_max'], $filters['name']);
 
     $items = $model->selectFiltered($items, $filter);
 }

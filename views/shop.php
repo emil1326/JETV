@@ -37,7 +37,7 @@ require 'views/partials/header.php';
         <!--  TODO: Add Price & Name in form (search filters) -->
 
         <div id="form-check-section"
-            style="display:flex; flex-direction: column; width:240px;padding:16px; border:1px #6c757d solid; row-gap: 5px; height:505px; ">
+            style="display:flex; flex-direction: column; width:240px;padding:16px; border:1px #6c757d solid; row-gap: 5px; height:455px; ">
 
             <p>Types</p>
             <div class="form-check">
@@ -75,19 +75,23 @@ require 'views/partials/header.php';
                     Munitions
                 </label>
             </div>
-            <div data-mdb-input-init class="form-outline">
-                <label for="postfix" class="form-label">Prix Min</label>
-                <input id="postfix" value="$" type="text" id="form2" class="form-control" style="height:30px;" />
 
+            <br>
+
+            <!--  FIXME: Fix dollar sign on price range Minimum TextInput -->
+
+            <div data-mdb-input-init class="form-outline">
+                <label for="postfix" class="form-label" style="display: inline;">Price Range</label>
+                <input id="postfix" value="<?= $filters['price_min'] ?? '' ?>" type="text" id="form2" name="price_min" class="form-control" placeholder="Min" style="height:30px;" />
             </div>
 
             <div data-mdb-input-init class="form-outline">
-                <label for="postfix" class="form-label">Prix Max</label>
-                <input id="postfix" value="$" type="text" id="form2" class="form-control" style="height:30px;" />
-
+                <input id="postfix" value="<?= $filters['price_max'] ?? '' ?>" type="text" id="form2" name="price_max" class="form-control" placeholder="Max" style="height:30px;" />
             </div>
             <!-- <label for="customRange2" class="form-label">Price range</label>
             <input type="range" class="form-range" min="0" max="5" id="customRange2"> -->
+
+            <!--
             <div class="form-group" style="margin-bottom: 20px;">
                 <label for="exampleFormControlSelect1">Étoiles</label>
                 <select class="form-control" id="exampleFormControlSelect1">
@@ -98,8 +102,11 @@ require 'views/partials/header.php';
                     <option>5</option>
                 </select>
             </div>
+            -->
 
-            <input type='submit'>
+            <br>
+
+            <input type='submit' value='Search'>
         </div>
 
     </form>
@@ -176,7 +183,9 @@ require 'views/partials/header.php';
     const input2 = document.getElementById("postfix");
 
     input2.addEventListener("input", (e) => {
-        const { value } = e.target;
+        const {
+            value
+        } = e.target;
 
         const len = value.length;
         const dolarIndex = value.indexOf("$");
