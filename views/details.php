@@ -28,6 +28,10 @@ require 'views/partials/header.php';
                     <span class="badge bg-secondary" style="width:100px; font-size:15px; height:30px; margin-left:0px; margin-top:20px; background-color:#434343 !important;">
                         <?= ucfirst(get_class($item)) ?>
                     </span>
+                    <p class="card-text"><small class="text-muted"><?= $item->getItemWeight() ?> kg</small></p>
+                    <!-- TODO itemquantity
+                    <p class="card-text"><small class="text-muted"></small></p>
+                    -->
                     <!--
                     <div
                         style="display:flex; flex-direction: column; background-color: #303030; margin-top:10px; padding:15px; border-radius:8px; border:1px  #6c757d solid;">
@@ -143,7 +147,7 @@ require 'views/partials/header.php';
                     <div class="col-12">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <p style="color:white;">Sword 1 $777</p>
+                                <p style="color:white;"><?= $item->getName()?> <?= $item->getBuyPrice()?>$</p>
                             </div>
                             <div class="input-group w-auto justify-content-end align-items-center">
                                 <input type="button" value="-"
