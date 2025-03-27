@@ -24,6 +24,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     } else if (isset($query['itemID'])) { // pour shop et cart
         $shopModel = new ShopModel(pdo: $pdo); // todo change to shopmodel
         $item = $shopModel->selectOne($query['itemID']); // todo change vers
+
+        /*  FIXME: The type check and attributes assignement should be outside of this `if`, but 
+            the methods aren't recognized */
+
+        if (get_class($item) == 'Weapon') {
+            $attributes = [
+                'efficiency' => $item->getEfficiency(),
+                'genre' => $item->getGenre(),
+                'caliber' => $item->getCaliber()
+            ];
+        } else if (get_class($item) == 'Armor') {
+            $attributes = [
+                'material' => $item->getMaterial(),
+                'size' => $item->getSize()
+            ];
+        } else if (get_class($item) == 'Meds') {
+            $attributes = [
+                'healthGain' => $item->getHealthGain(),
+                'effect' => $item->getEffect(),
+                'duration' => $item->getDuration(),
+                'unwantedEffect' => $item->getUnwantedEffect()
+            ];
+        } else if (get_class($item) == 'Food') {
+            $attributes = [
+                'healthGain' => $item->getHealthGain(),
+                'calories' => $item->getCalories(),
+                'getMainNutriment' => $item->getMainNutriment(),
+                'mainMineral' => $item->getMainMineral()
+            ];
+        } else if (get_class($item) == 'Ammo') {
+            $attributes = [
+                'caliber' => $item->getCaliber()
+            ];
+        }
     }
 
     if ($item == null) // pas else pcq les func peuvent return null
