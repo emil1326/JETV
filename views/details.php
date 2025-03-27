@@ -21,8 +21,6 @@ require 'views/partials/header.php';
                     <p class="card-text" style="font-size:50px; font-weight: bold;"><span
                             style="font-size:30px; ">$</span><?= $item->getBuyPrice() ?></p>
                     <p class="card-text"><small class="text-muted"><?= $item->getDescription() ?></small></p>
-                            style="font-size:30px; ">$</span><?= $item->getBuyPrice() ?></p>
-                    <p class="card-text"><small class="text-muted"><?= $item->getDescription() ?></small></p>
                     <button class="btn btn-outline-secondary " type="button"
                         style="margin-right:10px; width:100%;  border : none; border-radius:8px;padding-top:4px; background-color: #303030;"
                         data-bs-toggle="modal" data-bs-target="#exampleModalCenter"><a class="buttonst "
