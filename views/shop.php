@@ -23,6 +23,12 @@ require 'views/partials/header.php';
             flex-flow: row wrap;
         }
     }
+
+    .card-img-top {
+        max-height: 300px;
+        min-height: 250px;
+        aspect-ratio: 2/3;
+    }
 </style>
 <div style="display:flex; flex-direction:row; column-gap: 20px;justify-content:center;">
 
@@ -31,7 +37,7 @@ require 'views/partials/header.php';
         <!--  TODO: Add Price & Name in form (search filters) -->
 
         <div id="form-check-section"
-            style="display:flex; flex-direction: column; width:240px;padding:16px; border:1px #6c757d solid; row-gap: 5px; height:305px; ">
+            style="display:flex; flex-direction: column; width:240px;padding:16px; border:1px #6c757d solid; row-gap: 5px; height:505px; ">
 
             <p>Types</p>
             <div class="form-check">
@@ -69,11 +75,33 @@ require 'views/partials/header.php';
                     Munitions
                 </label>
             </div>
-            <label for="customRange2" class="form-label">Example range</label>
-            <input type="range" class="form-range" min="0" max="5" id="customRange2">
+            <div data-mdb-input-init class="form-outline">
+                <label for="postfix" class="form-label">Prix Min</label>
+                <input id="postfix" value="$" type="text" id="form2" class="form-control" style="height:30px;" />
+
+            </div>
+
+            <div data-mdb-input-init class="form-outline">
+                <label for="postfix" class="form-label">Prix Max</label>
+                <input id="postfix" value="$" type="text" id="form2" class="form-control" style="height:30px;" />
+
+            </div>
+            <!-- <label for="customRange2" class="form-label">Price range</label>
+            <input type="range" class="form-range" min="0" max="5" id="customRange2"> -->
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label for="exampleFormControlSelect1">Étoiles</label>
+                <select class="form-control" id="exampleFormControlSelect1">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </div>
+
+            <input type='submit'>
         </div>
 
-        <input type='submit'>
     </form>
 
 
@@ -120,9 +148,8 @@ require 'views/partials/header.php';
                             style="background-color:#1E1E1E !important; padding:10px; cursor:pointer;border:1px white solid;border-color: #6c757d; border-radius:8px; margin:20px; margin-top:0px; margin-bottom:0px;"
                             onclick="window.location.href='/details?itemID=<?= $item['item']->getId() ?>'">
                             <div class="numberCircle" style="margin-right:0px;"><?= $item['quantity'] ?></div>
-                            <img class="card-img-top" style="background-color:white"
-                                src="public/images/<?= $item['item']->getImageLink()?>"
-                                alt="Card image cap">
+                            <img class="card-img-top" src="public/images/<?= $item['item']->getImageLink() ?>"
+                                alt="Card image cap" style="background-color:white;">
                             <div class="card-body" style="margin-bottom:20px;">
 
                                 <h5 class="card-title">
@@ -145,6 +172,24 @@ require 'views/partials/header.php';
     </div>
 </div>
 
+<script>
+    const input2 = document.getElementById("postfix");
+
+    input2.addEventListener("input", (e) => {
+        const { value } = e.target;
+
+        const len = value.length;
+        const dolarIndex = value.indexOf("$");
+        const number = value.substring(0, len - 1);
+
+        console.log(dolarIndex === -1);
+
+        if (dolarIndex !== len - 1 || dolarIndex === -1 || isNaN(number)) {
+            e.target.value = "$";
+            e.target.setSelectionRange(dolarIndex, dolarIndex);
+        }
+    });
+</script>
 <?php
 require 'views/partials/footer.php';
 ?>
