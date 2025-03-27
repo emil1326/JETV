@@ -117,7 +117,7 @@
                         echo ' : 0/'.$user->getMaxWeight()." kg";
                         ?>
                     </p>
-                    <img style="margin:0px; margin-left:20px;" src="https://static.thenounproject.com/png/4494012-200.png" alt="Card image caps" width="40" height="40">
+                    <img style="margin:0px; margin-left:20px;" src="https://images.icon-icons.com/2070/PNG/512/hand_icon_125570.png" alt="Card image caps" width="30" height="30">
                     <p style="margin:0px; margin-left:5px;">
                         <?php
                         echo " : ".$user->getDexterity()." Dex";
