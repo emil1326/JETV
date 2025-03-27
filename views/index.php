@@ -35,7 +35,7 @@ require 'views/partials/header.php';
                 style="margin-right:10px;  border-radius: 8px;padding-top:4px; background-color: #303030;"><a
                     href="/shop" class="buttonst buttonsw" style="color:white;">Shop</a>
             </button>
-            <?php if (isAuthenticated()) : ?>
+            <?php if (isAuthenticated()): ?>
                 <button class="btn  btn-outline-secondary buttonsw" type="button"
                     style="background-color:white; border-radius: 8px;padding-top:4px;"><a href="/enigma"
                         class="buttonst buttonsw" style="color:black;">Enigma</a></button>
@@ -59,7 +59,7 @@ require 'views/partials/header.php';
                     <?php if ($count < 3): ?>
                         <div class="card"
                             style="background-color:#1E1E1E !important; padding:10px; cursor:pointer;border:1px white solid;border-color: #6c757d; border-radius:8px; margin:20px; margin-top:0px; margin-bottom:0px;"
-                            onclick="window.location.href='/shop';">
+                            onclick="window.location.href= '/details?itemID=<?= $item['item']->getId() ?>'">
                             <div class="numberCircle"><?= $item['quantity'] ?></div>
                             <img class="card-img-top"
                                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-YtnuV2n_8xuMZbIQ8voSyC4hjGBN6DLC8w&s"

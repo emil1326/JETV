@@ -35,31 +35,36 @@ require 'views/partials/header.php';
 
             <p>Types</p>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="1" id="armes" name="type_arme" <?= updateCheckField('arme', $types ?? []) ?>>
+                <input class="form-check-input" type="checkbox" value="1" id="armes" name="type_arme"
+                    <?= updateCheckField('arme', $types ?? []) ?>>
                 <label class="form-check-label" for="armes">
                     Armes
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="1" id="armures" name="type_armure" <?= updateCheckField('armure', $types ?? []) ?>>
+                <input class="form-check-input" type="checkbox" value="1" id="armures" name="type_armure"
+                    <?= updateCheckField('armure', $types ?? []) ?>>
                 <label class="form-check-label" for="armures">
                     Armures
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="1" id="meds" name="type_med" <?= updateCheckField('med', $types ?? []) ?>>
+                <input class="form-check-input" type="checkbox" value="1" id="meds" name="type_med"
+                    <?= updateCheckField('med', $types ?? []) ?>>
                 <label class="form-check-label" for="meds">
                     Médicaments
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="1" id="food" name="type_food" <?= updateCheckField('food', $types ?? []) ?>>
+                <input class="form-check-input" type="checkbox" value="1" id="food" name="type_food"
+                    <?= updateCheckField('food', $types ?? []) ?>>
                 <label class="form-check-label" for="food">
                     Nourriture
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="1" id="munitions" name="type_mun" <?= updateCheckField('mun', $types ?? []) ?>>
+                <input class="form-check-input" type="checkbox" value="1" id="munitions" name="type_mun"
+                    <?= updateCheckField('mun', $types ?? []) ?>>
                 <label class="form-check-label" for="munitions">
                     Munitions
                 </label>
@@ -113,7 +118,7 @@ require 'views/partials/header.php';
 
                         <div class="card"
                             style="background-color:#1E1E1E !important; padding:10px; cursor:pointer;border:1px white solid;border-color: #6c757d; border-radius:8px; margin:20px; margin-top:0px; margin-bottom:0px;"
-                            onclick="window.location.href='/details?itemID='<?= $item['item']->getId() ?>;">
+                            onclick="window.location.href='/details?itemID=<?= $item['item']->getId() ?>'">
                             <div class="numberCircle" style="margin-right:0px;"><?= $item['quantity'] ?></div>
                             <img class="card-img-top"
                                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-YtnuV2n_8xuMZbIQ8voSyC4hjGBN6DLC8w&s"
@@ -130,7 +135,7 @@ require 'views/partials/header.php';
                         </div>
 
                     <?php endforeach; ?>
-                <?php else : ?>
+                <?php else: ?>
                     <div style="margin-right: 20vw;"> <!-- todo justify center -->
                         Rien a afficher ici <br>
                     </div>
