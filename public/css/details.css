@@ -1,0 +1,36 @@
+.star-rating input {
+    display: none;
+}
+
+.colorStar {
+    color: white;
+}
+
+.cardCar {
+    background-color: #303030;
+    color: white;
+    border: none;
+}
+
+icon-shape {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.icon-sm {
+    width: 2rem;
+    height: 2rem;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}

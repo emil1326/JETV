@@ -121,7 +121,7 @@ require 'views/partials/header.php';
                             onclick="window.location.href='/details?itemID=<?= $item['item']->getId() ?>'">
                             <div class="numberCircle" style="margin-right:0px;"><?= $item['quantity'] ?></div>
                             <img class="card-img-top"
-                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-YtnuV2n_8xuMZbIQ8voSyC4hjGBN6DLC8w&s"
+                                src="public/images/<?= $item['item']->getImageLink()?>"
                                 alt="Card image cap">
                             <div class="card-body" style="margin-bottom:20px;">
 
