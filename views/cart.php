@@ -39,14 +39,16 @@ require 'views/partials/header.php';
 <div>
     <div style="display:flex; justify-content: center; flex-direction:column; align-items:center; margin-bottom:30px;">
         <p style="margin:0px; font-size:23px; font-weight: bold;"> Votre panier </p>
-        <p style="font-size:18px;"> 14 items </p>
+        <p style="font-size:18px;"> <?= isset($items) ? '14 items' : '0 items' ?> </p>
     </div>
     <div style="display:flex; justify-content: center; flex-direction: row;">
-        <div style="display:flex; justify-content: center; align-items: center;height:auto; margin-right:80px;">
+        <div
+            style="display:flex; justify-content: center; align-items: center;height:auto; margin-right:<?= isset($items) ? '70px' : '0px' ?>;">
 
             <!-- cards -->
 
-            <div class="card-group" style="display:flex; justify-content: center; row-gap: 3ch;max-width:700px;">
+            <div class="card-group"
+                style="display:flex; justify-content: center; align-items: center; row-gap: 3ch;max-width:700px">
                 <?php if (isset($items)): ?>
                     <?php foreach ($items as $index => $item): ?>
                         <div class="card"
@@ -54,8 +56,8 @@ require 'views/partials/header.php';
 
                             <img class="card-img-top"
                                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-YtnuV2n_8xuMZbIQ8voSyC4hjGBN6DLC8w&s"
-                                alt="Card image cap"
-                                onclick="window.location.href='/details?itemID=1';"> <!-- do php details todo && fix click -->
+                                alt="Card image cap" onclick="window.location.href='/details?itemID=1';">
+                            <!-- do php details todo && fix click -->
                             <div class="card-body" style="margin-bottom:20px; padding:10px;">
 
                                 <h5 class="card-title">
@@ -74,8 +76,7 @@ require 'views/partials/header.php';
 
                                     <input type="button" value="+" class="button-plus border icon-shape icon-sm "
                                         style="color:white; border:none; font-weight:bold;background-color: transparent; border-radius:10px; width:130px; margin-left:10px;"
-                                        data-field="quantity"
-                                        href="/cart?removeItem=true">
+                                        data-field="quantity" href="/cart?removeItem=true">
                                 </div>
 
 
@@ -84,56 +85,60 @@ require 'views/partials/header.php';
 
 
                     <?php endforeach; ?>
-                <?php else : ?>
-                    <div style="margin-right: 20vw;"> <!-- todo justify center -->
-                        Rien a afficher ici <br>
-                        <a type="button" href="/shop" class="btn btn-secondary">Retourner au shop</a>
+                <?php else: ?>
+                    <div style=" display:flex; justify-content: center; flex-direction: column; align-items:center; ">
+                        <!-- todo justify center -->
+                        <span style="font-size:30px;">Rien a afficher ici </span> <br>
+                        <a type="button" href="/shop" class="btn btn-secondary" style="margin-top:20px;">Retourner au
+                            shop</a>
                     </div>
                 <?php endif ?>
             </div>
         </div>
 
         <div>
+            <?php if (isset($items)): ?>
+                <div id="form-check-section"
+                    style="display:flex; flex-direction: column; width:450px;padding:16px; border:1px #6c757d solid; row-gap: 5px; height:800px; ">
 
-            <div id="form-check-section"
-                style="display:flex; flex-direction: column; width:450px;padding:16px; border:1px #6c757d solid; row-gap: 5px; height:800px; ">
-
-                <p style="font-size:30px">Sommaire de l'achat</p>
-                <div class="row justify-content-between" style="margin-bottom:10px;">
-                    <div class="col-4" style="width:auto;">
-                        Sword x 1
+                    <p style="font-size:30px">Sommaire de l'achat</p>
+                    <div class="row justify-content-between" style="margin-bottom:10px;">
+                        <div class="col-4" style="width:auto;">
+                            Sword x 1
+                        </div>
+                        <div class="col-4" style="width:auto;">
+                            $100 • 100kg
+                        </div>
                     </div>
-                    <div class="col-4" style="width:auto;">
-                        $100 • 100kg
+                    <div class="row justify-content-between" style="margin-bottom:10px;">
+                        <div class="col-4" style="width:auto;">
+                            One of two columns
+                        </div>
+                        <div class="col-4" style="width:auto;">
+                            One of two columns
+                        </div>
                     </div>
+                    <div class="row justify-content-between" style="margin-bottom:10px;">
+                        <div class="col-4" style="width:auto;">
+                            One of two columns
+                        </div>
+                        <div class="col-4" style="width:auto;">
+                            One of two columns
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row justify-content-between" style="font-size:30px; margin-bottom: 20px;">
+                        <div class="col-4" style="width:auto;">
+                            Total
+                        </div>
+                        <div class="col-4" style="width:auto;">
+                            $10000 • 10kg
+                        </div>
+                    </div>
+                    <a type="button" href="/cart?buy=true" style="width:420px; height:55px; font-size:20px;"
+                        class="btn btn-secondary">Checkout</a>
                 </div>
-                <div class="row justify-content-between" style="margin-bottom:10px;">
-                    <div class="col-4" style="width:auto;">
-                        One of two columns
-                    </div>
-                    <div class="col-4" style="width:auto;">
-                        One of two columns
-                    </div>
-                </div>
-                <div class="row justify-content-between" style="margin-bottom:10px;">
-                    <div class="col-4" style="width:auto;">
-                        One of two columns
-                    </div>
-                    <div class="col-4" style="width:auto;">
-                        One of two columns
-                    </div>
-                </div>
-                <hr />
-                <div class="row justify-content-between" style="font-size:30px; margin-bottom: 20px;">
-                    <div class="col-4" style="width:auto;">
-                        Total
-                    </div>
-                    <div class="col-4" style="width:auto;">
-                        $10000 • 10kg
-                    </div>
-                </div>
-                <a type="button" href="/cart?buy=true" style="width:420px; height:55px; font-size:20px;" class="btn btn-secondary">Checkout</a>
-            </div>
+            <?php endif ?>
         </div>
     </div>
 </div>
