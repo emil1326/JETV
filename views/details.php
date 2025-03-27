@@ -17,7 +17,6 @@ require 'views/partials/header.php';
             <div class=" col-md-8" style="padding-left:30px; width:50%; max-height:325px; ">
                 <div class="card-body" style="max-height:325px !important;">
                     <h5 class="card-title" style="font-weight:bold;"><?= $item->getName() ?></h5>
-                    <h5 class="card-title" style="font-weight:bold;"><?= $item->getName() ?></h5>
                     <p class="card-text" style="font-size:50px; font-weight: bold;"><span
                             style="font-size:30px; ">$</span><?= $item->getBuyPrice() ?></p>
                     <p class="card-text"><small class="text-muted"><?= $item->getDescription() ?></small></p>
