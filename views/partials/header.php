@@ -150,19 +150,14 @@
 
                     <form class="container-fluid justify-content-start" id="signinregister">
                         <?php if (!isAuthenticated()) {
-                            echo '<button class="btn btn-outline-secondary buttonsw" type="button"
-                            style="margin-right:10px;  border-radius: 8px;padding-top:4px; background-color: #303030;"><a
-                                href="/login" class="buttonst buttonsw" style="color:white;">Sign
-                                in</a>
-                        </button>';
-                            echo '<button class="btn  btn-outline-secondary buttonsw" type="button"
-                            style="background-color:white; border-radius: 8px;padding-top:4px;"><a href="/signup"
-                                class="buttonst buttonsw" style="color:black;">Register</a></button>';
+                            echo '<a href="/login" class="btn btn-outline-secondary buttonsw" 
+                            style="color:white; margin-right:10px;  border-radius: 8px;padding-top:4px; background-color: #303030;">
+                            Sign in</a>';
+                            echo '<a href="/signup" class="btn  btn-outline-secondary buttonsw" 
+                            style="color:black; background-color:white; border-radius: 8px;padding-top:4px;">Register</a>';
                         } else {
-                            echo '<button class="btn btn-outline-secondary buttonsw" type="button"
-                            style="margin-right:10px;  border-radius: 8px;padding-top:4px; background-color: #303030;"><a
-                                href="/logout" class="buttonst buttonsw" style="color:white;">Logout</a>
-                        </button>';
+                            echo '<a href="/logout" class="btn btn-outline-secondary buttonsw" 
+                            style="color:white; margin-right:10px;  border-radius: 8px;padding-top:4px; background-color: #303030;">Logout</a>';
                         }
                         ?>
                     </form>

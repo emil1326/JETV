@@ -31,14 +31,11 @@ require 'views/partials/header.php';
         <h1 class="card-title" style="font-size:60px;font-weight: bold;">JETV™</h1>
         <p class="card-text" style="font-size:30px;">Le magasin</p>
         <div style="display:flex; flex-direction:row; justify-content:center;">
-            <button class="btn btn-outline-secondary buttonsw" type="button"
-                style="margin-right:10px;  border-radius: 8px;padding-top:4px; background-color: #303030;"><a
-                    href="/shop" class="buttonst buttonsw" style="color:white;">Shop</a>
-            </button>
+            <a href="/shop" class="btn btn-outline-secondary buttonsw" 
+            style="color:white; margin-right:10px;  border-radius: 8px;padding-top:4px; background-color: #303030;">Shop</a>
             <?php if (isAuthenticated()) : ?>
-                <button class="btn  btn-outline-secondary buttonsw" type="button"
-                    style="background-color:white; border-radius: 8px;padding-top:4px;"><a href="/enigma"
-                        class="buttonst buttonsw" style="color:black;">Enigma</a></button>
+                <a href="/enigma" class="btn  btn-outline-secondary buttonsw" 
+                style="color:black; background-color:white; border-radius: 8px;padding-top:4px;">Enigma</a></button>
             <?php endif; ?>
         </div>
     </div>
