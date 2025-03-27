@@ -11,7 +11,7 @@ require 'views/partials/header.php';
         style="background-color:#1E1E1E !important; padding:10px;border:none;  margin:20px; margin-top:0px; margin-bottom:0px; max-width:50%; max-height:325px; ">
         <div class="row g-0">
             <div class="col-md-4" style="width:50%; max-height:325px; ">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-YtnuV2n_8xuMZbIQ8voSyC4hjGBN6DLC8w&s"
+                <img src="public/images/<?= $item->getImageLink() ?>"
                     class="img-fluid rounded-start" alt="..." style="width:100%;height:110%;aspect-ratio: auto;">
             </div>
             <div class=" col-md-8" style="padding-left:30px; width:50%; max-height:325px; ">
