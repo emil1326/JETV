@@ -32,7 +32,7 @@ class ShopModel extends ItemModel
         return null;
     }
 
-    public function selectOne(int $id): null|Item
+    public function selectOne(int $id): null|Item|Weapon|Armor|Meds|Food|Ammo
     {
         $stm = $this->pdo->prepare('call GetOneShopItem(:id)');
         $stm->bindValue(':id', $id, PDO::PARAM_INT);

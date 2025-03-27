@@ -17,6 +17,7 @@ require 'views/partials/header.php';
             <div class=" col-md-8" style="padding-left:30px; width:50%; max-height:325px; ">
                 <div class="card-body" style="max-height:325px !important;">
                     <h5 class="card-title" style="font-weight:bold;"><?= $item->getName() ?></h5>
+                    <h5 class="card-title" style="font-weight:bold;"><?= $item->getName() ?></h5>
                     <p class="card-text" style="font-size:50px; font-weight: bold;"><span
                             style="font-size:30px; ">$</span><?= $item->getBuyPrice() ?></p>
                     <p class="card-text"><small class="text-muted"><?= $item->getDescription() ?></small></p>
@@ -25,8 +26,9 @@ require 'views/partials/header.php';
                         data-bs-toggle="modal" data-bs-target="#exampleModalCenter"><a class="buttonst "
                             style="color:white;">Acheter</a>
                     </button>
-                    <span class="badge bg-secondary"
-                        style="width:100px; font-size:15px; height:30px; margin-left:0px; margin-top:20px; background-color:#434343 !important;">Arme</span>
+                    <span class="badge bg-secondary" style="width:100px; font-size:15px; height:30px; margin-left:0px; margin-top:20px; background-color:#434343 !important;">
+                        <?= ucfirst(get_class($item)) ?>
+                    </span>
                     <!--
                     <div
                         style="display:flex; flex-direction: column; background-color: #303030; margin-top:10px; padding:15px; border-radius:8px; border:1px  #6c757d solid;">
@@ -44,7 +46,6 @@ require 'views/partials/header.php';
                                 <?php endfor; ?>
                             </div>
                         </div>
-                                
                     </div>
                     -->
                 </div>
@@ -82,9 +83,13 @@ require 'views/partials/header.php';
 
                                                 <div class="card-body">
                                                     <h4 class="card-title">
-                                                        Special title treatment <?= $i ?></h4>
-                                                    <p class="card-text">With supporting text
-                                                        below as a natural lead-in</p>
+                                                        <?= 'The greatest attribute' ?>
+                                                        <!--  TODO: Add Dynamic Attribute Name -->
+                                                    </h4>
+                                                    <p class="card-text">
+                                                        <?= 'along with its magnificent description' ?>
+                                                        <!--  TODO: Add Dynamic Attribute Description -->
+                                                    </p>
 
                                                 </div>
                                             </div>
@@ -182,7 +187,6 @@ require 'views/partials/header.php';
     </div>
 </div>
 <script>
-
     function incrementValue(e) {
         e.preventDefault();
         var fieldName = $(e.target).data('field');
@@ -209,19 +213,18 @@ require 'views/partials/header.php';
         }
     }
 
-    $('.input-group').on('click', '.button-plus', function (e) {
+    $('.input-group').on('click', '.button-plus', function(e) {
         incrementValue(e);
     });
 
-    $('.input-group').on('click', '.button-minus', function (e) {
+    $('.input-group').on('click', '.button-minus', function(e) {
         decrementValue(e);
     });
-
 </script>
 <script>
-    document.getElementById("liveToastBtn").onclick = function () {
+    document.getElementById("liveToastBtn").onclick = function() {
         var toastElList = [].slice.call(document.querySelectorAll('.toast'))
-        var toastList = toastElList.map(function (toastEl) {
+        var toastList = toastElList.map(function(toastEl) {
             return new bootstrap.Toast(toastEl)
         })
         toastList.forEach(toast => toast.show())

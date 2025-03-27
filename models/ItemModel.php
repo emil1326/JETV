@@ -67,24 +67,24 @@ class ItemModel extends Model
     {
         $items = [];
         // try {
-            $stm = $this->pdo->prepare('call GetAllCartItems( :joueureID )');
-            $stm->bindValue(":joueureID", $joueureID, PDO::PARAM_INT);
+        $stm = $this->pdo->prepare('call GetAllCartItems( :joueureID )');
+        $stm->bindValue(":joueureID", $joueureID, PDO::PARAM_INT);
 
-            $stm->execute();
-            $data = $stm->fetchAll(PDO::FETCH_ASSOC);
+        $stm->execute();
+        $data = $stm->fetchAll(PDO::FETCH_ASSOC);
 
-            if (! empty($data)) {
-                foreach ($data as $row) {
-                    $items[] = $this->makeItem($row);
-                }
-
-                return $items;
+        if (! empty($data)) {
+            foreach ($data as $row) {
+                $items[] = $this->makeItem($row);
             }
 
-            return null;
+            return $items;
+        }
+
+        return null;
         // } catch (PDOException $e) {
 
-            // throw new PDOException($e->getMessage(), $e->getCode());
+        // throw new PDOException($e->getMessage(), $e->getCode());
         // }
     }
 
@@ -158,7 +158,7 @@ class ItemModel extends Model
         return $filteredItems;
     }
 
-    protected function makeItem(array $itemInfo, bool $allData = true): Item|null
+    protected function makeItem(array $itemInfo, bool $allData = true): null|Item|Weapon|Armor|Meds|Food|Ammo
     {
         $objc = null;
         $infos = [
