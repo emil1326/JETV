@@ -7,12 +7,13 @@ if (!isAuthenticated()) {
 require 'models/CartModel.php';
 
 # input => vieux params des forms => update les qt. , pay => call BD
+# itemID = int,  addItem removeItem clearItem buy
 
 # output => pays => bool to self
 
 $cartActif = true; // pour le header, savoir quoi highlight
 
-$items = [];
+$items = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $parts = parse_url($_SERVER['REQUEST_URI']);
@@ -27,14 +28,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         // si a acheter
         if (isset($query['buy'])) {
             //do buy bd
-            if ($modelCart->buyCart($_SESSION("playerID")))
+            $res = $modelCart->buyCart($_SESSION["playerID"]);
+            if ($res)
                 redirect('/inventaire');
-            else
+            else {
+
                 echo 'Error peu pas acheter??';
+                // redirect('/cart') // temp, remettre apres et enlver le err message
+            }
+        } elseif (isset($query['addItem'])) {
+            // 
+            $modelCart->addItemToCart($_SESSION["playerID"], $query['itemID']);
+        } elseif (isset($query['removeItem'])) {
+            // 
+            $modelCart->addItemToCart($_SESSION["playerID"], $query['itemID']);
+        } elseif (isset($query['clearItems'])) {
+            //
+            $modelCart->clearCart($_SESSION["playerID"]);
         }
     }
     // juste show
-    $item = $modelCart->selectAllByPlayerIdFromCart($_SESSION['playerID']);
+    $items = $modelCart->selectAllByPlayerIdFromCart($_SESSION['playerID']);
 } else {
     # err
     redirect('/');

@@ -28,36 +28,43 @@ require 'views/partials/header.php';
 
     <form method='GET'>
 
+        <!--  TODO: Add Price & Name in form (search filters) -->
+
         <div id="form-check-section"
             style="display:flex; flex-direction: column; width:240px;padding:16px; border:1px #6c757d solid; row-gap: 5px; height:305px; ">
 
             <p>Types</p>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="1" id="armes" name="armes" <?= updateCheckFieldFromGET('armes') ?>>
+                <input class="form-check-input" type="checkbox" value="1" id="armes" name="type_arme"
+                    <?= updateCheckField('arme', $types ?? []) ?>>
                 <label class="form-check-label" for="armes">
                     Armes
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="1" id="armures" name="armures" <?= updateCheckFieldFromGET('armures') ?>>
+                <input class="form-check-input" type="checkbox" value="1" id="armures" name="type_armure"
+                    <?= updateCheckField('armure', $types ?? []) ?>>
                 <label class="form-check-label" for="armures">
                     Armures
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="1" id="meds" name="meds" <?= updateCheckFieldFromGET('meds') ?>>
+                <input class="form-check-input" type="checkbox" value="1" id="meds" name="type_med"
+                    <?= updateCheckField('med', $types ?? []) ?>>
                 <label class="form-check-label" for="meds">
                     Médicaments
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="1" id="food" name="food" <?= updateCheckFieldFromGET('food') ?>>
+                <input class="form-check-input" type="checkbox" value="1" id="food" name="type_food"
+                    <?= updateCheckField('food', $types ?? []) ?>>
                 <label class="form-check-label" for="food">
                     Nourriture
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="1" id="munitions" name="munitions" <?= updateCheckFieldFromGET('munitions') ?>>
+                <input class="form-check-input" type="checkbox" value="1" id="munitions" name="type_mun"
+                    <?= updateCheckField('mun', $types ?? []) ?>>
                 <label class="form-check-label" for="munitions">
                     Munitions
                 </label>
@@ -72,7 +79,7 @@ require 'views/partials/header.php';
 
 
     <div style="display:flex; flex-direction: column; max-width:1000px; row-gap: 40px;">
-        <div style="display:flex; flex-direction: row; col-gap: 10px;column-gap: 20px;  justify-content:center; align-items: center;">
+        <div style="display:flex; flex-direction: row; column-gap: 20px;  justify-content:center; align-items: center;">
             <p style="margin-bottom:0px; margin-right:0px;"> Nom : </p>
             <div class="input-group rounded"
                 style="width:486px; background-color:#1E1E1E; border:1px  #6c757d solid; border-radius:100px !important; color:white;">
@@ -101,6 +108,9 @@ require 'views/partials/header.php';
                 <label class="btn btn-secondary" for="option4">Quantité</label>
             </div>
         </div>
+
+        <!-- Card -->
+
         <div style="display:flex; justify-content: center; align-items: center; max-width:1000px">
             <div class="card-group" style="display:flex; justify-content: center; row-gap: 3ch;">
                 <?php if (isset($items)): ?>
@@ -108,7 +118,7 @@ require 'views/partials/header.php';
 
                         <div class="card"
                             style="background-color:#1E1E1E !important; padding:10px; cursor:pointer;border:1px white solid;border-color: #6c757d; border-radius:8px; margin:20px; margin-top:0px; margin-bottom:0px;"
-                            onclick="window.location.href='/details?itemID=<?= $item['item']->getId() ?>';">
+                            onclick="window.location.href='/details?itemID=<?= $item['item']->getId() ?>'">
                             <div class="numberCircle" style="margin-right:0px;"><?= $item['quantity'] ?></div>
                             <img class="card-img-top"
                                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-YtnuV2n_8xuMZbIQ8voSyC4hjGBN6DLC8w&s"
@@ -125,12 +135,14 @@ require 'views/partials/header.php';
                         </div>
 
                     <?php endforeach; ?>
+                <?php else: ?>
+                    <div style="margin-right: 20vw;"> <!-- todo justify center -->
+                        Rien a afficher ici <br>
+                    </div>
                 <?php endif ?>
             </div>
-
         </div>
     </div>
-
 </div>
 
 <?php

@@ -37,17 +37,32 @@ class CartModel extends ItemModel
         }
     }
 
-    public function buyCart($playerID): null|bool
+    public function buyCart(int $playerID): bool
     {
         try {
             $stm = $this->pdo->prepare('call PassCommande(:playerID)');
             $stm->bindValue(':playerID', $playerID, PDO::PARAM_INT);
             $stm->execute();
 
+            $data = $stm->fetchAll(PDO::FETCH_ASSOC);
+
             return true;
         } catch (PDOException $e) {
             return false;
             // throw new PDOException($e->getMessage(), $e->getCode());
         }
+    }
+
+    public function addItemToCart(int $playerID, int $itemID): void
+    {
+        // 
+    }
+    public function removeItemFormCart(int $playerID, int $itemID): void
+    {
+        // 
+    }
+    public function clearCart(int $playerID): void
+    {
+        // 
     }
 }
