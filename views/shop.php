@@ -82,11 +82,15 @@ require 'views/partials/header.php';
 
             <div data-mdb-input-init class="form-outline">
                 <label for="postfix" class="form-label" style="display: inline;">Price Range</label>
-                <input id="postfix" value="<?= $filters['price_min'] ?? '' ?>" type="text" id="form2" name="price_min" class="form-control" placeholder="Min" style="height:30px;" />
+                <input id="postfix"
+                    value="<?= $filters['price_min'] ?? '' ?>"
+                    type="number" id="form2" name="price_min" class="form-control" placeholder="Min" style="height:30px;" />
             </div>
 
             <div data-mdb-input-init class="form-outline">
-                <input id="postfix" value="<?= $filters['price_max'] ?? '' ?>" type="text" id="form2" name="price_max" class="form-control" placeholder="Max" style="height:30px;" />
+                <input id="postfix"
+                    value="<?= $filters['price_max'] ?? '' ?>"
+                    type="number" id="form2" name="price_max" class="form-control" placeholder="Max" style="height:30px;" />
             </div>
             <!-- <label for="customRange2" class="form-label">Price range</label>
             <input type="range" class="form-range" min="0" max="5" id="customRange2"> -->
@@ -180,24 +184,17 @@ require 'views/partials/header.php';
 </div>
 
 <script>
-    const input2 = document.getElementById("postfix");
+    const inputMin = document.querySelector("input[name='price_min']");
+    const inputMax = document.querySelector("input[name='price_max']");
 
-    input2.addEventListener("input", (e) => {
-        const {
-            value
-        } = e.target;
+    function allowOnlyIntegers(input) {
+        input.addEventListener("input", (e) => {
+            e.target.value = e.target.value.replace(/[^0-9]/g, '');
+        });
+    }
 
-        const len = value.length;
-        const dolarIndex = value.indexOf("$");
-        const number = value.substring(0, len - 1);
-
-        console.log(dolarIndex === -1);
-
-        if (dolarIndex !== len - 1 || dolarIndex === -1 || isNaN(number)) {
-            e.target.value = "$";
-            e.target.setSelectionRange(dolarIndex, dolarIndex);
-        }
-    });
+    allowOnlyIntegers(inputMin);
+    allowOnlyIntegers(inputMax);
 </script>
 <?php
 require 'views/partials/footer.php';

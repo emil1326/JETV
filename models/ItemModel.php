@@ -139,15 +139,15 @@ class ItemModel extends Model
     {
         $filteredItems = [];
 
-        foreach ($items as $index => $item) {
+        foreach ($items as $item) {
             // $item => ['item' => [], 'quantity' => '']
             $quantity = $item['quantity'];
             $item = $item['item'];
 
             if (
-                in_array($item->getType(), $filter->getItemTypes())
+                (count($filter->getItemTypes()) == 0 || in_array($item->gettype(), $filter->getItemtypes()))
                 && $item->getBuyPrice() >= $filter->getPriceMin()
-                && ($filter->getPriceMax() == null || $item->getBuyPrice() <= $filter->getPriceMax())
+                && ($filter->getPriceMax() == 0 || $item->getBuyPrice() <= $filter->getPriceMax())
                 && ($filter->getStarsMin() == null || $item->getStarsMin() >= $filter->getStarsMin()) // wont work
                 && ($filter->getItemName() == null || str_contains($item->getName(), $filter->getItemName()))
             ) {

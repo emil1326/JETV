@@ -24,14 +24,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && count($_GET) > 0) {
     }
 
     $filters = $_GET;
-    $filters['price_min'] = isset($filters['price_min']) ? $filters['price_min'] : 0;
-    $filters['price_max'] = isset($filters['price_max']) ? $filters['price_max'] : null;
+    $filters['price_min'] = isset($filters['price_min']) ? (int)$filters['price_min'] : 0;
+    $filters['price_max'] = isset($filters['price_max']) ? (int)$filters['price_max'] : 0;
     $filters['name'] = isset($filters['name']) ? $filters['name'] : null;
 
-
-    $filter = new ItemFilter($types, (int)$filters['price_min'], (int)$filters['price_max'], $filters['name']);
+    $filter = new ItemFilter($types, $filters['price_min'], $filters['price_max'], $filters['name']);
 
     $items = $model->selectFiltered($items, $filter);
+} else {
+    $filters = [
+        'types' => null,
+        'price_min' => null,
+        'price_max' => null,
+        'name' => null,
+    ];
 }
 
 require 'views/shop.php';
