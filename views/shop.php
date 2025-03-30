@@ -34,7 +34,7 @@ require 'views/partials/header.php';
 
     <form method='GET'>
 
-        <!--  TODO: Add Price & Name in form (search filters) -->
+        <!--  TODO: Add Name in form (search filters) -->
 
         <div id="form-check-section"
             style="display:flex; flex-direction: column; width:240px;padding:16px; border:1px #6c757d solid; row-gap: 5px; height:455px; ">
@@ -77,8 +77,6 @@ require 'views/partials/header.php';
             </div>
 
             <br>
-
-            <!--  FIXME: Fix dollar sign on price range Minimum TextInput -->
 
             <div data-mdb-input-init class="form-outline">
                 <label for="postfix" class="form-label" style="display: inline;">Price Range</label>
