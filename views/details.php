@@ -3,8 +3,6 @@
 require 'views/partials/head.php';
 require 'views/partials/header.php';
 
-var_dump($item);
-
 ?>
 <link rel="stylesheet" href="public/css/details.css">
 
