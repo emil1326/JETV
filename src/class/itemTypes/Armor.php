@@ -25,8 +25,8 @@ class Armor extends Item
 
         parent::__construct(
             $id,
-            $name,
             $type,
+            $name,
             $description,
             $itemWeight,
             $buyPrice,

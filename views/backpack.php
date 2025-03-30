@@ -1,9 +1,8 @@
 <?php
 require 'views/partials/head.php';
 require 'views/partials/header.php';
+
 ?>
-
-
 <style>
     .card-group .card {
         max-width: 325px !important;
@@ -24,15 +23,21 @@ require 'views/partials/header.php';
             flex-flow: row wrap;
         }
     }
+
+    .card-img-top {
+        max-height: 300px;
+        min-height: 250px;
+        aspect-ratio: 2/3;
+    }
 </style>
 <div style="display:flex; flex-direction:row; column-gap: 20px;justify-content:center;">
 
     <form method='GET'>
 
-        <!--  TODO: Add Price & Name in form (search filters) -->
+        <!--  TODO: Add Name in form (search filters) -->
 
         <div id="form-check-section"
-            style="display:flex; flex-direction: column; width:240px;padding:16px; border:1px #6c757d solid; row-gap: 5px; height:305px; ">
+            style="display:flex; flex-direction: column; width:240px;padding:16px; border:1px #6c757d solid; row-gap: 5px; height:455px; ">
 
             <p>Types</p>
             <div class="form-check">
@@ -70,14 +75,27 @@ require 'views/partials/header.php';
                     Munitions
                 </label>
             </div>
-            <label for="customRange2" class="form-label">Example range</label>
-            <input type="range" class="form-range" min="0" max="5" id="customRange2">
+
+            <br>
+
+            <div data-mdb-input-init class="form-outline">
+                <label for="postfix" class="form-label" style="display: inline;">Price Range</label>
+                <input id="postfix"
+                    value="<?= $filters['price_min'] ?? '' ?>"
+                    type="number" id="form2" name="price_min" class="form-control" placeholder="Min" style="height:30px;" />
+            </div>
+
+            <div data-mdb-input-init class="form-outline">
+                <input id="postfix"
+                    value="<?= $filters['price_max'] ?? '' ?>"
+                    type="number" id="form2" name="price_max" class="form-control" placeholder="Max" style="height:30px;" />
+            </div>
+            <br>
+
+            <input type='submit' value='Search'>
         </div>
 
-        <input type='submit'>
     </form>
-
-
 
     <div style="display:flex; flex-direction: column; max-width:1000px; row-gap: 40px;">
         <div style="display:flex; flex-direction: row; column-gap: 20px;  justify-content:center; align-items: center;">
@@ -110,7 +128,7 @@ require 'views/partials/header.php';
             </div>
         </div>
 
-        <!-- card only change, quand on update le reste du shop on peu mais pas les cards -->
+        <!-- Card -->
 
         <div style="display:flex; justify-content: center; align-items: center; max-width:1000px">
             <div class="card-group" style="display:flex; justify-content: center; row-gap: 3ch;">
@@ -119,39 +137,45 @@ require 'views/partials/header.php';
 
                         <div class="card"
                             style="background-color:#1E1E1E !important; padding:10px; cursor:pointer;border:1px white solid;border-color: #6c757d; border-radius:8px; margin:20px; margin-top:0px; margin-bottom:0px;"
-                            onclick="window.location.href='/details?itemID=<?= $item['item']->getId() ?>';">
+                            onclick="window.location.href='/details?itemID=<?= $item['item']->getId() ?>'">
                             <div class="numberCircle" style="margin-right:0px;"><?= $item['quantity'] ?></div>
-                            <img class="card-img-top"
-                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-YtnuV2n_8xuMZbIQ8voSyC4hjGBN6DLC8w&s"
-                                alt="Card image cap">
+                            <img class="card-img-top" src="public/images/<?= $item['item']->getImageLink() ?>"
+                                alt="Card image cap" style="background-color:white;">
                             <div class="card-body" style="margin-bottom:20px;">
 
                                 <h5 class="card-title">
                                     <?= $item['item']->getName() ?>
                                 </h5>
                                 <p class="card-text">$<?= $item['item']->getBuyPrice() ?></p>
-                                <p class="card-text">
-                                    <small class="text-muted">Poids : <?= $item['item']->getItemWeight() ?> kg<br></small>
-                                </p>
-                                <a type="button" href="/backpack?useItem=true + itemID= <here is itemID todo>" style="width:420px; height:55px; font-size:20px;" class="btn btn-secondary">Use item</a>
-
+                                <p class="card-text"><small class="text-muted">Poids : <?= $item['item']->getItemWeight() ?>
+                                        kg<br></small></p>
                             </div>
                         </div>
 
                     <?php endforeach; ?>
-                <?php else : ?>
+                <?php else: ?>
                     <div style="margin-right: 20vw;"> <!-- todo justify center -->
                         Rien a afficher ici <br>
-                        <a type="button" href="/shop" class="btn btn-secondary">Retourner au shop</a>
                     </div>
                 <?php endif ?>
             </div>
-
         </div>
     </div>
-
 </div>
 
+<script>
+    const inputMin = document.querySelector("input[name='price_min']");
+    const inputMax = document.querySelector("input[name='price_max']");
+
+    function allowOnlyIntegers(input) {
+        input.addEventListener("input", (e) => {
+            e.target.value = e.target.value.replace(/[^0-9]/g, '');
+        });
+    }
+
+    allowOnlyIntegers(inputMin);
+    allowOnlyIntegers(inputMax);
+</script>
 <?php
 require 'views/partials/footer.php';
 ?>

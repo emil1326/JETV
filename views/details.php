@@ -2,6 +2,9 @@
 
 require 'views/partials/head.php';
 require 'views/partials/header.php';
+
+var_dump($item);
+
 ?>
 <link rel="stylesheet" href="public/css/details.css">
 
@@ -147,7 +150,7 @@ require 'views/partials/header.php';
                     <div class="col-12">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <p style="color:white;"><?= $item->getName()?> <?= $item->getBuyPrice()?>$</p>
+                                <p style="color:white;"><?= $item->getName() ?> <?= $item->getBuyPrice() ?>$</p>
                             </div>
                             <div class="input-group w-auto justify-content-end align-items-center">
                                 <input type="button" value="-"
@@ -169,7 +172,6 @@ require 'views/partials/header.php';
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
                     <button type="button" class="btn btn-primary" style="background-color: white; color:black;"
                         id="liveToastBtn">Ajouter</button>
-
                 </div>
             </div>
         </div>

@@ -90,30 +90,12 @@ require 'views/partials/header.php';
                     value="<?= $filters['price_max'] ?? '' ?>"
                     type="number" id="form2" name="price_max" class="form-control" placeholder="Max" style="height:30px;" />
             </div>
-            <!-- <label for="customRange2" class="form-label">Price range</label>
-            <input type="range" class="form-range" min="0" max="5" id="customRange2"> -->
-
-            <!--
-            <div class="form-group" style="margin-bottom: 20px;">
-                <label for="exampleFormControlSelect1">Étoiles</label>
-                <select class="form-control" id="exampleFormControlSelect1">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
-            </div>
-            -->
-
             <br>
 
             <input type='submit' value='Search'>
         </div>
 
     </form>
-
-
 
     <div style="display:flex; flex-direction: column; max-width:1000px; row-gap: 40px;">
         <div style="display:flex; flex-direction: row; column-gap: 20px;  justify-content:center; align-items: center;">
