@@ -156,6 +156,7 @@ require 'views/partials/header.php';
                 <?php else: ?>
                     <div style="margin-right: 20vw;"> <!-- todo justify center -->
                         Rien a afficher ici <br>
+                        <a type="button" href="/shop" class="btn btn-secondary" style="margin-top:20px;">Retourner au shop</a>
                     </div>
                 <?php endif ?>
             </div>
