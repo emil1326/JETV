@@ -21,6 +21,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $pdo = Database::getInstance()->getPDO();
     $modelCart = new CartModel($pdo);
 
+    $items = $modelCart->selectAll($_SESSION['playerID']);
+    $totalWeight = 0;
+    $totalPrice = 0;
+    $totalCount = 0;
+
     // si true on a un arg
     if (isset($parts['query'])) {
         parse_str($parts['query'], $query);
@@ -38,11 +43,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             }
         } elseif (isset($query['addItem'])) {
             // 
-            $modelCart->addItemToCart($_SESSION["playerID"], $query['itemID']);
+            $modelCart->addItemToCart($_SESSION["playerID"], $query['itemID'],  1);
             redirect('/cart');
         } elseif (isset($query['removeItem'])) {
             // 
-            $modelCart->removeItemFormCart($_SESSION["playerID"], $query['itemID']);
+            $modelCart->removeItemFromCart($_SESSION["playerID"], $query['itemID'], 1);
             redirect('/cart');
         } elseif (isset($query['clearItems'])) {
             //
@@ -57,20 +62,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $peuPasAcheter = true;
     }
 
-    $items = $modelCart->selectAll($_SESSION['playerID']);
-    $totalWeight = 0;
-    $totalPrice = 0;
-    $totalCount = 0;
+    if (isset($items))
+        foreach ($items as $itemData) {
+            $item = $itemData['item'];
+            $quantity = $itemData['quantity'];
 
-
-    foreach ($items as $itemData) {
-        $item = $itemData['item'];
-        $quantity = $itemData['quantity'];
-
-        $totalWeight += $item->getItemWeight() * $quantity;
-        $totalPrice += $item->getBuyPrice() * $quantity;
-        $totalCount += $quantity;
-    }
+            $totalWeight += $item->getItemWeight() * $quantity;
+            $totalPrice += $item->getBuyPrice() * $quantity;
+            $totalCount += $quantity;
+        }
 } else {
     # err
     redirect('/');

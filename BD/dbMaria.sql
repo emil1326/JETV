@@ -894,18 +894,95 @@ create procedure AddItemToCart(
     in p_quantity int
 )
 begin
-    -- todo remove from shop
-    if exists (select 1 from cart where joueureID = p_joueureID and itemID = p_itemID) then
-        update cart
-        set qt = qt + p_quantity
-        where joueureID = p_joueureID and itemID = p_itemID;
-    else
-        insert into cart (joueureID, itemID, qt)
-        values (p_joueureID, p_itemID, p_quantity);
+    declare stock_disponible int default 0;
+    declare cart_quantity int default 0;
+    declare item_status tinyint default 0;
+
+    start transaction;
+
+    -- Vérifie l'état de l'item
+    select itemStatus into item_status
+    from item
+    where itemID = p_itemID;
+
+    -- Vérifie la quantité disponible dans le shop
+    select coalesce(qt, 0) into stock_disponible
+    from shop
+    where itemID = p_itemID;
+
+    -- Vérifie la quantité actuelle dans le panier
+    select coalesce(qt, 0) into cart_quantity
+    from cart
+    where joueureID = p_joueureID and itemID = p_itemID;
+
+    -- Vérifie si l'item est interdit à la vente
+    if item_status in (2,3) then
+        signal sqlstate '45000' set message_text = 'Cet item ne peut pas être acheté.';
     end if;
+
+    -- Si on veut ajouter des items
+    if p_quantity > 0 then
+        if stock_disponible >= p_quantity then
+            if cart_quantity > 0 then
+                update cart
+                set qt = qt + p_quantity
+                where joueureID = p_joueureID and itemID = p_itemID;
+            else
+                insert into cart (joueureID, itemID, qt)
+                values (p_joueureID, p_itemID, p_quantity);
+            end if;
+            
+            -- Retirer du shop
+            update shop
+            set qt = qt - p_quantity
+            where itemID = p_itemID;
+
+            -- Si stock shop = 0, supprimer l'item du shop
+            delete from shop where itemID = p_itemID and qt <= 0;
+        else
+            signal sqlstate '45000' set message_text = 'Stock insuffisant dans le shop';
+        end if;
+    
+    -- Si on veut retirer des items (p_quantity < 0)
+    elseif p_quantity < 0 then
+        if cart_quantity > 0 then
+            if cart_quantity + p_quantity <= 0 then
+                -- Supprimer complètement l'item du panier
+                delete from cart where joueureID = p_joueureID and itemID = p_itemID;
+                
+                -- Remettre les items retirés dans le shop
+                if exists (select 1 from shop where itemID = p_itemID) then
+                    update shop
+                    set qt = qt + cart_quantity
+                    where itemID = p_itemID;
+                else
+                    insert into shop (itemID, qt)
+                    values (p_itemID, cart_quantity);
+                end if;
+            else
+                -- Sinon, juste réduire la quantité
+                update cart
+                set qt = qt + p_quantity
+                where joueureID = p_joueureID and itemID = p_itemID;
+                
+                -- Remettre les items retirés dans le shop
+                if exists (select 1 from shop where itemID = p_itemID) then
+                    update shop
+                    set qt = qt - p_quantity
+                    where itemID = p_itemID;
+                else
+                    insert into shop (itemID, qt)
+                    values (p_itemID, -p_quantity);
+                end if;
+            end if;
+        end if;
+    end if;
+
+    commit;
 end;
 //
 delimiter ;
+
 
 drop procedure if exists PassCommande;
 delimiter //
@@ -913,29 +990,40 @@ create procedure PassCommande(
     in p_joueureID int
 )
 begin
-    declare totalCost decimal(10,2);
+    declare totalCost decimal(10,2) default 0;
     
-    select sum(cart.qt * item.buyPrice) into totalCost
-    from cart
-    join item i on cart.itemID = item.itemID
-    where cart.joueureID = p_joueureID;
+    start transaction;
+    -- Calcul cout 
+    select coalesce(sum(c.qt * i.buyPrice), 0) into totalCost
+    from cart c
+    join item i on c.itemID = i.itemID
+    where c.joueureID = p_joueureID;
     
-    if exists (select 1 from joueure where joueureID = p_joueureID and caps >= totalCost) then
+    if totalCost > 0 and exists (select 1 from joueure where joueureID = p_joueureID and caps >= totalCost) then
+        
         update joueure
         set caps = caps - totalCost
         where joueureID = p_joueureID;
         
         insert into inventaire (joueureID, itemID, qt)
-        select joueureID, itemID, qt from cart where joueureID = p_joueureID;
+        select c.joueureID, c.itemID, c.qt from cart c
+        where c.joueureID = p_joueureID
+        on duplicate key update qt = qt + values(qt);
         
         delete from cart where joueureID = p_joueureID;
+        
     else
-        signal sqlstate '45000' set message_text = 'Insufficient caps to complete the purchase'; -- check manque items dans shop
+        rollback;
+        signal sqlstate '45000' set message_text = 'Fonds insuffisants ou panier vide';
     end if;
-end;
 
+    commit;
+end;
 //
 delimiter ;
+
+
+-- remove pour toujour cet item du cart -> remet dans le shop
 drop procedure if exists RemoveItemFromCart;
 delimiter //
 create procedure RemoveItemFromCart(
@@ -943,22 +1031,19 @@ create procedure RemoveItemFromCart(
     in p_itemID int
 )
 begin
-    delete from cart where joueureID = p_joueureID and itemID = p_itemID;
-end;
-//
-delimiter ;
+    declare v_qt int;
 
-drop procedure if exists UpdateCartItemQuantity;
-delimiter //
-create procedure UpdateCartItemQuantity(
-    in p_joueureID int,
-    in p_itemID int,
-    in p_quantity int
-)
-begin
-    update cart
-    set qt = p_quantity
-    where joueureID = p_joueureID and itemID = p_itemID;
+    start transaction;
+
+    select qt into v_qt from cart where joueureID = p_joueureID and itemID = p_itemID;
+
+    delete from cart where joueureID = p_joueureID and itemID = p_itemID;
+
+    insert into shop (itemID, qt) 
+    values (p_itemID, v_qt)
+    on duplicate key update qt = qt + v_qt;
+
+    commit;
 end;
 //
 delimiter ;
@@ -969,24 +1054,19 @@ create procedure ClearCart(
     in p_joueureID int
 )
 begin
+    start transaction;
+
+    insert into shop (itemID, qt)
+    select itemID, qt from cart where joueureID = p_joueureID
+    on duplicate key update qt = qt + values(qt);
+
     delete from cart where joueureID = p_joueureID;
+
+    commit;
 end;
 //
 delimiter ;
 
-drop procedure if exists GetCartTotalPrice;
-delimiter //
-create procedure GetCartContents(
-    in p_joueureID int
-)
-begin
-    select (cart.qt * item.buyPrice) as totalPrice
-    from cart
-    join item on cart.itemID = item.itemID
-    where cart.joueureID = p_joueureID;
-end;
-//
-delimiter ;
 
 -- [ Triggers ] --
 

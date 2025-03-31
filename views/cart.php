@@ -73,9 +73,9 @@ require 'views/partials/header.php';
 
                                 <div style="display:flex; flex-direction: row; ">
 
-                                    <a type="button" href="/cart?removeItem=true&itemID=<?= $item['quantity'] ?>" class="btn btn-secondary" style="color:white; font-weight:bold;background-color: transparent; border-color:white; border-radius:10px; width:130px;">-</a>
+                                    <a type="button" href="/cart?removeItem=true&itemID=<?= $item['item']->getID() ?>" class="btn btn-secondary" style="color:white; font-weight:bold;background-color: transparent; border-color:white; border-radius:10px; width:130px;">-</a>
                                     <div style="margin: 5px;"></div>
-                                    <a type="button" href="/cart?addItem=true&itemID=<?= $item['quantity'] ?>" class="btn btn-secondary" style="color:white; font-weight:bold;background-color: transparent; border-color:white; border-radius:10px; width:130px;">+</a>
+                                    <a type="button" href="/cart?addItem=true&itemID=<?= $item['item']->getId() ?>" class="btn btn-secondary" style="color:white; font-weight:bold;background-color: transparent; border-color:white; border-radius:10px; width:130px;">+</a>
 
                                 </div>
                             </div>
