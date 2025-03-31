@@ -207,7 +207,7 @@ require 'views/partials/header.php';
         } else {
             parent.find('input[name=' + fieldName + ']').val(1);
         }
-        document.getElementById('quantityInput').value = value;
+        document.getElementById('quantityInput').value = currentVal + 1;
     }
 
     function decrementValue(e) {
@@ -221,7 +221,7 @@ require 'views/partials/header.php';
         } else {
             parent.find('input[name=' + fieldName + ']').val(1);
         }
-        document.getElementById('quantityInput').value = value;
+        document.getElementById('quantityInput').value = currentVal + 1;
     }
 
     $('.input-group').on('click', '.button-plus', function(e) {
