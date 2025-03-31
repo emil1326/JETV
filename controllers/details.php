@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             [$item, $qt] = [$result['item'], $result['quantity']];
         }
 
-        /*  FIXME: The type check and attributes assignement should be outside of this `if`, but 
+        /*  FIXME: The type check and attributes assignement should be outside of this `if`, but
             the methods aren't recognized */
 
         if (get_class($item) == 'Weapon') {
