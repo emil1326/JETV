@@ -7,7 +7,7 @@ if (!isAuthenticated()) {
 require 'models/CartModel.php';
 
 # input => vieux params des forms => update les qt. , pay => call BD
-# itemID = int,  addItem removeItem clearItem buy peuPasAcheter
+# itemID = int,  addItem removeItem clearItem buy peuPasAcheter tropHeavy
 
 # output => pays => bool to self
 
@@ -58,6 +58,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($query['error'])) {
         if ($query['error'] == 'peuPasAcheter')
             $peuPasAcheter = true;
+        if ($query['error'] == 'tropHeavy')
+            $tropHeavy = true;
     }
 
     if (isset($items))

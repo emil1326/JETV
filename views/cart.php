@@ -41,6 +41,10 @@ require 'views/partials/header.php';
         <?php if (isset($peuPasAcheter)): ?>
             <p>Peu pas acheter</p>
         <?php endif ?>
+        <!-- should do if free sprint 2 -->
+        <?php if (isset($tropHeavy)): ?>
+            <p>Attention vous etes peut-etre trop heavy</p>
+        <?php endif ?>
     </div>
     <div style="display:flex; justify-content: center; flex-direction: row;">
         <div
