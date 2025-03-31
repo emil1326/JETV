@@ -35,10 +35,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             //do buy bd
             $res = $modelCart->buyCart($_SESSION["playerID"]);
             if ($res)
-                redirect('/inventaire');
+                redirect('/backpack');
             else {
-
-                echo 'Error peu pas acheter??';
                 redirect('/cart?error=peuPasAcheter');
             }
         } elseif (isset($query['addItem'])) {

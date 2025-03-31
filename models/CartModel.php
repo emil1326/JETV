@@ -48,8 +48,8 @@ class CartModel extends ItemModel
 
             return true;
         } catch (PDOException $e) {
-            return false;
             throw new PDOException($e->getMessage(), $e->getCode()); // turn around if not debug
+            return false;
         }
     }
 

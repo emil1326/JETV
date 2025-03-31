@@ -1008,7 +1008,7 @@ begin
         insert into inventaire (joueureID, itemID, qt)
         select c.joueureID, c.itemID, c.qt from cart c
         where c.joueureID = p_joueureID
-        on duplicate key update qt = qt + values(qt);
+        on duplicate key update qt = inventaire.qt + c.qt;
         
         delete from cart where joueureID = p_joueureID;
         
