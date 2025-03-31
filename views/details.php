@@ -13,7 +13,7 @@ require 'views/partials/header.php';
         <div class="row g-0">
             <div class="col-md-4" style="width:50%; max-height:325px; ">
                 <img src="public/images/<?= $item->getImageLink() ?>"
-                    class="img-fluid rounded-start" alt="..." style="width:100%;height:110%;aspect-ratio: auto;">
+                    class="img-fluid rounded-start" alt="..." style="width:100%;height:110%;aspect-ratio: auto; background-color: white;">
             </div>
             <div class=" col-md-8" style="padding-left:30px; width:50%; max-height:325px; ">
                 <div class="card-body" style="max-height:325px !important;">
