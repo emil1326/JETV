@@ -5,7 +5,7 @@ if (!isAuthenticated()) {
 }
 require 'models/ShopModel.php';
 
-# input => playerID, itemID
+# input => playerID, itemID, fromCart = false
 
 # output => one item or redirect to menu
 
