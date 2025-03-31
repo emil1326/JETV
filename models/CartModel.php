@@ -67,12 +67,25 @@ class CartModel extends ItemModel
             throw new PDOException($e->getMessage(), $e->getCode());
         }
     }
-    public function removeItemFormCart(int $playerID, int $itemID): void
+    public function removeItemFromCart(int $playerID, int $itemID): void
     {
-        // 
+        try {
+            $stm = $this->pdo->prepare("CALL RemoveItemFromCart(:userID, :itemID)");
+            $stm->bindValue(':userID', $playerID, PDO::PARAM_INT); // Assuming userID is stored in session
+            $stm->bindValue(':itemID', $itemID, PDO::PARAM_INT);
+            $stm->execute();
+        } catch (PDOException $e) {
+            throw new PDOException($e->getMessage(), $e->getCode());
+        }
     }
     public function clearCart(int $playerID): void
     {
-        // 
+        try {
+            $stm = $this->pdo->prepare("CALL ClearCart(:userID)");
+            $stm->bindValue(':userID', $playerID, PDO::PARAM_INT); // Assuming userID is stored in session
+            $stm->execute();
+        } catch (PDOException $e) {
+            throw new PDOException($e->getMessage(), $e->getCode());
+        }
     }
 }
