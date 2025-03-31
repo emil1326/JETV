@@ -53,28 +53,39 @@ class CartModel extends ItemModel
         }
     }
 
-    public function addItemToCart(int $playerID, int $itemID): void
+    public function addItemToCart(int $playerID, int $itemID, int $quantity): bool
     {
-        // 
         try {
-            $stm = $this->pdo->prepare('call PassCommande(:playerID)');
-            $stm->bindValue(':playerID', $playerID, PDO::PARAM_INT);
+            $stm = $this->pdo->prepare("CALL AddItemToCart(:userID, :itemID, :quantity)");
+            $stm->bindValue(':userID', $playerID, PDO::PARAM_INT); // Assuming userID is stored in session
+            $stm->bindValue(':itemID', $itemID, PDO::PARAM_INT);
+            $stm->bindValue(':quantity', $quantity, PDO::PARAM_INT);
             $stm->execute();
 
-            $data = $stm->fetchAll(PDO::FETCH_ASSOC);
+            return true;
         } catch (PDOException $e) {
-            throw new PDOException($e->getMessage(), $e->getCode()); // turn around if not debug
+            throw new PDOException($e->getMessage(), $e->getCode());
         }
-        echo 'added item' . $playerID . $itemID;
     }
-    public function removeItemFormCart(int $playerID, int $itemID): void
+    public function removeItemFromCart(int $playerID, int $itemID): void
     {
-        // 
-        echo 'removed item' . $playerID . $itemID;
+        try {
+            $stm = $this->pdo->prepare("CALL RemoveItemFromCart(:userID, :itemID)");
+            $stm->bindValue(':userID', $playerID, PDO::PARAM_INT); // Assuming userID is stored in session
+            $stm->bindValue(':itemID', $itemID, PDO::PARAM_INT);
+            $stm->execute();
+        } catch (PDOException $e) {
+            throw new PDOException($e->getMessage(), $e->getCode());
+        }
     }
     public function clearCart(int $playerID): void
     {
-        //         
-        echo 'clear cart' . $playerID;
+        try {
+            $stm = $this->pdo->prepare("CALL ClearCart(:userID)");
+            $stm->bindValue(':userID', $playerID, PDO::PARAM_INT); // Assuming userID is stored in session
+            $stm->execute();
+        } catch (PDOException $e) {
+            throw new PDOException($e->getMessage(), $e->getCode());
+        }
     }
 }

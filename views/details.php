@@ -29,7 +29,9 @@ require 'views/partials/header.php';
                     <span class="badge bg-secondary" style="width:100px; font-size:15px; height:30px; margin-left:0px; margin-top:20px; background-color:#434343 !important;">
                         <?= ucfirst(get_class($item)) ?>
                     </span>
+
                     <p class="card-text"><small class="text-muted"><?= $item->getItemWeight() ?> kg</small></p>
+                    <p class="card-text"><small class="text-muted"><?= $qt ?> Exemplaires</small></p>
                     <!-- TODO itemquantity
                     <p class="card-text"><small class="text-muted"></small></p>
                     -->
@@ -155,7 +157,7 @@ require 'views/partials/header.php';
                                     class="button-minus border rounded-circle  icon-shape icon-sm mx-1 "
                                     data-field="quantity"
                                     style="color:white; border:none; font-weight:bold;background-color: transparent;">
-                                <input type="number" step="1" max="10" value="1" name="quantity"
+                                <input type="number" step="1" max="<?=$qt?>" value="1" name="quantity"
                                     class="quantity-field border-0 text-center w-25"
                                     style="background-color:transparent; color:white; font-size:20px;" disabled>
                                 <input type="button" value="+"
@@ -167,9 +169,13 @@ require 'views/partials/header.php';
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                    <button type="button" class="btn btn-primary" style="background-color: white; color:black;"
-                        id="liveToastBtn">Ajouter</button>
+                    <form method="POST" >
+                        <input type="hidden" name="itemID" value="<?= $item->getId() ?>">
+                        <input type="hidden" name="quantity" value="1" id="quantityInput">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        <button type="submit" class="btn btn-primary" style="background-color: white; color:black;"
+                            id="liveToastBtn">Ajouter</button>
+                     </form>
                 </div>
             </div>
         </div>
@@ -196,11 +202,12 @@ require 'views/partials/header.php';
         var parent = $(e.target).closest('div');
         var currentVal = parseInt(parent.find('input[name=' + fieldName + ']').val(), 10);
 
-        if (!isNaN(currentVal) && currentVal < 10) {
+        if (!isNaN(currentVal) && currentVal < <?= $qt ?>) {
             parent.find('input[name=' + fieldName + ']').val(currentVal + 1);
         } else {
             parent.find('input[name=' + fieldName + ']').val(1);
         }
+        document.getElementById('quantityInput').value = value;
     }
 
     function decrementValue(e) {
@@ -214,6 +221,7 @@ require 'views/partials/header.php';
         } else {
             parent.find('input[name=' + fieldName + ']').val(1);
         }
+        document.getElementById('quantityInput').value = value;
     }
 
     $('.input-group').on('click', '.button-plus', function(e) {
