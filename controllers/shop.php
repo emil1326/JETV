@@ -1,7 +1,7 @@
 <?php
 
 require 'models/ShopModel.php';
-require 'src/class/itemFilter.php';
+require 'src/class/ItemFilter.php';
 
 
 $pdo = Database::getInstance()->getPDO();
