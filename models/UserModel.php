@@ -82,4 +82,21 @@ class UserModel extends Model
             return $e;
         }
     }
+
+    public function getDexteriter(int $PlayerID): int
+    {
+        $inventoryModel = new InventoryModel(parent::$pdo);
+    
+        $weight = $inventoryModel->totalWeight($PlayerID);
+    
+        $player = $this->selectById($PlayerID);
+    
+        $overDraft = $weight - $player->getMaxWeight();
+        $overDraft = $overDraft > 0 ? $overDraft : 0;
+    
+        $dext = $player->getDexterity() - $overDraft;
+    
+        return $dext;
+    }
+    
 }
