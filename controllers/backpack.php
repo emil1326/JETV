@@ -35,11 +35,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         }
     }
     // juste show
-    $item = $modelInvantaire->selectAllByPlayerIdFromCart($_SESSION['playerID']);
+    $items = $modelInvantaire->selectAll($_SESSION['playerID']);
 } else {
     # err
     redirect('/');
 }
 
+$items = $modelInvantaire->selectAll($_SESSION['playerID']);
 
 require 'views/backpack.php';
