@@ -48,12 +48,12 @@ class CartModel extends ItemModel
 
             return true;
         } catch (PDOException $e) {
-            throw new PDOException($e->getMessage(), $e->getCode()); // turn around if not debug
             return false;
+            throw new PDOException($e->getMessage(), $e->getCode()); // turn around if not debug
         }
     }
 
-    public function addItemToCart(int $playerID, int $itemID, int $quantity): void
+    public function addItemToCart(int $playerID, int $itemID, int $quantity): bool
     {
         try {
             $stm = $this->pdo->prepare("CALL AddItemToCart(:userID, :itemID, :quantity)");
@@ -61,11 +61,14 @@ class CartModel extends ItemModel
             $stm->bindValue(':itemID', $itemID, PDO::PARAM_INT);
             $stm->bindValue(':quantity', $quantity, PDO::PARAM_INT);
             $stm->execute();
+
+            return true;
         } catch (PDOException $e) {
+            return false;
             throw new PDOException($e->getMessage(), $e->getCode());
         }
     }
-    public function removeItemFromCart(int $playerID, int $itemID, int $quantity): void
+    public function removeItemFromCart(int $playerID, int $itemID, int $quantity): bool
     {
         try {
             $stm = $this->pdo->prepare("CALL AddItemToCart(:userID, :itemID, :quantity)");
@@ -73,17 +76,23 @@ class CartModel extends ItemModel
             $stm->bindValue(':itemID', $itemID, PDO::PARAM_INT);
             $stm->bindValue(':quantity', -$quantity, PDO::PARAM_INT); // - pour enlever
             $stm->execute();
+
+            return true;
         } catch (PDOException $e) {
+            return false;    
             throw new PDOException($e->getMessage(), $e->getCode());
         }
     }
-    public function clearCart(int $playerID): void
+    public function clearCart(int $playerID): bool
     {
         try {
             $stm = $this->pdo->prepare("CALL ClearCart(:userID)");
             $stm->bindValue(':userID', $playerID, PDO::PARAM_INT); // Assuming userID is stored in session
             $stm->execute();
+
+            return true;
         } catch (PDOException $e) {
+            return false;
             throw new PDOException($e->getMessage(), $e->getCode());
         }
     }

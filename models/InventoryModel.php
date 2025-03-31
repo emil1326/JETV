@@ -36,6 +36,26 @@ class InventoryModel extends ItemModel
             throw new PDOException($e->getMessage(), $e->getCode());
         }
     }
+
+    public function selectOne(int $id, int $playerID): null|array
+    {
+        $stm = $this->pdo->prepare('call GetOneInventoryItem(:id , :playerID)');
+        $stm->bindValue(':id', $id, PDO::PARAM_INT);
+        $stm->bindValue(':playerID', $playerID, PDO::PARAM_INT);
+        $stm->execute();
+
+        $data = $stm->fetch(PDO::FETCH_ASSOC);
+
+        if (!empty($data)) {
+            return $item = [
+                'item' => parent::makeItem($data),
+                'quantity' => $data['qt']
+            ];
+        }
+
+        return null;
+    }
+
     public function totalWeight(int $playerId)
     {
         $itemsInv = $this->selectAll($playerId);
@@ -59,7 +79,7 @@ class InventoryModel extends ItemModel
             return true;
         } catch (PDOException $e) {
             return false;
-            // throw new PDOException($e->getMessage(), $e->getCode());
+            throw new PDOException($e->getMessage(), $e->getCode());
         }
     }
 }

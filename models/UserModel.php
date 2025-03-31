@@ -85,7 +85,7 @@ class UserModel extends Model
 
     public function getDexteriter(int $PlayerID): int
     {
-        $inventoryModel = new InventoryModel(parent::$pdo);
+        $inventoryModel = new InventoryModel($this->pdo);
     
         $weight = $inventoryModel->totalWeight($PlayerID);
     

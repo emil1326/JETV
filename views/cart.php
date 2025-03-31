@@ -41,6 +41,15 @@ require 'views/partials/header.php';
         <?php if (isset($peuPasAcheter)): ?>
             <p>Peu pas acheter</p>
         <?php endif ?>
+        <?php if (isset($peuPasAdd)): ?>
+            <p>Peu pas ajouter plus d'items</p>
+        <?php endif ?>
+        <?php if (isset($peuPasRemove)): ?>
+            <p>Peu pas remove cet item</p>
+        <?php endif ?>
+        <?php if (isset($peuPasClear)): ?>
+            <p>Peu pas clear le cart</p>
+        <?php endif ?>
         <!-- should do if free sprint 2 -->
         <?php if (isset($tropHeavy)): ?>
             <p>Attention vous etes peut-etre trop heavy</p>

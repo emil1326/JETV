@@ -41,16 +41,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             }
         } elseif (isset($query['addItem'])) {
             // 
-            $modelCart->addItemToCart($_SESSION["playerID"], $query['itemID'],  1);
-            redirect('/cart');
+            $res =  $modelCart->addItemToCart($_SESSION["playerID"], $query['itemID'],  1);
+            if ($res)
+                redirect('/cart');
+            else {
+                redirect('/cart?error=peuPasAdd');
+            }
         } elseif (isset($query['removeItem'])) {
             // 
-            $modelCart->removeItemFromCart($_SESSION["playerID"], $query['itemID'], 1);
-            redirect('/cart');
+            $res =  $modelCart->removeItemFromCart($_SESSION["playerID"], $query['itemID'], 1);
+            if ($res)
+                redirect('/cart');
+            else {
+                redirect('/cart?error=peuPasRemove');
+            }
         } elseif (isset($query['clearItems'])) {
             //
-            $modelCart->clearCart($_SESSION["playerID"]);
-            redirect('/shop');
+            $res =     $modelCart->clearCart($_SESSION["playerID"]);
+            if ($res)
+                redirect('/shop');
+            else {
+                redirect('/cart?error=peuPasClear');
+            }
         }
     }
 
@@ -60,6 +72,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $peuPasAcheter = true;
         if ($query['error'] == 'tropHeavy')
             $tropHeavy = true;
+        if ($query['error'] == 'peuPasAdd')
+            $peuPasAdd = true;
+        if ($query['error'] == 'peuPasRemove')
+            $peuPasRemove = true;
+        if ($query['error'] == 'peuPasClear')
+            $peuPasClear = true;
     }
 
     if (isset($items))
