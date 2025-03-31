@@ -4,6 +4,9 @@ if (!isAuthenticated()) {
     redirect('/shop');
 }
 require 'models/ShopModel.php';
+require 'models/CartModel.php';
+
+$pdo = Database::getInstance()->getPDO();
 
 # input => playerID, itemID
 
@@ -12,8 +15,6 @@ require 'models/ShopModel.php';
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $parts = parse_url($_SERVER['REQUEST_URI']);
     parse_str($parts['query'], $query);
-
-    $pdo = Database::getInstance()->getPDO();
 
 
     $item = null;
@@ -62,6 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             ];
         }
     }
+    
 
     if ($item == null) // pas else pcq les func peuvent return null
         if (isset($query['playerID']))
@@ -70,6 +72,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             redirect('/'); // redirect to homepage si ni playerID ni itemID, peu pas show l'item
 
     // dans le cart et shop on a les meme pages
+} else if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    $itemID = $_POST['itemID'] ?? null;
+    $quantity = $_POST['quantity'] ?? 0;
+    if ($itemID != null && $quantity > 0){
+        $cartModel = new CartModel(Database::getInstance()->getPDO());
+        $cartModel->addItemToCart($_SESSION['playerID'], $itemID, $quantity);
+        redirect('/shop');
+    }
 } else {
     redirect("/");  // todo change vers une page custom ??
 }
