@@ -10,12 +10,13 @@ class InventoryModel extends ItemModel
         parent::__construct($pdo);
     }
 
-    public function selectAll(): null|array
+    public function selectAll(int $playerId): null|array
     {
         $items = [];
 
         try {
-            $stm = $this->pdo->prepare('call GetAllInventoryItems()');
+            $stm = $this->pdo->prepare('call GetAllInventoryItems(:playerId)');
+            $stm->bindValue(':playerId', $playerId, PDO::PARAM_INT);
             $stm->execute();
 
             $data = $stm->fetchAll(PDO::FETCH_ASSOC);
