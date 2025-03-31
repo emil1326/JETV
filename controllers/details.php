@@ -23,7 +23,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $item = $itemModel->selectOneByPlayerIdFromInventory($query['itemID'], $query['playerID']);
     } else if (isset($query['itemID'])) { // pour shop et cart
         $shopModel = new ShopModel(pdo: $pdo); // todo change to shopmodel
-        $item = $shopModel->selectOne($query['itemID']); // todo change vers
+        $result = $shopModel->selectOne($query['itemID']);
+        if ($result !== null) {
+            [$item, $qt] = [$result['item'], $result['quantity']];
+        }
 
         /*  FIXME: The type check and attributes assignement should be outside of this `if`, but 
             the methods aren't recognized */

@@ -32,7 +32,7 @@ class ShopModel extends ItemModel
         return null;
     }
 
-    public function selectOne(int $id): null|Item|Weapon|Armor|Meds|Food|Ammo
+    public function selectOne(int $id): null|array
     {
         $stm = $this->pdo->prepare('call GetOneShopItem(:id)');
         $stm->bindValue(':id', $id, PDO::PARAM_INT);
@@ -41,7 +41,10 @@ class ShopModel extends ItemModel
         $data = $stm->fetch(PDO::FETCH_ASSOC);
 
         if (!empty($data)) {
-            return parent::makeItem($data);
+            return $item = [
+                'item' => parent::makeItem($data),
+                'quantity' => $data['qt']
+            ];
         }
 
         return null;
