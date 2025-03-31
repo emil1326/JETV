@@ -80,73 +80,64 @@ require 'views/partials/header.php';
                 <div class="col-6">
                     <h3 class="mb-3" style="font-size:20px;">Attributs</h3>
                 </div>
-                <div class="col-6 text-right">
-                    <a class="btn btn-secondary mb-3 mr-1" href="#carouselExampleIndicators2" role="button"
-                        data-slide="prev" style="background-color:#303030; border:none;">
-                        <i class="fa fa-arrow-left"></i>
-                    </a>
-                    <a class="btn btn-secondary mb-3" href="#carouselExampleIndicators2" role="button" data-slide="next"
-                        style="background-color:#303030; border:none;">
-                        <i class="fa fa-arrow-right"></i>
-                    </a>
-                </div>
+                <?php if(count($attributes) >= 4):?>
+                    <div class="col-6 text-right">
+                        <a class="btn btn-secondary mb-3 mr-1" href="#carouselExampleIndicators2" role="button"
+                            data-slide="prev" style="background-color:#303030; border:none;">
+                            <i class="fa fa-arrow-left"></i>
+                        </a>
+                        <a class="btn btn-secondary mb-3" href="#carouselExampleIndicators2" role="button" data-slide="next"
+                            style="background-color:#303030; border:none;">
+                            <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </div>
+                <?php endif;?>
                 <div class="col-12">
                     <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
 
                         <div class="carousel-inner">
-
-                            <?php for ($i = 0; $i < 3; $i++): ?>
-                                <div class="carousel-item <?= $i == 0 ? 'active' : '' ?>">
-                                    <div class="row">
-
-                                        <!-- Faire en sorte que tu peut mettre trois chaque carousel-item mais pas plus, un ou deux est correct -->
+                            <?php if(count($attributes) == 4): ?>
+                                <?php foreach (array_chunk($attributes, 2, true) as $index => $attributeChunk): ?>
+                                    <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+                                        <div class="row">
+                                                <?php foreach ($attributeChunk as $attributeName => $attributeValue): ?>
+                                                    <div class="col-md-6 mb-3">
+                                                        <div class="card cardCar">
+                                                            <div class="card-body">
+                                                                <h4 class="card-title">
+                                                                    <?= htmlspecialchars($attributeName) ?>
+                                                                </h4>
+                                                                <p class="card-text">
+                                                                    <?= htmlspecialchars($attributeValue) ?>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                <?php endforeach; ?>
+                                            </div>
+                                        </div>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                            <?php if (count($attributes) <= 3): ?>
+                                <div class="row">
+                                    <?php foreach ($attributes as $attributeName => $attributeValue): ?>
                                         <div class="col-md-4 mb-3">
                                             <div class="card cardCar">
-
                                                 <div class="card-body">
+                                                <?php if (isset($attributeValue)):?>
                                                     <h4 class="card-title">
-                                                        <?= 'The greatest attribute' ?>
-                                                        <!--  TODO: Add Dynamic Attribute Name -->
+                                                        <?= htmlspecialchars($attributeName) ?>
                                                     </h4>
                                                     <p class="card-text">
-                                                        <?= 'along with its magnificent description' ?>
-                                                        <!--  TODO: Add Dynamic Attribute Description -->
+                                                        <?= htmlspecialchars($attributeValue) ?>
                                                     </p>
-
+                                                    <?php endif; ?>
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="col-md-4 mb-3">
-                                            <div class="card cardCar">
-
-                                                <div class="card-body">
-                                                    <h4 class="card-title">Special title
-                                                        treatment</h4>
-                                                    <p class="card-text">With supporting text
-                                                        below as a natural lead-in
-                                                    </p>
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4 mb-3">
-                                            <div class="card cardCar">
-
-                                                <div class="card-body">
-                                                    <h4 class="card-title">Special title treatment</h4>
-                                                    <p class="card-text">With supporting text
-                                                        below as a natural lead-in</p>
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
+                                    <?php endforeach; ?>
                                 </div>
-                            <?php endfor; ?>
-
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
