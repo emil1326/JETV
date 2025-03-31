@@ -37,7 +37,7 @@ require 'views/partials/header.php';
         <!--  TODO: Add Name in form (search filters) -->
 
         <div id="form-check-section"
-            style="display:flex; flex-direction: column; width:240px;padding:16px; border:1px #6c757d solid; row-gap: 5px; height:455px; ">
+            style="display:flex; flex-direction: column; width:240px;padding:16px; border:1px #6c757d solid; row-gap: 5px; height:425px; ">
 
             <p>Types</p>
             <div class="form-check">
@@ -82,7 +82,7 @@ require 'views/partials/header.php';
                 <label for="postfix" class="form-label" style="display: inline;">Price Range</label>
                 <input id="postfix"
                     value="<?= $filters['price_min'] ?? '' ?>"
-                    type="number" id="form2" name="price_min" class="form-control" placeholder="Min" style="height:30px;" />
+                    type="number" id="form2" name="price_min" class="form-control" placeholder="Min" style="height:30px; margin-top: 5px;" />
             </div>
 
             <div data-mdb-input-init class="form-outline">
@@ -156,6 +156,7 @@ require 'views/partials/header.php';
                 <?php else: ?>
                     <div style="margin-right: 20vw;"> <!-- todo justify center -->
                         Rien a afficher ici <br>
+                        <a type="button" href="/shop" class="btn btn-secondary" style="margin-top:20px;">Retourner au shop</a>
                     </div>
                 <?php endif ?>
             </div>

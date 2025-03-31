@@ -89,8 +89,7 @@ require 'views/partials/header.php';
                     <div style=" display:flex; justify-content: center; flex-direction: column; align-items:center; ">
                         <!-- todo justify center -->
                         <span style="font-size:30px;">Rien a afficher ici </span> <br>
-                        <a type="button" href="/shop" class="btn btn-secondary" style="margin-top:20px;">Retourner au
-                            shop</a>
+                        <a type="button" href="/shop" class="btn btn-secondary" style="margin-top:20px;">Retourner au shop</a>
                     </div>
                 <?php endif ?>
             </div>
