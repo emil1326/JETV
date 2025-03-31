@@ -1238,6 +1238,9 @@ call CreateItem('Kit de premiers secours', 'Un kit complet pour les premiers soi
 call CreateItem('Orange', 'Une orange juteuse et vitaminee', 1, 10.0, 5.0, 'orange.png', 250, 0, 'food', '60 kcal', 'Vitamines', 'Mineraux', 0, 80);
 call CreateItem('Pistolet', 'Un pistolet de calibre 9mm', 3, 250.0, 125.0, 'pistolet.png', 0, 0, 'mun', '9mm', '', '', 0, 300);
 
+call CreateItem('SuperHeavy Pistol', 'Un pistolet de calibre 900mm', 100, 500.0, 125.0, 'pistoletSH.png', 0, 0, 'mun', '9mm', '', '', 0, 300);
+call CreateItem('SuperHeavy Pistol LW edition', 'Un pistolet de calibre 500mm', 50, 50.0, 125.0, 'pistoletSHLWE.png', 0, 0, 'mun', '9mm', '', '', 0, 30);
+
 -- joueurs
 select CreateJoueur('je vins, je vus, je construit', 'bob', 'leBricoleur', 'passbob');
 
