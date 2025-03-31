@@ -68,12 +68,28 @@ class InventoryModel extends ItemModel
         return $totalWeight;
     }
 
-    public function useITem(int $itemID, int $playerID): bool|null
+    public function useItem(int $itemID, int $playerID): bool|null
     {
         try {
             $stm = $this->pdo->prepare('call UseItem( :itemID , :playerID )');
             $stm->bindValue(':itemID', $itemID, PDO::PARAM_INT);
             $stm->bindValue(':playerID', $playerID, PDO::PARAM_INT);
+            $stm->execute();
+
+            return true;
+        } catch (PDOException $e) {
+            throw new PDOException($e->getMessage(), $e->getCode());
+            return false;
+        }
+    }
+
+    public function sellItem(int $itemID, int $playerID, int $quantity)
+    {
+        try {
+            $stm = $this->pdo->prepare('call SellItem( :itemID , :playerID , :qt )'); // todo make sell item func
+            $stm->bindValue(':itemID', $itemID, PDO::PARAM_INT);
+            $stm->bindValue(':playerID', $playerID, PDO::PARAM_INT);
+            $stm->bindValue(':qt', $quantity, PDO::PARAM_INT);
             $stm->execute();
 
             return true;
