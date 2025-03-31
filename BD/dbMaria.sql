@@ -35,6 +35,8 @@ create table joueure
     poidsMax int default 200 not null
 );
 
+-- todo cap life 100
+
 -- [ items ] --
 
 create table item

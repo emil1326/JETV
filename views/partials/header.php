@@ -70,6 +70,7 @@
         }
     }
 </style>
+
 <div class="container-fluid" style="padding-top:20px;background-color:#1E1E1E; padding-bottom:20px;">
     <nav class="navbar navbar-expand-lg" style="background-color:#1E1E1E !important;">
         <div class="container-fluid">
@@ -121,7 +122,7 @@
                         alt="Card image caps" width="40" height="40">
                     <p style="margin:0px; margin-left:5px;">
                         <?php
-                        echo " : " . $user->getDexterity() . " Dex";
+                        echo " : " . $userModel->getDexteriter($_SESSION['playerID']) . " Dex";
                         ?>
                     </p>
                 </div>
