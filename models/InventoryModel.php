@@ -78,15 +78,15 @@ class InventoryModel extends ItemModel
 
             return true;
         } catch (PDOException $e) {
-            throw new PDOException($e->getMessage(), $e->getCode());
             return false;
+            throw new PDOException($e->getMessage(), $e->getCode());
         }
     }
 
     public function sellItem(int $itemID, int $playerID, int $quantity)
     {
         try {
-            $stm = $this->pdo->prepare('call SellItem( :itemID , :playerID , :qt )'); // todo make sell item func
+            $stm = $this->pdo->prepare('call SellItem( :itemID , :playerID , :qt )');
             $stm->bindValue(':itemID', $itemID, PDO::PARAM_INT);
             $stm->bindValue(':playerID', $playerID, PDO::PARAM_INT);
             $stm->bindValue(':qt', $quantity, PDO::PARAM_INT);
