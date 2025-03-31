@@ -36,6 +36,17 @@ class InventoryModel extends ItemModel
             throw new PDOException($e->getMessage(), $e->getCode());
         }
     }
+    public function totalWeight(int $playerId)
+    {
+        $itemsInv = $this->selectAll($playerId);
+        $totalWeight = 0;
+        if (!empty($itemsInv)) {
+            foreach ($itemsInv as $itemV) {
+                $totalWeight += $itemV['item']->getItemWeight() * $itemV['quantity'];
+            }
+        }
+        return $totalWeight;
+    }
 
     public function useITem(int $itemID, int $playerID): bool|null
     {

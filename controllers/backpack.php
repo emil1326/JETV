@@ -7,7 +7,6 @@ if (!isAuthenticated()) {
 
 $backActif = true; // pour le header, savoir quoi highlight
 
-require 'models/InventoryModel.php';
 require 'src/class/itemFilter.php';
 
 $pdo = Database::getInstance()->getPDO();
@@ -65,8 +64,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && count($_GET) > 0) {
     }
 
     $filters = $_GET;
-    $filters['price_min'] = isset($filters['price_min']) ? (int)$filters['price_min'] : 0;
-    $filters['price_max'] = isset($filters['price_max']) ? (int)$filters['price_max'] : 0;
+    $filters['price_min'] = isset($filters['price_min']) ? (int) $filters['price_min'] : 0;
+    $filters['price_max'] = isset($filters['price_max']) ? (int) $filters['price_max'] : 0;
     $filters['name'] = isset($filters['name']) ? $filters['name'] : null;
 
     $filter = new ItemFilter($types, $filters['price_min'], $filters['price_max'], $filters['name']);

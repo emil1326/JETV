@@ -9,5 +9,6 @@ require "src/configuration.php";
 require "src/class/Database.php";
 
 require "models/UserModel.php";
+require "models/InventoryModel.php";
 
 routeToController(uriPath());
