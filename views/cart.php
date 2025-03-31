@@ -34,12 +34,13 @@ require 'views/partials/header.php';
     }
 </style>
 
-<!-- todo add clear items => set querry ?clearItems = true -->
-
 <div>
     <div style="display:flex; justify-content: center; flex-direction:column; align-items:center; margin-bottom:30px;">
         <p style="margin:0px; font-size:23px; font-weight: bold;"> Votre panier </p>
-        <p style="font-size:18px;"> <?= isset($items) ? '14 items' : '0 items' ?> </p>
+        <p style="font-size:18px;"> <?= isset($items) ? $totalCount : "0" ?> items</p>
+        <?php if (isset($peuPasAcheter)): ?>
+            <p>Peu pas acheter</p>
+        <?php endif ?>
     </div>
     <div style="display:flex; justify-content: center; flex-direction: row;">
         <div
@@ -47,53 +48,51 @@ require 'views/partials/header.php';
 
             <!-- cards -->
 
-            <div class="card-group"
-                style="display:flex; justify-content: center; align-items: center; row-gap: 3ch;max-width:700px">
-                <?php if (isset($items)): ?>
-                    <?php foreach ($items as $index => $item): ?>
-                        <div class="card"
-                            style="background-color:#1E1E1E !important; padding:10px; cursor:pointer;border:1px white solid;border-color: #6c757d; border-radius:8px; margin:20px; margin-top:0px; margin-bottom:0px; min-width:300px; min-height:450px;">
+            <div style="display:flex; justify-content: center; align-items: center; max-width:1000px">
+                <div class="card-group" style="display:flex; justify-content: center; row-gap: 3ch;">
+                    <?php if (isset($items)): ?>
+                        <?php foreach ($items as $index => $item): ?>
 
-                            <img class="card-img-top"
-                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-YtnuV2n_8xuMZbIQ8voSyC4hjGBN6DLC8w&s"
-                                alt="Card image cap" onclick="window.location.href='/details?itemID=1';">
-                            <!-- do php details todo && fix click -->
-                            <div class="card-body" style="margin-bottom:20px; padding:10px;">
+                            <div class="card"
+                                style="background-color:#1E1E1E !important; padding:10px; cursor:pointer;border:1px white solid;border-color: #6c757d; border-radius:8px; margin:20px; margin-top:0px; margin-bottom:0px;">
+                                <div class="numberCircle" style="margin-right:0px;"><?= $item['quantity'] ?></div>
 
-                                <h5 class="card-title">
-                                    Sword1 x 2
-                                </h5>
-                                <p class="card-text" style="margin:0px;">$700</p>
-                                <p class="card-text">
-                                    <small class="text-muted">Poids : 10 kg<br></small>
-                                </p>
-                                <div style="display:flex; flex-direction: row; ">
+                                <div onclick="window.location.href='/details?itemID=<?= $item['item']->getId() ?>&fromCart=true'">
+                                    <img class="card-img-top" src="public/images/<?= $item['item']->getImageLink() ?>"
+                                        alt="Card image cap" style="background-color:white;">
+                                    <div class="card-body" style="margin-bottom:20px;">
 
-                                    <input type="button" value="-" class="button-minus border icon-shape icon-sm mx-1 "
-                                        data-field="quantity"
-                                        style="color:white; border:none; font-weight:bold;background-color: transparent; border-radius:10px; width:130px;"
-                                        href="/cart?removeItem=true">
-
-                                    <input type="button" value="+" class="button-plus border icon-shape icon-sm "
-                                        style="color:white; border:none; font-weight:bold;background-color: transparent; border-radius:10px; width:130px; margin-left:10px;"
-                                        data-field="quantity" href="/cart?removeItem=true">
+                                        <h5 class="card-title">
+                                            <?= $item['item']->getName() ?>
+                                        </h5>
+                                        <p class="card-text">$<?= $item['item']->getBuyPrice() ?></p>
+                                        <p class="card-text"><small class="text-muted">Poids : <?= $item['item']->getItemWeight() ?>
+                                                kg<br></small></p>
+                                    </div>
                                 </div>
 
+                                <div style="display:flex; flex-direction: row; ">
 
+                                    <a type="button" href="/cart?removeItem=true&itemID=<?= $item['quantity'] ?>" class="btn btn-secondary" style="color:white; font-weight:bold;background-color: transparent; border-color:white; border-radius:10px; width:130px;">-</a>
+                                    <div style="margin: 5px;"></div>
+                                    <a type="button" href="/cart?addItem=true&itemID=<?= $item['quantity'] ?>" class="btn btn-secondary" style="color:white; font-weight:bold;background-color: transparent; border-color:white; border-radius:10px; width:130px;">+</a>
+
+                                </div>
                             </div>
+
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <div style=" display:flex; justify-content: center; flex-direction: column; align-items:center; ">
+                            <!-- todo justify center -->
+                            <span style="font-size:30px;">Rien a afficher ici </span> <br>
+                            <a type="button" href="/shop" class="btn btn-secondary" style="margin-top:20px;">Retourner au shop</a>
                         </div>
-
-
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <div style=" display:flex; justify-content: center; flex-direction: column; align-items:center; ">
-                        <!-- todo justify center -->
-                        <span style="font-size:30px;">Rien a afficher ici </span> <br>
-                        <a type="button" href="/shop" class="btn btn-secondary" style="margin-top:20px;">Retourner au shop</a>
-                    </div>
-                <?php endif ?>
+                    <?php endif ?>
+                </div>
             </div>
         </div>
+
+        <!-- section sommaire -->
 
         <div>
             <?php if (isset($items)): ?>
@@ -101,44 +100,33 @@ require 'views/partials/header.php';
                     style="display:flex; flex-direction: column; width:450px;padding:16px; border:1px #6c757d solid; row-gap: 5px; height:800px; ">
 
                     <p style="font-size:30px">Sommaire de l'achat</p>
-                    <div class="row justify-content-between" style="margin-bottom:10px;">
-                        <div class="col-4" style="width:auto;">
-                            Sword x 1
+
+                    <?php foreach ($items as $index => $item): ?>
+                        <div class="row justify-content-between" style="margin-bottom:10px;">
+                            <div class="col-4" style="width:auto;">
+                                <?= $item['item']->getName() ?> x <?= $item['quantity'] ?>
+                            </div>
+                            <div class="col-4" style="width:auto;">
+                                $<?= $item['item']->getBuyPrice() ?> • <?= $item['item']->getItemWeight() ?>kg
+                            </div>
                         </div>
-                        <div class="col-4" style="width:auto;">
-                            $100 • 100kg
-                        </div>
-                    </div>
-                    <div class="row justify-content-between" style="margin-bottom:10px;">
-                        <div class="col-4" style="width:auto;">
-                            One of two columns
-                        </div>
-                        <div class="col-4" style="width:auto;">
-                            One of two columns
-                        </div>
-                    </div>
-                    <div class="row justify-content-between" style="margin-bottom:10px;">
-                        <div class="col-4" style="width:auto;">
-                            One of two columns
-                        </div>
-                        <div class="col-4" style="width:auto;">
-                            One of two columns
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
+
                     <hr />
+
                     <div class="row justify-content-between" style="font-size:30px; margin-bottom: 20px;">
                         <div class="col-4" style="width:auto;">
                             Total
                         </div>
                         <div class="col-4" style="width:auto;">
-                            $10000 • 10kg
+                            $<?= $totalPrice ?> • <?= $totalWeight ?>kg
                         </div>
                     </div>
-                    <a type="button" href="/cart?buy=true" style="width:420px; height:55px; font-size:20px;"
-                        class="btn btn-secondary">Checkout</a>
+                    <a type="button" href="/cart?buy=true" style="width:420px; height:55px; font-size:20px;" class="btn btn-secondary">Checkout</a>
                 </div>
             <?php endif ?>
         </div>
+
     </div>
 </div>
 </div>

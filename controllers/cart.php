@@ -7,7 +7,7 @@ if (!isAuthenticated()) {
 require 'models/CartModel.php';
 
 # input => vieux params des forms => update les qt. , pay => call BD
-# itemID = int,  addItem removeItem clearItem buy
+# itemID = int,  addItem removeItem clearItem buy peuPasAcheter
 
 # output => pays => bool to self
 
@@ -34,24 +34,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             else {
 
                 echo 'Error peu pas acheter??';
-                // redirect('/cart') // temp, remettre apres et enlver le err message
+                redirect('/cart?error=peuPasAcheter');
             }
         } elseif (isset($query['addItem'])) {
             // 
             $modelCart->addItemToCart($_SESSION["playerID"], $query['itemID']);
+            redirect('/cart');
         } elseif (isset($query['removeItem'])) {
             // 
-            $modelCart->addItemToCart($_SESSION["playerID"], $query['itemID']);
+            $modelCart->removeItemFormCart($_SESSION["playerID"], $query['itemID']);
+            redirect('/cart');
         } elseif (isset($query['clearItems'])) {
             //
             $modelCart->clearCart($_SESSION["playerID"]);
+            redirect('/shop');
         }
     }
-    // juste show
-    $items = $modelCart->selectAllByPlayerIdFromCart($_SESSION['playerID']);
+
+    // if need other error codes
+    if (isset($query['error'])) {
+        if ($query['error'] == 'peuPasAcheter')
+            $peuPasAcheter = true;
+    }
+
+    $items = $modelCart->selectAll($_SESSION['playerID']);
+    $totalWeight = 0;
+    $totalPrice = 0;
+    $totalCount = 0;
+
+
+    foreach ($items as $itemData) {
+        $item = $itemData['item'];
+        $quantity = $itemData['quantity'];
+
+        $totalWeight += $item->getItemWeight() * $quantity;
+        $totalPrice += $item->getBuyPrice() * $quantity;
+        $totalCount += $quantity;
+    }
 } else {
     # err
     redirect('/');
 }
+
+// var_dump($items);
+// echo $_SESSION['playerID'];
 
 require 'views/cart.php';

@@ -24,7 +24,7 @@ class CartModel extends ItemModel
             if (!empty($data)) {
                 foreach ($data as $row) {
                     $items[] = [
-                        'item' => parent::makeItem($row[], false),
+                        'item' => parent::makeItem($row, false),
                         'quantity' => $row['qt']
                     ];
                 }
@@ -49,20 +49,32 @@ class CartModel extends ItemModel
             return true;
         } catch (PDOException $e) {
             return false;
-            // throw new PDOException($e->getMessage(), $e->getCode());
+            throw new PDOException($e->getMessage(), $e->getCode()); // turn around if not debug
         }
     }
 
     public function addItemToCart(int $playerID, int $itemID): void
     {
         // 
+        try {
+            $stm = $this->pdo->prepare('call PassCommande(:playerID)');
+            $stm->bindValue(':playerID', $playerID, PDO::PARAM_INT);
+            $stm->execute();
+
+            $data = $stm->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new PDOException($e->getMessage(), $e->getCode()); // turn around if not debug
+        }
+        echo 'added item' . $playerID . $itemID;
     }
     public function removeItemFormCart(int $playerID, int $itemID): void
     {
         // 
+        echo 'removed item' . $playerID . $itemID;
     }
     public function clearCart(int $playerID): void
     {
-        // 
+        //         
+        echo 'clear cart' . $playerID;
     }
 }

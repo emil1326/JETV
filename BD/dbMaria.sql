@@ -894,6 +894,7 @@ create procedure AddItemToCart(
     in p_quantity int
 )
 begin
+    -- todo remove from shop
     if exists (select 1 from cart where joueureID = p_joueureID and itemID = p_itemID) then
         update cart
         set qt = qt + p_quantity
