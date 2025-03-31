@@ -70,6 +70,7 @@
         }
     }
 </style>
+
 <div class="container-fluid" style="padding-top:20px;background-color:#1E1E1E; padding-bottom:20px;">
     <nav class="navbar navbar-expand-lg" style="background-color:#1E1E1E !important;">
         <div class="container-fluid">
@@ -104,7 +105,7 @@
                         alt="Card image caps" width="30" height="30">
                     <p style="margin:0px; margin-left:5px;">
                         <?php
-                        echo " : " . $user->getHealth() . "/100 PV";
+                        echo " : " . $user->getHealth() . " / 100 PV";
                         ?>
                     </p>
                     <img style="margin:0px; margin-left:20px;"
@@ -114,14 +115,14 @@
                         <?php
                         $model = new InventoryModel($pdo);
 
-                        echo ' : ' . $model->totalWeight($_SESSION['playerID']) . '/' . $user->getMaxWeight() . " kg";
+                        echo ' : ' . $model->totalWeight($_SESSION['playerID']) . ' / ' . $user->getMaxWeight() . " kg";
                         ?>
                     </p>
                     <img style="margin:0px; margin-left:20px;" src="https://static.thenounproject.com/png/4494012-200.png"
                         alt="Card image caps" width="40" height="40">
                     <p style="margin:0px; margin-left:5px;">
                         <?php
-                        echo " : " . $user->getDexterity() . " Dex";
+                        echo ' : ' . $userModel->getDexteriter($_SESSION['playerID']) .  " / " . $user->getDexterity() . " Dex";
                         ?>
                     </p>
                 </div>
@@ -131,27 +132,27 @@
                 <ul class="navbar-nav ">
                     <li class="nav-item nopadding">
                         <a class="nav-link navtagsw nopadding <?php if (isset($accueilActif) && $accueilActif)
-                            echo 'active' ?>" aria-current="page" href="/">Accueil</a>
-                        </li>
-                        <li class="nav-item nopadding">
-                            <a class="nav-link navtagsw nopadding <?php if (isset($shopActif) && $shopActif)
-                            echo 'active' ?>" href="/shop">Shop</a>
-                        </li>
+                                                                    echo 'active' ?>" aria-current="page" href="/">Accueil</a>
+                    </li>
+                    <li class="nav-item nopadding">
+                        <a class="nav-link navtagsw nopadding <?php if (isset($shopActif) && $shopActif)
+                                                                    echo 'active' ?>" href="/shop">Shop</a>
+                    </li>
                     <?php if (isAuthenticated()): ?>
                         <li class="nav-item nopadding">
                             <a class="nav-link navtagsw nopadding <?php if (isset($enigmaActif) && $enigmaActif)
-                                echo 'active' ?>" href="/enigma">Enigma</a>
-                            </li>
+                                                                        echo 'active' ?>" href="/enigma">Enigma</a>
+                        </li>
 
-                            <li class="nav-item nopadding">
-                                <a class="nav-link navtagsw nopadding <?php if (isset($backActif) && $backActif)
-                                echo 'active' ?>" href="/backpack">Backpack</a>
-                            </li>
+                        <li class="nav-item nopadding">
+                            <a class="nav-link navtagsw nopadding <?php if (isset($backActif) && $backActif)
+                                                                        echo 'active' ?>" href="/backpack">Backpack</a>
+                        </li>
 
-                            <li class="nav-item nopadding">
-                                <a class="nav-link navtagsw nopadding <?php if (isset($cartActif) && $cartActif)
-                                echo 'active' ?>" href="/cart">Cart</a>
-                            </li>
+                        <li class="nav-item nopadding">
+                            <a class="nav-link navtagsw nopadding <?php if (isset($cartActif) && $cartActif)
+                                                                        echo 'active' ?>" href="/cart">Cart</a>
+                        </li>
                     <?php endif; ?>
 
                     <form class="container-fluid justify-content-start" id="signinregister">
