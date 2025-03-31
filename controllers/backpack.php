@@ -7,7 +7,7 @@ if (!isAuthenticated()) {
 
 $backActif = true; // pour le header, savoir quoi highlight
 
-require 'src/class/itemFilter.php';
+require 'src/class/ItemFilter.php';
 
 $pdo = Database::getInstance()->getPDO();
 $model = new InventoryModel($pdo);
