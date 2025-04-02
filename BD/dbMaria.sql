@@ -177,6 +177,7 @@ create table diffQuetes
 
 create table listeQuetes
 (
+    -- todo add loss life
     questID int auto_increment primary key,
     diffID int not null,
     
@@ -369,35 +370,35 @@ begin
     if p_itemType= 'arme' then
         select * from cart
         inner join item
-        on cart.itemID = item.itemID and cart.itemID= p_itemID
+        on cart.itemID = item.itemID and cart.itemID= p_itemID and cart.joueureID = p_joueureID
         inner join Arme 
         on cart.itemID = Arme.itemID
         where item.itemStatus= 0 or item.itemStatus= 1;
     elseif p_itemType= 'armure' then
         select * from cart
         inner join item
-        on cart.itemID = item.itemID and cart.itemID= p_itemID
+        on cart.itemID = item.itemID and cart.itemID= p_itemID and cart.joueureID = p_joueureID
         inner join Armure
         on cart.itemID = Armure.itemID
         where item.itemStatus= 0 or item.itemStatus= 1;
     elseif p_itemType= 'med' then
         select * from cart
         inner join item
-        on cart.itemID = item.itemID and cart.itemID= p_itemID
+        on cart.itemID = item.itemID and cart.itemID= p_itemID and cart.joueureID = p_joueureID
         inner join Medicaments
         on cart.itemID = Medicaments.itemID
         where item.itemStatus= 0 or item.itemStatus= 1;
     elseif p_itemType= 'food' then
         select * from cart
         inner join item
-        on cart.itemID = item.itemID and cart.itemID= p_itemID
+        on cart.itemID = item.itemID and cart.itemID= p_itemID and cart.joueureID = p_joueureID
         inner join Nourriture 
         on cart.itemID = Nourriture.itemID
         where item.itemStatus= 0 or item.itemStatus= 1;
     elseif p_itemType= 'mun' then
         select * from cart
         inner join item
-        on cart.itemID = item.itemID and cart.itemID= p_itemID
+        on cart.itemID = item.itemID and cart.itemID= p_itemID and cart.joueureID = p_joueureID
         inner join Munition
         on cart.itemID = Munition.itemID
         where item.itemStatus= 0 or item.itemStatus= 1;
@@ -440,35 +441,35 @@ begin
     if p_itemType= 'arme' then
         select * from inventaire
         inner join item
-        on inventaire.itemID = item.itemID and inventaire.itemID= p_itemID
+        on inventaire.itemID = item.itemID and inventaire.itemID= p_itemID and inventaire.joueureID = p_joueureID
         inner join Arme 
         on inventaire.itemID = Arme.itemID
         where item.itemStatus= 0 or item.itemStatus= 1;
     elseif p_itemType= 'armure' then
         select * from inventaire
         inner join item
-        on inventaire.itemID = item.itemID and inventaire.itemID= p_itemID
+        on inventaire.itemID = item.itemID and inventaire.itemID= p_itemID and inventaire.joueureID = p_joueureID
         inner join Armure
         on inventaire.itemID = Armure.itemID
         where item.itemStatus= 0 or item.itemStatus= 1;
     elseif p_itemType= 'med' then
         select * from inventaire
         inner join item
-        on inventaire.itemID = item.itemID and inventaire.itemID= p_itemID
+        on inventaire.itemID = item.itemID and inventaire.itemID= p_itemID and inventaire.joueureID = p_joueureID
         inner join Medicaments
         on inventaire.itemID = Medicaments.itemID
         where item.itemStatus= 0 or item.itemStatus= 1;
     elseif p_itemType= 'food' then
         select * from inventaire
         inner join item
-        on inventaire.itemID = item.itemID and inventaire.itemID= p_itemID
+        on inventaire.itemID = item.itemID and inventaire.itemID= p_itemID and inventaire.joueureID = p_joueureID
         inner join Nourriture 
         on inventaire.itemID = Nourriture.itemID
         where item.itemStatus= 0 or item.itemStatus= 1;
     elseif p_itemType= 'mun' then
         select * from inventaire
         inner join item
-        on inventaire.itemID = item.itemID and inventaire.itemID= p_itemID
+        on inventaire.itemID = item.itemID and inventaire.itemID= p_itemID and inventaire.joueureID = p_joueureID
         inner join Munition
         on inventaire.itemID = Munition.itemID
         where item.itemStatus= 0 or item.itemStatus= 1;
@@ -1083,17 +1084,17 @@ begin
     from inventaire
     where itemID = p_itemID and joueureID = p_joueureID;
 
-    select price into itemPrice
-    from items
+    select sellPrice into itemPrice
+    from item
     where itemID = p_itemID;
 
     select caps into playerBalance
-    from joueurs
+    from joueure
     where joueureID = p_joueureID;
 
     set playerBalance = playerBalance + itemPrice * p_quantitySell;
 
-    update joueurs
+    update joueure
     set caps = playerBalance
     where joueureID = p_joueureID;
 
@@ -1200,7 +1201,7 @@ delimiter ;
 -- [ DEFAULT DATA ] --
 
 -- Difficultes des quêtes
-insert into diffQuetes (diffID, difficultyName, nbCaps) values (1, 'facile', 10), (2, 'moyen', 100), (3, 'difficile', 1000);
+insert into diffQuetes (diffID, difficultyName, nbCaps) values (1, 'facile', 50), (2, 'moyen', 100), (3, 'difficile', 200);
 
 -- Quêtes
 call CreateQuest(1, 'Quelle est la couleur du ciel ?', 'Bleu', 1, 'Vert', 0, 'Rouge', 0, 'Jaune', 0);

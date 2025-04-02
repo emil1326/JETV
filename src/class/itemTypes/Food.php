@@ -43,7 +43,7 @@ class Food extends Item
         );
     }
 
-    // SETTERS //
+    // Getter //
     public function getHealthGain(): int
     {
         return $this->healthGain;
@@ -60,8 +60,17 @@ class Food extends Item
     {
         return $this->mainMineral;
     }
+    public function getAttributes(): array
+    {
+        return [
+            'healthGain' => $this->getHealthGain(),
+            'calories' => $this->getCalories(),
+            'getMainNutriment' => $this->getMainNutriment(),
+            'mainMineral' => $this->getMainMineral()
+        ];
+    }
 
-    // Getters //
+    // Setter //
     public function setHealthGain(int $healthGain): void
     {
         $this->healthGain = $healthGain;

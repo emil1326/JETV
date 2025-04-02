@@ -37,7 +37,7 @@ class Armor extends Item
         );
     }
 
-    // SETTERS //
+    // Getters //
     public function getMaterial(): string
     {
         return $this->material;
@@ -45,6 +45,13 @@ class Armor extends Item
     public function getSize(): string
     {
         return $this->size;
+    }
+    public function getAttributes(): array
+    {
+        return [
+            'material' => $this->getMaterial(),
+            'size' => $this->getSize()
+        ];
     }
 
     // SETTERS //

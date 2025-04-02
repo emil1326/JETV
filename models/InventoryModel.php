@@ -46,6 +46,8 @@ class InventoryModel extends ItemModel
 
         $data = $stm->fetch(PDO::FETCH_ASSOC);
 
+        // var_dump($data);
+
         if (!empty($data)) {
             return $item = [
                 'item' => parent::makeItem($data),

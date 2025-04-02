@@ -9,94 +9,96 @@ require 'models/CartModel.php';
 $pdo = Database::getInstance()->getPDO();
 
 # input => playerID, itemID, fromCart = false
+# use buy sell quantity isPlayer
 
-# output => one item or redirect to menu
+# output => one item or redirect to menu or use item or redirect ot backpack
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $parts = parse_url($_SERVER['REQUEST_URI']);
     parse_str($parts['query'], $query);
 
+    $quantity = $query['quantity'] ?? 0;
+    $itemID = $query['itemID'] ?? -1; // => should error
+
 
     $item = null;
 
-    if (isset($query['playerID'])) { // pour l'inventaire
+    if (isset($query['isPlayer']) && isset($query['itemID'])) {
+        // pour l'inventaire et cart
+        $inventoryModel = new InventoryModel($pdo);
+
+        $inShop = false;
+
         if (isset($query['use'])) {
             // need use
+            $did = $inventoryModel->useItem($itemID, $_SESSION['playerID']);
+            if ($did)
+                redirect('/details?itemID=' . $itemID . '&isPlayer');
+            else
+                redirect('/details?itemID=' . $itemID . '&isPlayer&peuPasUtuliser');
+        }
+
+        if (isset($query['sell'])) {
+            // need sell
             $inventoryModel = new InventoryModel($pdo);
-            $did = $inventoryModel->useItem($query['itemID'], $_SESSION['playerID']);
+            $did = $inventoryModel->sellItem($itemID, $_SESSION['playerID'], $quantity);
+            if ($did)
+                redirect('/backpack');
+            else
+                redirect('/details?itemID=' . $itemID . '&isPlayer&peuPasVendre');
         }
-        $inventoryModel = new InventoryModel(pdo: $pdo);
-        $result  = $inventoryModel->selectOne($query['itemID'], $query['playerID']);
+
+        $result  = $inventoryModel->selectOne($itemID, $_SESSION['playerID']);
         if ($result !== null) {
             [$item, $qt] = [$result['item'], $result['quantity']];
+        } else {
+            redirect('/backpack');
         }
-    } else if (isset($query['itemID'])) { // pour shop et cart
+    } else if (isset($query['itemID'])) {
+        // pour shop 
         $shopModel = new ShopModel(pdo: $pdo); // todo change to shopmodel
-        $result = $shopModel->selectOne($query['itemID']);
+
+        $inShop = true;
+
+        if (isset($query['buy'])) {
+            // need buy
+            $cartModel = new CartModel(Database::getInstance()->getPDO());
+            $did = $cartModel->addItemToCart($_SESSION['playerID'], $itemID, $quantity);
+            if ($did)
+                redirect('/backpack');
+            else
+                redirect('/details?itemID=' . $itemID . '&peuPasAcheter');
+        }
+
+        $result = $shopModel->selectOne($itemID);
         if ($result !== null) {
             [$item, $qt] = [$result['item'], $result['quantity']];
+        } else {
+            redirect('/shop');
         }
-    }
-    else
-    {
-        echo 'missing args';
-        // redirect('/');
+    } else {
+        redirect('/');
     }
 
-    if (get_class($item) == 'Weapon') {
-        $attributes = [
-            'efficiency' => $item->getEfficiency(),
-            'genre' => $item->getGenre(),
-            'caliber' => $item->getCaliber()
-        ];
-    } else if (get_class($item) == 'Armor') {
-        $attributes = [
-            'material' => $item->getMaterial(),
-            'size' => $item->getSize()
-        ];
-    } else if (get_class($item) == 'Meds') {
-        $attributes = [
-            'healthGain' => $item->getHealthGain(),
-            'effect' => $item->getEffect(),
-            'duration' => $item->getDuration(),
-            'unwantedEffect' => $item->getUnwantedEffect()
-        ];
-    } else if (get_class($item) == 'Food') {
-        $attributes = [
-            'healthGain' => $item->getHealthGain(),
-            'calories' => $item->getCalories(),
-            'getMainNutriment' => $item->getMainNutriment(),
-            'mainMineral' => $item->getMainMineral()
-        ];
-    } else if (get_class($item) == 'Ammo') {
-        $attributes = [
-            'caliber' => $item->getCaliber()
-        ];
-    }
+    var_dump($result);
+    $qt ?? -1;
 
+    if (isset($query['error']))
+        if ($query['error'] == 'peuPasUtuliser')
+            $peuPasUse = true;
+        elseif ($query['error'] == 'peuPasVendre')
+            $peuPasVendre = true;
+        elseif ($query['error'] == 'peuPasAcheter')
+            $peuPasAcheter = true;
 
-    if ($item == null) // pas else pcq les func peuvent return null
-        if (isset($query['playerID']))
+    $attributes =  $item->getAttributes();
+
+    if ($item == null)
+        if (isset($query['isPlayer']))
             redirect('/backpack'); // guess qui faut aller au backpack si erreure mais avc un idplayer => peu etre si le le itemID existe pas pour se joueur
         else
             redirect('/'); // redirect to homepage si ni playerID ni itemID, peu pas show l'item -> apres avoir fais genre un sell buy use
 
-    // dans le cart et shop on a les meme pages
-} else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $itemID = $_POST['itemID'] ?? null;
-    $quantity = $_POST['quantity'] ?? 0;
-
-    if ($itemID != null && $quantity > 0 /* && isset($_POST['buy'])*/ ) {
-        // add to cart
-        $cartModel = new CartModel(Database::getInstance()->getPDO());
-        $cartModel->addItemToCart($_SESSION['playerID'], $itemID, $quantity);
-        redirect('/shop');
-    }
-    if (isset($_POST['sell']) && $_POST['sell'] == 1) {
-        // vendre item
-        $inventoryModel = new InventoryModel($pdo);
-        $inventoryModel->sellItem($itemID, $_SESSION['playerID'], $quantity); // broken pcq lautre avant prend toujour, faut tou refactor pcq la c trop split la maniere que c fait
-    }
 } else {
     redirect("/");  // todo change vers une page custom ??
 }
