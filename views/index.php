@@ -1,6 +1,9 @@
 <?php
 require 'views/partials/head.php';
 require 'views/partials/header.php';
+
+$canGetCaps ?? false;
+
 ?>
 
 <style>
@@ -25,22 +28,28 @@ require 'views/partials/header.php';
     }
 </style>
 
-<div class="card text-center" style="background-color: #303030;">
+<!-- floating popup getCaps -->
+<?php if ($canGetCaps): ?>
+    <div>
 
+
+    </div>
+<?php endif ?>
+<div class="card text-center" style="background-color: #303030;">
     <div class="card-body" style="padding-top:200px; padding-bottom: 200px;">
         <h1 class="card-title" style="font-size:60px;font-weight: bold;">JETV™</h1>
         <p class="card-text" style="font-size:30px;">Le magasin</p>
         <div style="display:flex; flex-direction:row; justify-content:center;">
-            <a href="/shop" class="btn btn-outline-secondary buttonsw" 
-            style="color:white; margin-right:10px;  border-radius: 8px;padding-top:4px; background-color: #303030;">Shop</a>
+            <a href="/shop" class="btn btn-outline-secondary buttonsw"
+                style="color:white; margin-right:10px;  border-radius: 8px;padding-top:4px; background-color: #303030;">Shop</a>
             <?php if (isAuthenticated()) : ?>
-                <a href="/enigma" class="btn  btn-outline-secondary buttonsw" 
-                style="color:black; background-color:white; border-radius: 8px;padding-top:4px;">Enigma</a></button>
+                <a href="/enigma" class="btn  btn-outline-secondary buttonsw"
+                    style="color:black; background-color:white; border-radius: 8px;padding-top:4px;">Enigma</a></button>
             <?php endif; ?>
         </div>
     </div>
-
 </div>
+
 <div style="display:flex; flex-direction:column; height:auto; width:100%;padding:64px;">
     <div style="display:flex; flex-direction: column;">
         <p style="font-size:30px;font-weight:bold;"><a href="/shop" style="text-decoration: none; color:white;">Shop</a>
@@ -59,7 +68,7 @@ require 'views/partials/header.php';
                             onclick="window.location.href= '/details?itemID=<?= $item['item']->getId() ?>'">
                             <div class="numberCircle"><?= $item['quantity'] ?></div>
                             <img class="card-img-top"
-                                src="public/images/<?= $item['item']->getImageLink()?>"
+                                src="public/images/<?= $item['item']->getImageLink() ?>"
                                 alt="Card image cap">
                             <div class="card-body" style="margin-bottom:20px;">
 
