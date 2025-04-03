@@ -31,25 +31,26 @@ $inShop ?? false;
                     <p class="card-text" style="font-size:50px; font-weight: bold;"><span
                             style="font-size:30px; ">$</span><?= $item->getBuyPrice() ?></p>
                     <p class="card-text"><small class="text-muted"><?= $item->getDescription() ?></small></p>
+                    <?php if ($auth): ?>
+                        <?php if ($inShop): ?>
+                            <!-- if is in shop -->
+                            <button class="btn btn-outline-secondary " type="button"
+                                style="margin-right:10px; width:100%; margin: 5px; border : none; border-radius:8px;padding-top:4px; background-color: #303030;"
+                                data-bs-toggle="modal" data-bs-target="#exampleModalCenter"><a class="buttonst "
+                                    style="color:white;">Acheter</a>
+                            </button>
+                        <?php else: ?>
 
-                    <?php if ($inShop): ?>
-                        <!-- if is in shop -->
-                        <button class="btn btn-outline-secondary " type="button"
-                            style="margin-right:10px; width:100%; margin: 5px; border : none; border-radius:8px;padding-top:4px; background-color: #303030;"
-                            data-bs-toggle="modal" data-bs-target="#exampleModalCenter"><a class="buttonst "
-                                style="color:white;">Acheter</a>
-                        </button>
-                    <?php else: ?>
+                            <button class="btn btn-outline-secondary " type="button"
+                                style="margin-right:10px; width:100%; margin: 5px; border : none; border-radius:8px;padding-top:4px; background-color: #303030;"
+                                data-bs-toggle="modal" data-bs-target="#sellModal"><a class="buttonst "
+                                    style="color:white;">Vendre</a>
+                            </button>
 
-                        <button class="btn btn-outline-secondary " type="button"
-                            style="margin-right:10px; width:100%; margin: 5px; border : none; border-radius:8px;padding-top:4px; background-color: #303030;"
-                            data-bs-toggle="modal" data-bs-target="#sellModal"><a class="buttonst "
-                                style="color:white;">Vendre</a>
-                        </button>
+                            <a type="button" href="/details?use=1&itemID=<?= $item->getId() ?>&isPlayer" class="btn btn-secondary"
+                                style="color:white; font-weight:bold;background-color: transparent; border-color:white; border-radius:10px; width:130px;">Use Item</a>
 
-                        <a type="button" href="/details?use=1&itemID=<?= $item->getId() ?>&isPlayer" class="btn btn-secondary"
-                            style="color:white; font-weight:bold;background-color: transparent; border-color:white; border-radius:10px; width:130px;">Use Item</a>
-
+                        <?php endif ?>
                     <?php endif ?>
 
                     <span class="badge bg-secondary" style="width:100px; font-size:15px; height:30px; margin-left:0px; margin-top:20px; background-color:#434343 !important;">
