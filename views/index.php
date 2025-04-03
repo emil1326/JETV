@@ -2,7 +2,15 @@
 require 'views/partials/head.php';
 require 'views/partials/header.php';
 
+if (!isset($canGetCaps))
+    $canGetCaps = false;
+
+if (!isset($gotCaps))
+    $gotCaps = false;
+
 $canGetCaps ?? false;
+// when just received caps
+$gotCaps ?? false;
 
 ?>
 
@@ -31,7 +39,12 @@ $canGetCaps ?? false;
 <!-- floating popup getCaps -->
 <?php if ($canGetCaps): ?>
     <div>
+        <!-- popup asking if u want 200 caps -->
 
+    </div>
+<?php elseif ($gotCaps): ?>
+    <div>
+        <!-- pop-up when u get caps -->
 
     </div>
 <?php endif ?>

@@ -1,7 +1,7 @@
 <?php
-if(isAuthenticated()){
+if (isAuthenticated()) {
     $auth = true;
-}else{
+} else {
     $auth = false;
 }
 require 'models/ShopModel.php';
@@ -81,7 +81,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         redirect('/');
     }
 
-    var_dump($result);
     $qt ?? -1;
 
     if (isset($query['error']))

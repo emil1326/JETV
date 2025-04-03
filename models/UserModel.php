@@ -101,7 +101,14 @@ class UserModel extends Model
 
     public function setCaps(int $caps, int $playerID): bool
     {
-        return true;
+        try {
+            $stm = $this->pdo->prepare('call setCaps(?, ?)');
+            $stm->execute([$caps, $playerID]);
+            
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
     }
 
     public function addCaps(int $caps, int $playerID): bool

@@ -16,9 +16,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
-
-
+    <link rel="icon" type="image/x-icon" href="/public/images/ICO/jetIcon.jpg">
+    <script src="src/autoRefreshPanel.js"></script>
 
 </head>
 
 <body class=" text-light d-flex flex-column min-vh-100" style="background-color:#1E1E1E !important;">
+    <div id="refreshMain">

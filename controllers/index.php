@@ -9,18 +9,27 @@ $model = new ShopModel($pdo);
 $items = $model->selectAll();
 $accueilActif = true;
 
-if ($_SESSION['lastCaps'] > time() + 86400)
+if (!isset($_SESSION['lastCapsTime']))
+    $_SESSION['lastCapsTime'] = 0; // premier log so set to 0
+
+if ($_SESSION['lastCapsTime'] > time() + 86400) // 84600 => one day
     $canGetCaps = true;
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $parts = parse_url($_SERVER['REQUEST_URI']);
-    parse_str($parts['query'], $query);
+    if (isset($parts['query'])) {
+        parse_str($parts['query'], $query);
 
-    $getCaps = $query['getCaps'] ?? 0;
+        $getCaps = $query['getCaps'] ?? 0;
 
-    if ($_SESSION['lastCaps'] > time() + 86400) {
-        $userModel = new UserModel($pdo);
-        $userModel->addCaps(200, $_SESSION['playerID']);
+        if ($_SESSION['lastCapsTime'] > time() + 86400) {
+            $userModel = new UserModel($pdo);
+            $res =  $userModel->addCaps(200, $_SESSION['playerID']);
+            if ($res) {
+                $_SESSION['lastCaps'] = time();
+                $gotCaps = true;
+            }
+        }
     }
 }
 
