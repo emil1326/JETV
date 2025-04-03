@@ -8,7 +8,7 @@ class AutoRefreshedPanel {
         this.paused = false;
         this.remeinder = ""; // => for logs easier
         this.currentContent = "";  // initial content => gets from ajax
-        if (refreshRate != 10101010) { 
+        if (refreshRate != 10101010) {
             // code for do not, if u dont want to refresh imidiatly when loading the script
             this.refresh();
             this.pause();
@@ -20,6 +20,7 @@ class AutoRefreshedPanel {
     restart() { this.paused = false }
 
     replaceContent(htmlContent) {
+        console.log(htmlContent);
         if (htmlContent !== "") {
             let parsedContent = $("<div>").html(htmlContent);
             let newContent = parsedContent.find("#" + this.panelId).html();
@@ -51,6 +52,7 @@ class AutoRefreshedPanel {
 
     refresh(stillDo = false) {
         if (!this.paused || stillDo) {
+            console.log(`refresh : ${this.panelId} : ${this.remeinder}`)
             $.ajax({
                 url: this.contentServiceURL,
                 dataType: "html",

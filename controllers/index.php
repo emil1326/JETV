@@ -1,7 +1,11 @@
 <?php
 require 'models/ShopModel.php';
-
+// fix me
 $auth = isAuthenticated();
+
+// in => getCaps
+
+// out => gotCaps canGetCaps couldntGetCaps
 
 $pdo = Database::getInstance()->getPDO();
 $model = new ShopModel($pdo);
@@ -22,14 +26,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
         $getCaps = $query['getCaps'] ?? 0;
 
-        if ($_SESSION['lastCapsTime'] > time() + 86400) {
-            $userModel = new UserModel($pdo);
-            $res =  $userModel->addCaps(200, $_SESSION['playerID']);
-            if ($res) {
-                $_SESSION['lastCaps'] = time();
-                $gotCaps = true;
+        if ($getCaps)
+            if ($_SESSION['lastCapsTime'] > time() + 86400) {
+                $userModel = new UserModel($pdo);
+                $res =  $userModel->addCaps(200, $_SESSION['playerID']);
+                if ($res) {
+                    $_SESSION['lastCaps'] = time();
+                    $gotCaps = true;
+                } else {
+                    $couldntGetCaps = true;
+                }
             }
-        }
     }
 }
 

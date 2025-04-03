@@ -11,7 +11,9 @@ const ROUTES = [
     '/enigma' => 'enigma.php',
     '/details' => 'details.php',
     '/detailstemp' => 'detailstemp.php',
-    '/logout' => 'logout.php'
+    '/logout' => 'logout.php',
+
+    '/src/autoRefreshPanel.js' => '/src/autoRefreshPanel.js'
 
 ];
 

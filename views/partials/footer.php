@@ -93,8 +93,8 @@
 <?php if (!isset($doNotRefresh)): ?>
     <script>
         //setup periodique auto refresh
-        // let pannel = autoRefreshPanel("id","thisController",5sec)
-        let pannel = autoRefreshPanel("refreshMain", <?= $_SERVER['REQUEST_URI'] ?>, 5)
+        // let pannel = AutoRefreshedPanel("id","thisController",5sec)
+        new AutoRefreshedPanel("refreshMain", "<?= $_SERVER['REQUEST_URI'] ?>", 5)
     </script>
 <?php endif ?>
 

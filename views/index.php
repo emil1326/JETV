@@ -8,9 +8,13 @@ if (!isset($canGetCaps))
 if (!isset($gotCaps))
     $gotCaps = false;
 
+if (!isset($couldntGetCaps))
+    $couldntGetCaps = false;
+
 $canGetCaps ?? false;
 // when just received caps
 $gotCaps ?? false;
+$couldntGetCaps ?? false;
 
 ?>
 
@@ -45,6 +49,11 @@ $gotCaps ?? false;
 <?php elseif ($gotCaps): ?>
     <div>
         <!-- pop-up when u get caps -->
+
+    </div>
+<?php elseif ($couldntGetCaps): ?>
+    <div>
+        <!-- pop-up when u cant caps ==> error -->
 
     </div>
 <?php endif ?>
