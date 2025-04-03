@@ -1,7 +1,8 @@
 <?php
-if (!isAuthenticated()) {
-    echo 'DEV log: You are not logged in. You shouldn\'t be able to see this';
-    redirect('/shop');
+if(isAuthenticated()){
+    $auth = true;
+}else{
+    $auth = false;
 }
 require 'models/ShopModel.php';
 require 'models/CartModel.php';
