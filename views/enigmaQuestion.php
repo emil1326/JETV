@@ -4,17 +4,6 @@ require 'partials/header.php';
 ?>
 
 
-
-
-<?php
-require 'partials/footer.php';
-?>
-<?php
-require 'partials/head.php';
-require 'partials/header.php';
-?>
-
-
 <style>
     html,
     body {
