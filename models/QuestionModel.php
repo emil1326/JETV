@@ -19,10 +19,10 @@ class QuestionModel extends Model
 
         if (!empty($data)) {
             return array_map(fn($row) => new Quest(
-            $row['quest_id'], 
+            $row['questID'], 
             $row['question'],
-            $row['difficulte_id'],
-            $row['difficulte']),
+            $row['diffID'],
+            $row['difficultyName']),
             $data);
         }
         return null;
@@ -37,10 +37,10 @@ class QuestionModel extends Model
 
         if (!empty($data)) {
             return new Quest(
-                $data['quest_id'],
+                $data['questID'],
                 $data['question'],
-                $data['difficulte_id'],
-                $data['difficulte']
+                $data['diffID'],
+                $data['difficultyName']
             );
         }
         return null;
@@ -55,10 +55,10 @@ class QuestionModel extends Model
 
         if (!empty($data)) {
             return array_map(fn($row) => new Quest(
-                $row['quest_id'],
+                $row['questID'],
                 $row['question'],
-                $row['difficulte_id'],
-                $row['difficulte']
+                $row['diffID'],
+                $row['difficultyName']
             ), $data);
         }
         return null;
@@ -73,10 +73,10 @@ class QuestionModel extends Model
 
         if (!empty($data)) {
             return new Quest(
-                $data['quest_id'],
-                $data['difficulte_id'],
-                $data['difficulte'],
-                $data['reponse']                
+                $data['questID'],
+                $data['question'],
+                $data['diffID'],
+                $data['difficultyName']             
             );
         }
         return null;

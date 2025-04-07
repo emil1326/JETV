@@ -188,7 +188,7 @@ create table listeQuetes
 
 create table reponsesQuetes
 (
-    awnserID int auto_increment primary key,
+    answerID int auto_increment primary key,
     questID int not null,
 
     foreign key (questID) references listeQuetes(questID),
