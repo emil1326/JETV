@@ -1244,6 +1244,7 @@ select CreateJoueur('je vins, je vus, je construit', 'bob', 'leBricoleur', 'pass
 select CreateJoueur('joueur1', 'John', 'Doe', 'passjohn');
 select CreateJoueur('joueur2', 'Jane', 'Smith', 'passjane');
 select CreateJoueur('joueur3', 'Alice', 'Johnson', 'passalice');
+select CreateJoueur('playerA', 'firstname', 'lastname', 'password');
 
 -- evaluations 
 call CreateCommentaireEvaluation(1, 1, 1, 'Tres bon produit !', 5);
