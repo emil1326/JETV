@@ -3,7 +3,7 @@
 require_once 'models/Model.php';
 require_once 'src/class/Quest.php';
 
-class Quest extends Model
+class QuestModel extends Model
 {
     public function __construct(protected PDO $pdo)
     {
@@ -20,10 +20,10 @@ class Quest extends Model
         if (!empty($data)) {
             return array_map(
                 fn($row) => new Quest(
-                    $row['quest_id'],
-                    $row['question'],
-                    $row['difficulte_id'],
-                    $row['difficulte']
+                    $row['questID'],
+                $row['question'],
+                $row['diffID'],
+                $row['difficultyName']
                 ),
                 $data
             );
