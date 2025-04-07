@@ -12,7 +12,7 @@ class QuestModel extends Model
 
     public function selectAll(): null|array
     {
-        $stm = $this->pdo->prepare('SELECT * FROM listeQuetes;');
+        $stm = $this->pdo->prepare('call GetAllQuestions()');
         $stm->execute();
 
         $data = $stm->fetchAll(PDO::FETCH_ASSOC);
@@ -32,7 +32,7 @@ class QuestModel extends Model
     }
     public function selectById(int $id): null|Quest
     {
-        $stm = $this->pdo->prepare('SELECT * FROM listeQuetes WHERE quest_id = :id;');
+        $stm = $this->pdo->prepare('call GetOneQuestionByID(:id)');
         $stm->bindValue(':id', $id, PDO::PARAM_INT);
         $stm->execute();
 
@@ -50,7 +50,7 @@ class QuestModel extends Model
     }
     public function selectByDifficulty(int $difficulty): null|array
     {
-        $stm = $this->pdo->prepare('SELECT * FROM listeQuetes WHERE difficulte_id = :difficulty;');
+        $stm = $this->pdo->prepare('call GetOneRandomByDifficulty(:difficulty)');
         $stm->bindValue(':difficulty', $difficulty, PDO::PARAM_INT);
         $stm->execute();
 
@@ -63,24 +63,6 @@ class QuestModel extends Model
                 $row['diffID'],
                 $row['difficultyName']
             ), $data);
-        }
-        return null;
-    }
-    public function selectRandom(int $difficulty): null|Quest
-    {
-        $stm = $this->pdo->prepare('SELECT * FROM listeQuetes WHERE difficulte_id = :difficulty ORDER BY RAND() LIMIT 1;');
-        $stm->bindValue(':difficulty', $difficulty, PDO::PARAM_INT);
-        $stm->execute();
-
-        $data = $stm->fetch(PDO::FETCH_ASSOC);
-
-        if (!empty($data)) {
-            return new Quest(
-                $data['questID'],
-                $data['question'],
-                $data['diffID'],
-                $data['difficultyName']             
-            );
         }
         return null;
     }

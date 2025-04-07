@@ -1114,6 +1114,35 @@ begin
 end;
 //
 delimiter ;
+-- get one random
+drop procedure if exists GetOneRandomByDifficulty;
+delimiter //
+create procedure GetOneRandomQuestionByDifficulty(in p_difficultyID int)
+begin
+
+end;
+//
+delimiter ;
+
+-- get one by id
+drop procedure if exists GetOneQuestionByID;
+delimiter //
+create procedure GetOneQuestionByID(in p_questionID int)
+begin
+
+end;
+//
+delimiter ;
+
+-- get all
+drop procedure if exists GetAllQuestions;
+delimiter //
+create procedure GetAllQuestions()
+begin
+
+end;
+//
+delimiter ;
 
 
 -- [ Triggers ] --
