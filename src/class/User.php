@@ -44,7 +44,7 @@ class User
     }
     public function getUsername(): string
     {
-        return $this->username;
+        return $this->username ?? "error";
     }
     public function getFirstName(): string
     {
