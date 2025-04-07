@@ -1,21 +1,22 @@
 <?php
 
-class Question
+class Quest
 {
-    private int $questId;
+
+    private int $id;
     private int $question;
     private int $difficultyId;
     private int $difficulty;
-    private int $answers;
+    private array $answers;
 
     public function __construct(
-        int $questId,
+        int $id,
         int $question,
         int $difficultyId,
         int $difficulty,
-        int $answers
+        array $answers
     ) {
-        $this->questId = $questId;
+        $this->id = $id;
         $this->question = $question;
         $this->difficultyId = $difficultyId;
         $this->difficulty = $difficulty;
@@ -23,9 +24,9 @@ class Question
     }
 
     // GETTERS //
-    public function getQuestId(): int
+    public function getId(): int
     {
-        return $this->questId;
+        return $this->id;
     }
     public function getQuestion(): int
     {
@@ -39,7 +40,7 @@ class Question
     {
         return $this->difficulty;
     }
-    public function getAnswers(): int
+    public function getAnswers(): array
     {
         return $this->answers;
     }
@@ -57,8 +58,12 @@ class Question
     {
         $this->difficulty = $difficulty;
     }
-    public function setAnswers(int $answers)
+    public function setAnswers(array $answers)
     {
         $this->answers = $answers;
+    }
+    public function addAnswer(Answer $answer)
+    {
+        $this->answers[] = $answer;
     }
 }
