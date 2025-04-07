@@ -2,7 +2,6 @@
 
 class Answer
 {
-
     private int $id;
     private int $questId;
     private string $answer;
@@ -33,10 +32,18 @@ class Answer
     {
         return $this->answer;
     }
+    public function getIsCorrect(): bool
+    {
+        return $this->isCorrect;
+    }
 
     // SETTERS //
     public function setAnswer(string $answer)
     {
         $this->answer = $answer;
+    }
+    public function setIsCorrect(bool $isCorrect)
+    {
+        $this->isCorrect = $isCorrect;
     }
 }

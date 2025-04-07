@@ -2,25 +2,24 @@
 
 class Quest
 {
-
     private int $id;
     private int $question;
     private int $difficultyId;
     private int $difficulty;
-    private array $answers;
+    // private array $answers;
 
     public function __construct(
         int $id,
         int $question,
         int $difficultyId,
         int $difficulty,
-        array $answers
+        // array $answers
     ) {
         $this->id = $id;
         $this->question = $question;
         $this->difficultyId = $difficultyId;
         $this->difficulty = $difficulty;
-        $this->answers = $answers;
+        // $this->answers = $answers;
     }
 
     // GETTERS //
@@ -40,10 +39,10 @@ class Quest
     {
         return $this->difficulty;
     }
-    public function getAnswers(): array
-    {
-        return $this->answers;
-    }
+    //  public function getAnswers(): array
+    //  {
+    //      return $this->answers;
+    //  }
 
     // SETTERS //
     public function setQuestion(int $question)
@@ -58,12 +57,12 @@ class Quest
     {
         $this->difficulty = $difficulty;
     }
-    public function setAnswers(array $answers)
-    {
-        $this->answers = $answers;
-    }
-    public function addAnswer(Answer $answer)
-    {
-        $this->answers[] = $answer;
-    }
+    //  public function setAnswers(array $answers)
+    //  {
+    //      $this->answers = $answers;
+    //  }
+    //  public function addAnswer(Answer $answer)
+    //  {
+    //      $this->answers[] = $answer;
+    //  }
 }
