@@ -14,6 +14,7 @@ drop table if exists reponsesQuetes cascade;
 drop table if exists listeQuetes cascade;
 drop table if exists diffQuetes cascade;
 drop table if exists item cascade;
+drop table if exists responseStreak cascade;
 drop table if exists joueure cascade;
 
 -- [ tables ] --
@@ -34,8 +35,6 @@ create table joueure
     pv int default 100 not null,
     poidsMax int default 200 not null
 );
-
--- todo cap life 100
 
 -- [ items ] --
 
@@ -171,6 +170,7 @@ create table diffQuetes
 (
     diffID int not null primary key,
     difficultyName varchar(20) not null,
+    pvLoss int not null,
 
     nbCaps int not null
 );
@@ -188,7 +188,7 @@ create table listeQuetes
 
 create table reponsesQuetes
 (
-    answerID int auto_increment primary key,
+    awnserID int auto_increment primary key,
     questID int not null,
 
     foreign key (questID) references listeQuetes(questID),
@@ -197,6 +197,15 @@ create table reponsesQuetes
     flagEstVrai smallint not null default 0,
     
     constraint ck_reponsesQuetes_flagEstVrai check(flagEstVrai between 0 and 1) -- stay entre 0 et 1 pour le flag 0=> false
+);
+
+create table responseStreak
+(
+    joueureID int primary key,
+
+    streak int not null default 0,
+
+    foreign key (joueureID) references joueure(joueureID)
 );
 
 -- [  VIEWS  ] --
@@ -280,9 +289,11 @@ select avg(evaluations) as moyenne_etoiles from commentaires where itemID = 0;
 
 -- [ PROCEDURES ] --
 
+-- s_getItems
+
 -- au debut ici c juste pour pouvoir voir les items de tout 
 
--- tous a des version one item ou multiple items, peut demander l'id du joueur concerner
+-- tous a des version one item ou multiple items, peut demander l'id du joueure concerner
 
 -- Shop Item (One)
 drop procedure if exists GetOneShopItem;
@@ -555,7 +566,7 @@ end;
 //
 delimiter ;
 
--- [ Procedures CRUD ] -- 
+-- s_crud [ Procedures CRUD ] -- 
 
 drop function if exists CreateJoueur;
 delimiter //
@@ -712,7 +723,7 @@ end;
 //
 delimiter ;
 
--- login/passwords
+-- s_login/passwords
 
 drop function if exists CheckLogin;
 delimiter //
@@ -764,7 +775,7 @@ end;
 //
 delimiter ;
 
--- commentaire
+-- s_commentaire
 
 drop procedure if exists CreateCommentaireEvaluation; -- todo tf did i do here??????????
 delimiter //
@@ -816,7 +827,7 @@ end;
 //
 delimiter ;
 
--- quest
+-- s_quest
 drop procedure if exists CreateQuest;
 delimiter //
 create procedure CreateQuest(
@@ -860,18 +871,23 @@ end;
 //
 delimiter ;
 
-drop procedure if exists DoQuest; -- utiliser pour checker si la reponse est la bonne et donner les caps
+drop function if exists DoQuest; -- utiliser pour checker si la reponse est la bonne et donner les caps
 delimiter //
-create procedure DoQuest(
-    in p_questID int,
-    in p_joueureID int,
-    in p_answerID int
-)
+create function DoQuest(
+    p_questID int,
+    p_joueureID int,
+    p_answerID int
+) returns int
 begin
     declare correctAnswerExists boolean;
     declare reward int;
+    declare healthLoss int;
 
-    select exists (select 1 from reponsesQuetes where questID = p_questID and awnserID = p_answerID and flagEstVrai = 1) into correctAnswerExists;
+    select exists (
+        select 1 
+        from reponsesQuetes 
+        where questID = p_questID and awnserID = p_answerID and flagEstVrai = 1
+    ) into correctAnswerExists;
 
     if correctAnswerExists then
         select dq.nbCaps into reward
@@ -879,12 +895,100 @@ begin
         join diffQuetes dq on lq.diffID = dq.diffID
         where lq.questID = questID;
 
+        set reward = reward + 
+            case 
+                when (select streak from responseStreak where joueureID = p_joueureID) % 3 = 0 then 1000
+                else 0
+            end;
+
         update joueure
         set caps = caps + reward
-        where joueureID = joueureID;
+        where joueureID= p_joueureID;
+
+        update responseStreak
+        set streak= streak + 1
+        where joueureID= p_joueureID;
+
+        return 1;
     else
+        select dq.pvLoss into healthLoss
+        from listeQuetes lq
+        join diffQuetes dq on lq.diffID = dq.diffID
+        where lq.questID= p_questID;
+        
+        update joueure
+        set pv = pv - healthLoss
+        where joueureID= p_joueureID;
+
+        update responseStreak
+        set streak= 0
+        where joueureID= p_joueureID;
+
+        if (select pv from joueure where joueureID= p_joueureID) <= 0 then
+            return 2;
+        end if;
+
+        return 0;
         signal sqlstate '45000' set message_text = 'Incorrect answer';
     end if;
+end;
+//
+delimiter ;
+
+-- get one random by diff
+-- get one by id
+-- get all
+
+-- get one random
+drop procedure if exists GetOneRandomQuestionByDifficulty;
+delimiter //
+create procedure GetOneRandomQuestionByDifficulty(in p_difficultyID int)
+begin
+    SET @row_count = (SELECT COUNT(*) FROM listeQuetes WHERE diffID = p_difficultyID);
+    SET @random_offset = FLOOR(RAND() * @row_count);
+
+    select listeQuetes.questID, listeQuetes.question, diffQuetes.difficultyName, diffQuetes.pvLoss from listeQuetes
+    join diffQuetes on diffQuetes.diffID = listeQuetes.diffID and listeQuetes.diffID= p_difficultyID 
+    join reponsesQuetes on reponsesQuetes.questID = listeQuetes.questID
+    order by rand()
+    limit 1 OFFSET @random_offset;
+end;
+//
+delimiter ;
+
+-- get one by id
+drop procedure if exists GetOneQuestionByID;
+delimiter //
+create procedure GetOneQuestionByID(in p_questionID int)
+begin
+    select listeQuetes.questID, listeQuetes.question, diffQuetes.difficultyName, diffQuetes.pvLoss from listeQuetes
+    join diffQuetes on diffQuetes.diffID = listeQuetes.diffID and listeQuetes.questID= p_questionID
+    limit 1;
+end;
+//
+delimiter ;
+
+-- get one by id
+drop procedure if exists GetOneQuestionAndAwnserByID;
+delimiter //
+create procedure GetOneQuestionAndAwnserByID(in p_questionID int)
+begin
+    select listeQuetes.questID, listeQuetes.question, reponsesQuetes.reponse, diffQuetes.difficultyName, diffQuetes.pvLoss, reponsesQuetes.flagEstVrai from listeQuetes
+    join diffQuetes on diffQuetes.diffID = listeQuetes.diffID and listeQuetes.questID= p_questionID
+    join reponsesQuetes on reponsesQuetes.questID = listeQuetes.questID
+    limit 4;
+end;
+//
+delimiter ;
+
+-- get all
+drop procedure if exists GetAllQuestionsAndAwnser;
+delimiter //
+create procedure GetAllQuestionsAndAwnser()
+begin
+    select listeQuetes.questID, listeQuetes.question, reponsesQuetes.reponse, diffQuetes.difficultyName, diffQuetes.pvLoss, reponsesQuetes.flagEstVrai from listeQuetes
+    join diffQuetes on diffQuetes.diffID = listeQuetes.diffID
+    join reponsesQuetes on reponsesQuetes.questID = listeQuetes.questID;
 end;
 //
 delimiter ;
@@ -905,24 +1009,24 @@ begin
 
     start transaction;
 
-    -- Vérifie l'état de l'item
+    -- Verifie l'etat de l'item
     select itemStatus into item_status
     from item
     where itemID = p_itemID;
 
-    -- Vérifie la quantité disponible dans le shop
+    -- Verifie la quantite disponible dans le shop
     select coalesce(qt, 0) into stock_disponible
     from shop
     where itemID = p_itemID;
 
-    -- Vérifie la quantité actuelle dans le panier
+    -- Verifie la quantite actuelle dans le panier
     select coalesce(qt, 0) into cart_quantity
     from cart
     where joueureID = p_joueureID and itemID = p_itemID;
 
-    -- Vérifie si l'item est interdit à la vente
+    -- Verifie si l'item est interdit à la vente
     if item_status in (2,3) then
-        signal sqlstate '45000' set message_text = 'Cet item ne peut pas être acheté.';
+        signal sqlstate '45000' set message_text = 'Cet item ne peut pas être achete.';
     end if;
 
     -- Si on veut ajouter des items
@@ -955,7 +1059,7 @@ begin
                 -- Supprimer complètement l'item du panier
                 delete from cart where joueureID = p_joueureID and itemID = p_itemID;
                 
-                -- Remettre les items retirés dans le shop
+                -- Remettre les items retires dans le shop
                 if exists (select 1 from shop where itemID = p_itemID) then
                     update shop
                     set qt = qt + cart_quantity
@@ -965,12 +1069,12 @@ begin
                     values (p_itemID, cart_quantity);
                 end if;
             else
-                -- Sinon, juste réduire la quantité
+                -- Sinon, juste reduire la quantite
                 update cart
                 set qt = qt + p_quantity
                 where joueureID = p_joueureID and itemID = p_itemID;
                 
-                -- Remettre les items retirés dans le shop
+                -- Remettre les items retires dans le shop
                 if exists (select 1 from shop where itemID = p_itemID) then
                     update shop
                     set qt = qt - p_quantity
@@ -1114,35 +1218,6 @@ begin
 end;
 //
 delimiter ;
--- get one random
-drop procedure if exists GetOneRandomByDifficulty;
-delimiter //
-create procedure GetOneRandomQuestionByDifficulty(in p_difficultyID int)
-begin
-
-end;
-//
-delimiter ;
-
--- get one by id
-drop procedure if exists GetOneQuestionByID;
-delimiter //
-create procedure GetOneQuestionByID(in p_questionID int)
-begin
-
-end;
-//
-delimiter ;
-
--- get all
-drop procedure if exists GetAllQuestions;
-delimiter //
-create procedure GetAllQuestions()
-begin
-
-end;
-//
-delimiter ;
 
 
 -- [ Triggers ] --
@@ -1230,12 +1305,39 @@ delimiter ;
 -- [ DEFAULT DATA ] --
 
 -- Difficultes des quêtes
-insert into diffQuetes (diffID, difficultyName, nbCaps) values (1, 'facile', 50), (2, 'moyen', 100), (3, 'difficile', 200);
+insert into diffQuetes (diffID, difficultyName, pvLoss, nbCaps) values (1, 'facile', 10, 50), (2, 'moyen', 20, 100), (3, 'difficile', 40, 200);
 
--- Quêtes
+-- Creation de quêtes
 call CreateQuest(1, 'Quelle est la couleur du ciel ?', 'Bleu', 1, 'Vert', 0, 'Rouge', 0, 'Jaune', 0);
-call CreateQuest(2, 'Combien de pattes a un chien ?', '2', 0, '4', 1, '6', 0, '8', 0);
-call CreateQuest(3, 'Quelle est la capitale de la France ?', 'Berlin', 0, 'Madrid', 0, 'Paris', 1, 'Rome', 0);
+call CreateQuest(1, 'Combien de pattes a un chien ?', '2', 0, '4', 1, '6', 0, '8', 0);
+call CreateQuest(1, 'Quelle est la capitale de la France ?', 'Berlin', 0, 'Madrid', 0, 'Paris', 1, 'Rome', 0);
+call CreateQuest(1, 'Combien font 2 + 2 ?', '3', 0, '4', 1, '5', 0, '6', 0);
+call CreateQuest(1, 'Quel est le plus grand ocean ?', 'Atlantique', 0, 'Pacifique', 1, 'Arctique', 0, 'Indien', 0);
+call CreateQuest(1, 'Quelle est la planète la plus proche du soleil ?', 'Mars', 0, 'Mercure', 1, 'Venus', 0, 'Terre', 0);
+call CreateQuest(2, 'Combien y a-t-il de continents ?', '5', 0, '6', 0, '7', 1, '8', 0);
+call CreateQuest(2, 'Quel est le plus grand desert du monde ?', 'Sahara', 1, 'Gobi', 0, 'Kalahari', 0, 'Arctique', 0);
+call CreateQuest(2, 'Quel est le symbole chimique de l’eau ?', 'H2O', 1, 'O2', 0, 'CO2', 0, 'H2', 0);
+call CreateQuest(2, 'Quel est le plus haut sommet du monde ?', 'Mont Blanc', 0, 'Everest', 1, 'Kilimandjaro', 0, 'Aconcagua', 0);
+call CreateQuest(2, 'Quel est l’animal terrestre le plus rapide ?', 'Guepard', 1, 'Lion', 0, 'Antilope', 0, 'Tigre', 0);
+call CreateQuest(2, 'Combien de jours y a-t-il dans une annee bissextile ?', '364', 0, '365', 0, '366', 1, '367', 0);
+call CreateQuest(3, 'Quel est le plus grand pays du monde ?', 'Canada', 0, 'Russie', 1, 'Chine', 0, 'etats-Unis', 0);
+call CreateQuest(3, 'Quel est l’element chimique le plus leger ?', 'Helium', 0, 'Hydrogène', 1, 'Oxygène', 0, 'Azote', 0);
+call CreateQuest(3, 'Quel est le plus grand mammifère marin ?', 'Orque', 0, 'Baleine bleue', 1, 'Dauphin', 0, 'Requin', 0);
+call CreateQuest(3, 'Quel est le plus long fleuve du monde ?', 'Nil', 1, 'Amazonie', 0, 'Yangtse', 0, 'Mississippi', 0);
+call CreateQuest(3, 'Quel est le plus petit os du corps humain ?', 'Femur', 0, 'etrier', 1, 'Tibia', 0, 'Radius', 0);
+call CreateQuest(3, 'Quel est le plus grand organe du corps humain ?', 'Cœur', 0, 'Peau', 1, 'Foie', 0, 'Poumon', 0);
+call CreateQuest(3, 'Quel est le plus grand lac d’eau douce du monde ?', 'Lac Victoria', 0, 'Lac Superieur', 1, 'Lac Baïkal', 0, 'Lac Tanganyika', 0);
+call CreateQuest(3, 'Quel est le plus grand volcan actif du monde ?', 'Etna', 0, 'Mauna Loa', 1, 'Kilimandjaro', 0, 'Vesuve', 0);
+call CreateQuest(3, 'Quel est le plus grand desert chaud du monde ?', 'Sahara', 1, 'Gobi', 0, 'Kalahari', 0, 'Atacama', 0);
+call CreateQuest(3, 'Quel est le plus grand recif corallien du monde ?', 'Recif de Belize', 0, 'Grande Barrière de Corail', 1, 'Recif de Floride', 0, 'Recif de Palancar', 0);
+call CreateQuest(3, 'Quel est le plus grand arbre du monde ?', 'Sequoia', 1, 'Chêne', 0, 'Baobab', 0, 'erable', 0);
+call CreateQuest(3, 'Quel est le plus grand oiseau du monde ?', 'Aigle', 0, 'Autruche', 1, 'Condor', 0, 'Albatros', 0);
+call CreateQuest(3, 'Quel est le plus grand reptile du monde ?', 'Crocodile', 1, 'Serpent', 0, 'Tortue', 0, 'Iguane', 0);
+call CreateQuest(3, 'Quel est le plus grand poisson du monde ?', 'Requin blanc', 0, 'Requin-baleine', 1, 'Espadon', 0, 'Thon', 0);
+call CreateQuest(3, 'Quel est le plus grand amphibiens du monde ?', 'Grenouille', 0, 'Salamandre geante', 1, 'Triton', 0, 'Crapaud', 0);
+call CreateQuest(3, 'Quel est le plus grand insecte du monde ?', 'Fourmi', 0, 'Phasme', 1, 'Scarabee', 0, 'Papillon', 0);
+call CreateQuest(3, 'Quel est le plus grand oiseau volant du monde ?', 'Condor', 1, 'Aigle', 0, 'Autruche', 0, 'Albatros', 0);
+call CreateQuest(3, 'Quel est le plus grand predateur terrestre ?', 'Lion', 0, 'Ours polaire', 1, 'Tigre', 0, 'Loup', 0);
 
 -- items
 call CreateItem('Epee de base', 'Une epee simple pour les debutants', 5, 100.0, 50.0, 'epee.png', 10, 0, 'arme', '50', 'Epee', '', 0, 10);
@@ -1290,35 +1392,35 @@ call CreateCommentaireEvaluation(3, 3, 1, 'Je ne suis pas satisfait.', 1);
 
 -- Ajouter un item au panier
 -- CALL AddItemToCart(1, 101, 2);
--- Ajoute l'item avec itemID 101 au panier du joueur avec joueureID 1, en quantite de 2.
+-- Ajoute l'item avec itemID 101 au panier du joueure avec joueureID 1, en quantite de 2.
 
 -- Passer une commande
 -- CALL PassCommande(1);
--- Passe une commande pour le joueur avec joueureID 1.
+-- Passe une commande pour le joueure avec joueureID 1.
 
 -- Supprimer un item du panier
 -- CALL RemoveItemFromCart(1, 101);
--- Supprime l'item avec itemID 101 du panier du joueur avec joueureID 1.
+-- Supprime l'item avec itemID 101 du panier du joueure avec joueureID 1.
 
 -- Mettre à jour la quantite d'un item dans le panier
 -- CALL UpdateCartItemQuantity(1, 101, 5);
--- Met à jour la quantite de l'item avec itemID 101 dans le panier du joueur avec joueureID 1 à 5.
+-- Met à jour la quantite de l'item avec itemID 101 dans le panier du joueure avec joueureID 1 à 5.
 
 -- Vider le panier
 -- CALL ClearCart(1);
--- Vide le panier du joueur avec joueureID 1.
+-- Vide le panier du joueure avec joueureID 1.
 
 -- Obtenir le contenu du panier
 -- CALL GetCartContents(1);
--- Recupere le contenu du panier du joueur avec joueureID 1.
+-- Recupere le contenu du panier du joueure avec joueureID 1.
 
--- Creer un joueur
+-- Creer un joueure
 -- CALL CreateJoueur('alias', 'nom', 'prenom');
--- Cree un nouveau joueur avec l'alias, le nom et le prenom specifies.
+-- Cree un nouveau joueure avec l'alias, le nom et le prenom specifies.
 
--- Mettre à jour les caps d'un joueur
+-- Mettre à jour les caps d'un joueure
 -- CALL SetCaps(1, 500);
--- Met à jour les caps du joueur avec joueureID 1 à 500.
+-- Met à jour les caps du joueure avec joueureID 1 à 500.
 
 -- Creer un item                            poid , buy  , sell        utulitr, status                                       qt
 -- CALL CreateItem('itemName', 'description', 10, 100.0, 50.0, 'imageLink', 1, 0, 'arme', 'efficiency', 'genre', 'calibre', 100);
@@ -1330,11 +1432,11 @@ call CreateCommentaireEvaluation(3, 3, 1, 'Je ne suis pas satisfait.', 1);
 
 -- Creer un commentaire
 -- CALL CreateCommentaireEvaluation(101, 1, 'commentaire', 5, 0(pos));
--- Cree un commentaire pour l'item avec itemID 101 par le joueur avec joueureID 1, avec une evaluation de 5.
+-- Cree un commentaire pour l'item avec itemID 101 par le joueure avec joueureID 1, avec une evaluation de 5.
 
 -- Supprimer un commentaire
 -- CALL DeleteCommentaire(101, 1, 1);
--- Supprime le commentaire avec commentaireID 1 pour l'item avec itemID 101 par le joueur avec joueureID 1.
+-- Supprime le commentaire avec commentaireID 1 pour l'item avec itemID 101 par le joueure avec joueureID 1.
 
 -- Creer une quête
 -- CALL CreateQuest(1, 'question', 'reponse1', 1, 'reponse2', 0, 'reponse3', 0, 'reponse4', 0);
