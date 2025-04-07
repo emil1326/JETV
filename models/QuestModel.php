@@ -3,7 +3,7 @@
 require_once 'models/Model.php';
 require_once 'src/class/Quest.php';
 
-class QuestionModel extends Model
+class Quest extends Model
 {
     public function __construct(protected PDO $pdo)
     {
@@ -18,12 +18,15 @@ class QuestionModel extends Model
         $data = $stm->fetchAll(PDO::FETCH_ASSOC);
 
         if (!empty($data)) {
-            return array_map(fn($row) => new Quest(
-            $row['quest_id'], 
-            $row['question'],
-            $row['difficulte_id'],
-            $row['difficulte']),
-            $data);
+            return array_map(
+                fn($row) => new Quest(
+                    $row['quest_id'],
+                    $row['question'],
+                    $row['difficulte_id'],
+                    $row['difficulte']
+                ),
+                $data
+            );
         }
         return null;
     }
@@ -76,9 +79,10 @@ class QuestionModel extends Model
                 $data['quest_id'],
                 $data['difficulte_id'],
                 $data['difficulte'],
-                $data['reponse']                
+                $data['reponse']
             );
         }
         return null;
     }
 }
+
