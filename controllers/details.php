@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $cartModel = new CartModel(Database::getInstance()->getPDO());
             $did = $cartModel->addItemToCart($_SESSION['playerID'], $itemID, $quantity);
             if ($did)
-                redirect('/backpack');
+                redirect('/shop');
             else
                 redirect('/details?itemID=' . $itemID . '&peuPasAcheter');
         }
