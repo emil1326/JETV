@@ -188,7 +188,7 @@ create table listeQuetes
 
 create table reponsesQuetes
 (
-    awnserID int auto_increment primary key,
+    answerID int auto_increment primary key,
     questID int not null,
 
     foreign key (questID) references listeQuetes(questID),
@@ -1214,6 +1214,35 @@ begin
     insert into shop (itemID, qt)
     values (p_itemID, p_quantitySell)
     on duplicate key update qt = qt + p_quantitySell;
+
+end;
+//
+delimiter ;
+-- get one random
+drop procedure if exists GetOneRandomByDifficulty;
+delimiter //
+create procedure GetOneRandomQuestionByDifficulty(in p_difficultyID int)
+begin
+
+end;
+//
+delimiter ;
+
+-- get one by id
+drop procedure if exists GetOneQuestionByID;
+delimiter //
+create procedure GetOneQuestionByID(in p_questionID int)
+begin
+
+end;
+//
+delimiter ;
+
+-- get all
+drop procedure if exists GetAllQuestions;
+delimiter //
+create procedure GetAllQuestions()
+begin
 
 end;
 //
