@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
         // si a acheter
         if (isset($query['buy'])) {
-            //do buy bd
+            // buy one item
             $res = $modelCart->buyCart($_SESSION["playerID"]);
             if ($res)
                 redirect('/backpack');
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 redirect('/cart?error=peuPasAcheter');
             }
         } elseif (isset($query['addItem'])) {
-            // 
+            // add one item
             $res =  $modelCart->addItemToCart($_SESSION["playerID"], $query['itemID'],  1);
             if ($res)
                 redirect('/cart');
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 redirect('/cart?error=peuPasAdd');
             }
         } elseif (isset($query['removeItem'])) {
-            // 
+            // remove one item
             $res =  $modelCart->removeItemFromCart($_SESSION["playerID"], $query['itemID'], 1);
             if ($res)
                 redirect('/cart');
@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 redirect('/cart?error=peuPasRemove');
             }
         } elseif (isset($query['clearItems'])) {
-            //
+            // clear cart
             $res =     $modelCart->clearCart($_SESSION["playerID"]);
             if ($res)
                 redirect('/shop');
@@ -70,13 +70,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($query['error'])) {
         if ($query['error'] == 'peuPasAcheter')
             $peuPasAcheter = true;
-        if ($query['error'] == 'tropHeavy')
+        elseif ($query['error'] == 'tropHeavy')
             $tropHeavy = true;
-        if ($query['error'] == 'peuPasAdd')
+        elseif ($query['error'] == 'peuPasAdd')
             $peuPasAdd = true;
-        if ($query['error'] == 'peuPasRemove')
+        elseif ($query['error'] == 'peuPasRemove')
             $peuPasRemove = true;
-        if ($query['error'] == 'peuPasClear')
+        elseif ($query['error'] == 'peuPasClear')
             $peuPasClear = true;
     }
 

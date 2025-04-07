@@ -40,7 +40,7 @@ class Weapon extends Item
         );
     }
 
-    // SETTERS //
+    // Getters //
     public function getEfficiency(): string
     {
         return $this->efficiency;
@@ -52,6 +52,14 @@ class Weapon extends Item
     public function getCaliber(): string|null
     {
         return $this->caliber;
+    }
+    public function getAttributes(): array
+    {
+        return [
+            'efficiency' => $this->getEfficiency(),
+            'genre' => $this->getGenre(),
+            'caliber' => $this->getCaliber()
+        ];
     }
 
     // SETTERS //

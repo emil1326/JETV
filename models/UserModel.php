@@ -86,17 +86,33 @@ class UserModel extends Model
     public function getDexteriter(int $PlayerID): int
     {
         $inventoryModel = new InventoryModel($this->pdo);
-    
+
         $weight = $inventoryModel->totalWeight($PlayerID);
-    
+
         $player = $this->selectById($PlayerID);
-    
+
         $overDraft = $weight - $player->getMaxWeight();
         $overDraft = $overDraft > 0 ? $overDraft : 0;
-    
+
         $dext = $player->getDexterity() - $overDraft;
-    
+
         return $dext;
     }
-    
+
+    public function setCaps(int $caps, int $playerID): bool
+    {
+        try {
+            $stm = $this->pdo->prepare('call setCaps(?, ?)');
+            $stm->execute([$caps, $playerID]);
+            
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    public function addCaps(int $caps, int $playerID): bool
+    {
+        return $this->setCaps($this->selectById($playerID)->getCaps() + $caps, $playerID);
+    }
 }

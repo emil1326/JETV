@@ -177,6 +177,7 @@ create table diffQuetes
 
 create table listeQuetes
 (
+    -- todo add loss life
     questID int auto_increment primary key,
     diffID int not null,
     
@@ -369,35 +370,35 @@ begin
     if p_itemType= 'arme' then
         select * from cart
         inner join item
-        on cart.itemID = item.itemID and cart.itemID= p_itemID
+        on cart.itemID = item.itemID and cart.itemID= p_itemID and cart.joueureID = p_joueureID
         inner join Arme 
         on cart.itemID = Arme.itemID
         where item.itemStatus= 0 or item.itemStatus= 1;
     elseif p_itemType= 'armure' then
         select * from cart
         inner join item
-        on cart.itemID = item.itemID and cart.itemID= p_itemID
+        on cart.itemID = item.itemID and cart.itemID= p_itemID and cart.joueureID = p_joueureID
         inner join Armure
         on cart.itemID = Armure.itemID
         where item.itemStatus= 0 or item.itemStatus= 1;
     elseif p_itemType= 'med' then
         select * from cart
         inner join item
-        on cart.itemID = item.itemID and cart.itemID= p_itemID
+        on cart.itemID = item.itemID and cart.itemID= p_itemID and cart.joueureID = p_joueureID
         inner join Medicaments
         on cart.itemID = Medicaments.itemID
         where item.itemStatus= 0 or item.itemStatus= 1;
     elseif p_itemType= 'food' then
         select * from cart
         inner join item
-        on cart.itemID = item.itemID and cart.itemID= p_itemID
+        on cart.itemID = item.itemID and cart.itemID= p_itemID and cart.joueureID = p_joueureID
         inner join Nourriture 
         on cart.itemID = Nourriture.itemID
         where item.itemStatus= 0 or item.itemStatus= 1;
     elseif p_itemType= 'mun' then
         select * from cart
         inner join item
-        on cart.itemID = item.itemID and cart.itemID= p_itemID
+        on cart.itemID = item.itemID and cart.itemID= p_itemID and cart.joueureID = p_joueureID
         inner join Munition
         on cart.itemID = Munition.itemID
         where item.itemStatus= 0 or item.itemStatus= 1;
@@ -440,35 +441,35 @@ begin
     if p_itemType= 'arme' then
         select * from inventaire
         inner join item
-        on inventaire.itemID = item.itemID and inventaire.itemID= p_itemID
+        on inventaire.itemID = item.itemID and inventaire.itemID= p_itemID and inventaire.joueureID = p_joueureID
         inner join Arme 
         on inventaire.itemID = Arme.itemID
         where item.itemStatus= 0 or item.itemStatus= 1;
     elseif p_itemType= 'armure' then
         select * from inventaire
         inner join item
-        on inventaire.itemID = item.itemID and inventaire.itemID= p_itemID
+        on inventaire.itemID = item.itemID and inventaire.itemID= p_itemID and inventaire.joueureID = p_joueureID
         inner join Armure
         on inventaire.itemID = Armure.itemID
         where item.itemStatus= 0 or item.itemStatus= 1;
     elseif p_itemType= 'med' then
         select * from inventaire
         inner join item
-        on inventaire.itemID = item.itemID and inventaire.itemID= p_itemID
+        on inventaire.itemID = item.itemID and inventaire.itemID= p_itemID and inventaire.joueureID = p_joueureID
         inner join Medicaments
         on inventaire.itemID = Medicaments.itemID
         where item.itemStatus= 0 or item.itemStatus= 1;
     elseif p_itemType= 'food' then
         select * from inventaire
         inner join item
-        on inventaire.itemID = item.itemID and inventaire.itemID= p_itemID
+        on inventaire.itemID = item.itemID and inventaire.itemID= p_itemID and inventaire.joueureID = p_joueureID
         inner join Nourriture 
         on inventaire.itemID = Nourriture.itemID
         where item.itemStatus= 0 or item.itemStatus= 1;
     elseif p_itemType= 'mun' then
         select * from inventaire
         inner join item
-        on inventaire.itemID = item.itemID and inventaire.itemID= p_itemID
+        on inventaire.itemID = item.itemID and inventaire.itemID= p_itemID and inventaire.joueureID = p_joueureID
         inner join Munition
         on inventaire.itemID = Munition.itemID
         where item.itemStatus= 0 or item.itemStatus= 1;
@@ -1083,17 +1084,17 @@ begin
     from inventaire
     where itemID = p_itemID and joueureID = p_joueureID;
 
-    select price into itemPrice
-    from items
+    select sellPrice into itemPrice
+    from item
     where itemID = p_itemID;
 
     select caps into playerBalance
-    from joueurs
+    from joueure
     where joueureID = p_joueureID;
 
     set playerBalance = playerBalance + itemPrice * p_quantitySell;
 
-    update joueurs
+    update joueure
     set caps = playerBalance
     where joueureID = p_joueureID;
 
@@ -1200,7 +1201,7 @@ delimiter ;
 -- [ DEFAULT DATA ] --
 
 -- Difficultes des quêtes
-insert into diffQuetes (diffID, difficultyName, nbCaps) values (1, 'facile', 10), (2, 'moyen', 100), (3, 'difficile', 1000);
+insert into diffQuetes (diffID, difficultyName, nbCaps) values (1, 'facile', 50), (2, 'moyen', 100), (3, 'difficile', 200);
 
 -- Quêtes
 call CreateQuest(1, 'Quelle est la couleur du ciel ?', 'Bleu', 1, 'Vert', 0, 'Rouge', 0, 'Jaune', 0);
@@ -1217,7 +1218,7 @@ call CreateItem('Hache de guerre', 'Une hache puissante pour les combats', 8, 20
 call CreateItem('Casque en acier', 'Un casque robuste pour la protection', 3, 120.0, 60.0, 'casque.png', 15, 0, 'armure', 'Acier', 'Grand', '', 0, 50);
 call CreateItem('Antidote', 'Un remede contre les poisons', 1, 80.0, 40.0, 'antidote.png', 255, 0, 'med', 'Guerit les poisons', 'Instantane', 'Aucun', 0, 20);
 call CreateItem('Pain', 'Un pain frais et nourrissant', 2, 20.0, 10.0, 'pain.png', 250, 0, 'food', '200 kcal', 'Glucides', 'Fibres', 5, 30);
-call CreateItem('Fusil', 'Un fusil de calibre 12', 5, 300.0, 150.0, 'fusil.png', 0, 0, 'mun', '12mm', '', '', 0, 500);
+call CreateItem('Fusil', 'Un fusil de calibre 12', 5, 300.0, 150.0, 'fusil.png', 0, 0, 'arme', '12mm', '', '', 0, 500);
 call CreateItem('Arc', 'Un arc pour la chasse', 2, 150.0, 75.0, 'arc.png', 10, 0, 'arme', '60', 'Arc', '', 0, 10);
 call CreateItem('Plastron en cuir', 'Un plastron en cuir pour la protection', 4, 100.0, 50.0, 'plastron.png', 10, 0, 'armure', 'Cuir', 'Moyen', '', 0, 40);
 call CreateItem('Baume de guerison', 'Un baume pour soigner les blessures', 1, 70.0, 35.0, 'baume.png', 255, 0, 'med', 'Soigne les blessures', 'Application locale', 'Aucun', 0, 25);
@@ -1236,7 +1237,10 @@ call CreateItem('Couteau de lancer', 'Un couteau equilibre pour le lancer', 1, 4
 call CreateItem('Armure en titane', 'Une armure legere et resistante en titane', 10, 500.0, 250.0, 'armure_titane.png', 30, 0, 'armure', 'Titane', 'Tres grand', '', 0, 5);
 call CreateItem('Kit de premiers secours', 'Un kit complet pour les premiers soins', 2, 150.0, 75.0, 'kit_secours.png', 255, 0, 'med', 'Soins complets', 'Portable', 'Aucun', 0, 10);
 call CreateItem('Orange', 'Une orange juteuse et vitaminee', 1, 10.0, 5.0, 'orange.png', 250, 0, 'food', '60 kcal', 'Vitamines', 'Mineraux', 0, 80);
-call CreateItem('Pistolet', 'Un pistolet de calibre 9mm', 3, 250.0, 125.0, 'pistolet.png', 0, 0, 'mun', '9mm', '', '', 0, 300);
+call CreateItem('Pistolet', 'Un pistolet de calibre 9mm', 3, 250.0, 125.0, 'pistolet.png', 0, 0, 'arme', '9mm', '', '', 0, 300);
+
+call CreateItem('SuperHeavy Pistol', 'Un pistolet de calibre 900mm', 100, 500.0, 125.0, 'pistoletSH.png', 0, 0, 'mun', '9mm', '', '', 0, 300);
+call CreateItem('SuperHeavy Pistol LW edition', 'Un pistolet de calibre 500mm', 50, 50.0, 125.0, 'pistoletSHLWE.png', 0, 0, 'mun', '9mm', '', '', 0, 30);
 
 -- joueurs
 select CreateJoueur('je vins, je vus, je construit', 'bob', 'leBricoleur', 'passbob');

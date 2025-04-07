@@ -3,6 +3,16 @@
 require 'views/partials/head.php';
 require 'views/partials/header.php';
 
+// error codes
+$peuPasUse ?? false;
+$peuPasVendre ?? false;
+$peuPasAcheter ?? false;
+$peuPasVendre ?? false;
+
+// vals
+
+$inShop ?? false;
+
 ?>
 <link rel="stylesheet" href="public/css/details.css">
 
@@ -13,7 +23,7 @@ require 'views/partials/header.php';
         <div class="row g-0">
             <div class="col-md-4" style="width:50%; max-height:325px; ">
                 <img src="public/images/<?= $item->getImageLink() ?>"
-                    class="img-fluid rounded-start" alt="..." style="width:100%;height:100%;aspect-ratio: auto;">
+                    class="img-fluid rounded-start" alt="..." style="width:100%;height:110%;aspect-ratio: auto; background-color: white;">
             </div>
             <div class=" col-md-8" style="padding-left:30px; width:50%; max-height:325px; ">
                 <div class="card-body" style="max-height:325px !important;">
@@ -21,25 +31,26 @@ require 'views/partials/header.php';
                     <p class="card-text" style="font-size:50px; font-weight: bold;"><span
                             style="font-size:30px; ">$</span><?= $item->getBuyPrice() ?></p>
                     <p class="card-text"><small class="text-muted"><?= $item->getDescription() ?></small></p>
+                    <?php if ($auth): ?>
+                        <?php if ($inShop): ?>
+                            <!-- if is in shop -->
+                            <button class="btn btn-outline-secondary " type="button"
+                                style="margin-right:10px; width:100%; margin: 5px; border : none; border-radius:8px;padding-top:4px; background-color: #303030;"
+                                data-bs-toggle="modal" data-bs-target="#exampleModalCenter"><a class="buttonst "
+                                    style="color:white;">Acheter</a>
+                            </button>
+                        <?php else: ?>
 
-                    <?php if (!isset($query['playerID'])): ?>
-                        <!-- if is in shop -->
-                        <button class="btn btn-outline-secondary " type="button"
-                            style="margin-right:10px; width:100%; margin: 5px; border : none; border-radius:8px;padding-top:4px; background-color: #303030;"
-                            data-bs-toggle="modal" data-bs-target="#exampleModalCenter"><a class="buttonst "
-                                style="color:white;">Acheter</a>
-                        </button>
-                    <?php else: ?>
+                            <button class="btn btn-outline-secondary " type="button"
+                                style="margin-right:10px; width:100%; margin: 5px; border : none; border-radius:8px;padding-top:4px; background-color: #303030;"
+                                data-bs-toggle="modal" data-bs-target="#sellModal"><a class="buttonst "
+                                    style="color:white;">Vendre</a>
+                            </button>
 
-                        <button class="btn btn-outline-secondary " type="button"
-                            style="margin-right:10px; width:100%; margin: 5px; border : none; border-radius:8px;padding-top:4px; background-color: #303030;"
-                            data-bs-toggle="modal" data-bs-target="#sellModal"><a class="buttonst "
-                                style="color:white;">Vendre</a>
-                        </button>
+                            <a type="button" href="/details?use=1&itemID=<?= $item->getId() ?>&isPlayer" class="btn btn-secondary"
+                                style="color:white; font-weight:bold;background-color: transparent; border-color:white; border-radius:10px; width:130px;">Use Item</a>
 
-                        <a type="button" href="/details?use=1&itemID=<?= $item->getId() ?>&playerID=<?= $_SESSION['playerID'] ?>" class="btn btn-secondary"
-                            style="color:white; font-weight:bold;background-color: transparent; border-color:white; border-radius:10px; width:130px;">Use Item</a>
-
+                        <?php endif ?>
                     <?php endif ?>
 
                     <span class="badge bg-secondary" style="width:100px; font-size:15px; height:30px; margin-left:0px; margin-top:20px; background-color:#434343 !important;">
@@ -80,7 +91,7 @@ require 'views/partials/header.php';
                 <div class="col-6">
                     <h3 class="mb-3" style="font-size:20px;">Attributs</h3>
                 </div>
-                <?php if(count($attributes) >= 4):?>
+                <?php if (count($attributes) >= 4): ?>
                     <div class="col-6 text-right">
                         <a class="btn btn-secondary mb-3 mr-1" href="#carouselExampleIndicators2" role="button"
                             data-slide="prev" style="background-color:#303030; border:none;">
@@ -91,31 +102,31 @@ require 'views/partials/header.php';
                             <i class="fa fa-arrow-right"></i>
                         </a>
                     </div>
-                <?php endif;?>
+                <?php endif; ?>
                 <div class="col-12">
                     <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
 
                         <div class="carousel-inner">
-                            <?php if(count($attributes) == 4): ?>
+                            <?php if (count($attributes) == 4): ?>
                                 <?php foreach (array_chunk($attributes, 2, true) as $index => $attributeChunk): ?>
                                     <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
                                         <div class="row">
-                                                <?php foreach ($attributeChunk as $attributeName => $attributeValue): ?>
-                                                    <div class="col-md-6 mb-3">
-                                                        <div class="card cardCar">
-                                                            <div class="card-body">
-                                                                <h4 class="card-title">
-                                                                    <?= htmlspecialchars($attributeName) ?>
-                                                                </h4>
-                                                                <p class="card-text">
-                                                                    <?= htmlspecialchars($attributeValue) ?>
-                                                                </p>
-                                                            </div>
+                                            <?php foreach ($attributeChunk as $attributeName => $attributeValue): ?>
+                                                <div class="col-md-6 mb-3">
+                                                    <div class="card cardCar">
+                                                        <div class="card-body">
+                                                            <h4 class="card-title">
+                                                                <?= htmlspecialchars($attributeName) ?>
+                                                            </h4>
+                                                            <p class="card-text">
+                                                                <?= htmlspecialchars($attributeValue) ?>
+                                                            </p>
                                                         </div>
                                                     </div>
-                                                <?php endforeach; ?>
-                                            </div>
+                                                </div>
+                                            <?php endforeach; ?>
                                         </div>
+                                    </div>
                                 <?php endforeach; ?>
                             <?php endif; ?>
                             <?php if (count($attributes) <= 3): ?>
@@ -124,13 +135,13 @@ require 'views/partials/header.php';
                                         <div class="col-md-4 mb-3">
                                             <div class="card cardCar">
                                                 <div class="card-body">
-                                                <?php if (isset($attributeValue)):?>
-                                                    <h4 class="card-title">
-                                                        <?= htmlspecialchars($attributeName) ?>
-                                                    </h4>
-                                                    <p class="card-text">
-                                                        <?= htmlspecialchars($attributeValue) ?>
-                                                    </p>
+                                                    <?php if (isset($attributeValue)): ?>
+                                                        <h4 class="card-title">
+                                                            <?= htmlspecialchars($attributeName) ?>
+                                                        </h4>
+                                                        <p class="card-text">
+                                                            <?= htmlspecialchars($attributeValue) ?>
+                                                        </p>
                                                     <?php endif; ?>
                                                 </div>
                                             </div>
@@ -146,7 +157,7 @@ require 'views/partials/header.php';
 
     </div>
     <!-- buy -->
-    <?php if (!isset($query['playerID'])): ?>
+    <?php if ($inShop): ?>
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" aria-labelledby="exampleModalCenterTitle"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -178,29 +189,15 @@ require 'views/partials/header.php';
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <form method="POST">
+                        <form method="GET">
                             <input type="hidden" name="itemID" value="<?= $item->getId() ?>">
                             <input type="hidden" name="quantity" value="1" id="quantityInput">
-                            <input type="hidden" value="1" id="buy">
+                            <input type="hidden" name="buy" value="1">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
                             <button type="submit" class="btn btn-primary" style="background-color: white; color:black;"
                                 id="liveToastBtn">Ajouter</button>
                         </form>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class=" toast-container position-fixed p-3 top-0 start-50 translate-middle-x"
-            style="z-index: 11; margin-top:20px;">
-            <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="toast-header">
-
-                    <strong class="me-auto">Ajout du panier ✔</strong>
-                    <small>just now</small>
-                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>
-                <div class="toast-body" style="background-color: white; color:black;">
-                    L'ajout a été éffectué
                 </div>
             </div>
         </div>
@@ -236,10 +233,11 @@ require 'views/partials/header.php';
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <form method="POST"> <!-- Add action to sell the item -->
+                        <form method="GET"> <!-- Add action to sell the item -->
                             <input type="hidden" name="itemID" value="<?= $item->getId() ?>">
                             <input type="hidden" name="quantity" value="1" id="quantityInput">
-                            <input type="hidden" value="1" id="sell">
+                            <input type="hidden" name="sell" value="1">
+                            <input type="hidden" name="isPlayer" value="1">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
                             <button type="submit" class="btn btn-primary" style="background-color: white; color:black;" id="sellToastBtn">Vendre</button>
                         </form>
@@ -286,15 +284,6 @@ require 'views/partials/header.php';
     $('.input-group').on('click', '.button-minus', function(e) {
         decrementValue(e);
     });
-</script>
-<script>
-    document.getElementById("liveToastBtn").onclick = function() {
-        var toastElList = [].slice.call(document.querySelectorAll('.toast'))
-        var toastList = toastElList.map(function(toastEl) {
-            return new bootstrap.Toast(toastEl)
-        })
-        toastList.forEach(toast => toast.show())
-    }
 </script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>

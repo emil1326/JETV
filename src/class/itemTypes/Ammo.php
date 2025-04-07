@@ -34,12 +34,17 @@ class Ammo extends Item
         );
     }
 
-    // SETTERS //
+    // Getters //
     public function getCaliber(): string
     {
         return $this->caliber;
     }
-
+    public function getAttributes(): array
+    {
+        return [
+            'caliber' => $this->getCaliber()
+        ];
+    }
     // SETTERS //
     public function setCaliber(string $caliber): void
     {

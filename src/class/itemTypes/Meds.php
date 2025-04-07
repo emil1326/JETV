@@ -43,7 +43,7 @@ class Meds extends Item
         );
     }
 
-    // SETTERS //
+    // Getter //
     public function getHealthGain(): string
     {
         return $this->healthGain;
@@ -59,6 +59,15 @@ class Meds extends Item
     public function getUnwantedEffect(): string
     {
         return $this->unwantedEffect;
+    }
+    public function getAttributes(): array
+    {
+        return [
+            'healthGain' => $this->getHealthGain(),
+            'effect' => $this->getEffect(),
+            'duration' => $this->getDuration(),
+            'unwantedEffect' => $this->getUnwantedEffect()
+        ];
     }
 
     // SETTERS //
