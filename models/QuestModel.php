@@ -85,4 +85,3 @@ class Quest extends Model
         return null;
     }
 }
-
