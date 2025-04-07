@@ -13,9 +13,9 @@ require 'partials/header.php';
             difficulté </h1>
 
         <div class="masonry">
-            <div class="item item1 buttonCursorPointer" onclick="window.location.href='/shop'">Facile</div>
-            <div class="item item2 buttonCursorPointer" onclick="window.location.href='/shop'">Moyen</div>
-            <div class="item item3 buttonCursorPointer" onclick="window.location.href='/shop'">Difficile</div>
+            <div class="item item1 buttonCursorPointer" onclick="window.location.href='/enigmaQuestion'">Facile</div>
+            <div class="item item2 buttonCursorPointer" onclick="window.location.href='/enigmaQuestion'">Moyen</div>
+            <div class="item item3 buttonCursorPointer" onclick="window.location.href='/enigmaQuestion'">Difficile</div>
 
         </div>
         <div id="enigmaStrRetour" class="col-lg-6 mx-auto mb-3 text-center">
@@ -26,3 +26,4 @@ require 'partials/header.php';
 
 <?php
 require 'partials/footer.php';
+

@@ -9,6 +9,7 @@ const ROUTES = [
     '/login' => 'login.php',
     '/signup' => 'signup.php',
     '/enigma' => 'enigma.php',
+    '/enigmaQuestion' => 'enigmaQuestion.php',
     '/details' => 'details.php',
     '/detailstemp' => 'detailstemp.php',
     '/logout' => 'logout.php',
