@@ -105,7 +105,7 @@
                         alt="Card image caps" width="30" height="30">
                     <p style="margin:0px; margin-left:5px;">
                         <?php
-                        echo " : " . $user->getHealth() . " / 100 PV";
+                        echo " : " . $user->getHealth() . " PV";
                         ?>
                     </p>
                     <img style="margin:0px; margin-left:20px;"
