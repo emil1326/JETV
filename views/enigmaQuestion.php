@@ -331,26 +331,26 @@ require 'partials/header.php';
 
 
             <span>
-                <input type="radio" id="option-one" name="option" class="radio" value="optionA" />
-                <label for="option-one" class="option" id="option-one-label">aaa</label>
+                <input type="radio" id="option-one" name="option" class="radio" value="<?= $answers[0]->getIsCorrect() ?>" />
+                <label for="option-one" class="option" id="option-one-label"><?= $answers[0]->getAnswer() ?></label>
             </span>
 
 
             <span>
-                <input type="radio" id="option-two" name="option" class="radio" value="optionB" />
-                <label for="option-two" class="option" id="option-two-label">aa2a</label>
+                <input type="radio" id="option-two" name="option" class="radio" value="<?= $answers[1]->getIsCorrect() ?>" />
+                <label for="option-two" class="option" id="option-two-label"><?= $answers[1]->getAnswer() ?></label>
             </span>
 
 
             <span>
-                <input type="radio" id="option-three" name="option" class="radio" value="optionC" />
-                <label for="option-three" class="option" id="option-three-label">asdas</label>
+                <input type="radio" id="option-three" name="option" class="radio" value="<?= $answers[2]->getIsCorrect() ?>" />
+                <label for="option-three" class="option" id="option-three-label"><?= $answers[2]->getAnswer() ?></label>
             </span>
 
 
             <span>
-                <input type="radio" id="option-four" name="option" class="radio" value="optionD" />
-                <label for="option-four" class="option" id="option-four-label">asdas</label>
+                <input type="radio" id="option-four" name="option" class="radio" value="<?= $answers[3]->getIsCorrect() ?>" />
+                <label for="option-four" class="option" id="option-four-label"><?= $answers[3]->getAnswer() ?></label>
             </span>
 
 

@@ -42,7 +42,7 @@ class Quest
     {
         return $this->difficulty;
     }
-    public function getPVLoss():int
+    public function getPVLoss(): int
     {
         return $this->pvLoss;
     }
