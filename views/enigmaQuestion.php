@@ -324,7 +324,7 @@ require 'partials/header.php';
 
         <div class="game-question-container" style="   position: relative;">
             <i class="fa fa-question-circle questionM"></i>
-            <h1 id="display-question" style="color: white;">Qui a tuer John pork</h1>
+            <h1 id="display-question" style="color: white;"><?= $quest->getQuestion() ?></h1>
         </div>
 
         <div class="game-options-container">
@@ -361,10 +361,9 @@ require 'partials/header.php';
         </div>
 
     </div>
+
+
 </main>
-
-
-
 
 <?php
 require 'partials/footer.php';
