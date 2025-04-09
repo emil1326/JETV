@@ -35,7 +35,6 @@ class UserModel extends Model
                 );
             }
 
-            echo 'no user with id ' . $id;
             return null;
         } catch (PDOException $e) {
             throw new PDOException($e->getMessage(), $e->getCode());
@@ -105,7 +104,7 @@ class UserModel extends Model
         try {
             $stm = $this->pdo->prepare('call setCaps(?, ?)');
             $stm->execute([$caps, $playerID]);
-
+            
             return true;
         } catch (PDOException $e) {
             return false;
