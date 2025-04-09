@@ -2,6 +2,7 @@
 
 require_once 'models/Model.php';
 require_once 'src/class/Quest.php';
+require_once 'src/class/Answer.php';
 
 class QuestModel extends Model
 {
@@ -90,6 +91,28 @@ class QuestModel extends Model
                 $row['difficultyName'],
                 $row['pvLoss'],
             );
+        }
+        return null;
+    }
+    public function GetAnswersByQuestionId(int $id)
+    {
+        $stm = $this->pdo->prepare('call GetOneQuestionAndAwnserByID(:id)');
+        $stm->bindValue(':id', $id, PDO::PARAM_INT);
+        $stm->execute();
+
+        $data = $stm->fetchAll(PDO::FETCH_ASSOC);
+
+        if (!empty($data)) {
+            $answers = [];
+            foreach ($data as $row) {
+                $answers[] = new Answer(
+                    $row['questID'],
+                    $row['reponse'],
+                    $row['flagEstVrai'],
+                );
+            }
+
+            return $answers;
         }
         return null;
     }
