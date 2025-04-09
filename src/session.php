@@ -38,6 +38,5 @@ function isAuthenticated(): bool
         if ($um->selectById($_SESSION['playerID']) == null)
             redirect('/logout');
     }
-
     return $res;
 }
