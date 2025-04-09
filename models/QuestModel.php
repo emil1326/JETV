@@ -21,9 +21,9 @@ class QuestModel extends Model
             return array_map(
                 fn($row) => new Quest(
                     $row['questID'],
-                $row['question'],
-                $row['diffID'],
-                $row['difficultyName']
+                    $row['question'],
+                    $row['diffID'],
+                    $row['difficultyName']
                 ),
                 $data
             );
@@ -50,7 +50,7 @@ class QuestModel extends Model
     }
     public function selectByDifficulty(int $difficulty): null|array
     {
-        $stm = $this->pdo->prepare('SELECT * FROM listeQuetes WHERE difficulte_id = :difficulty;');
+        $stm = $this->pdo->prepare('SELECT * FROM listeQuetes WHERE diffID = :difficulty;');
         $stm->bindValue(':difficulty', $difficulty, PDO::PARAM_INT);
         $stm->execute();
 
@@ -79,7 +79,7 @@ class QuestModel extends Model
                 $data['questID'],
                 $data['question'],
                 $data['diffID'],
-                $data['difficultyName']             
+                $data['difficultyName']
             );
         }
         return null;
