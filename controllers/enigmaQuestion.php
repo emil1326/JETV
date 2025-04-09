@@ -16,13 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET) && isset($_GET['difficu
     $difficulty = (int)$_GET['difficulty'];
 
     $quest = $model->GetOneRandomQuestionByDifficulty($difficulty);
-
-    // temp
-    var_dump($quest);
+    $answers = $model->GetAnswersByQuestionId($quest->getId());
 }
-
-$_POST['key'] = 0;
-
-
 
 require 'views/enigmaQuestion.php';
