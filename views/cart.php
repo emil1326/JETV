@@ -135,6 +135,9 @@ require 'views/partials/header.php';
                             $<?= $totalPrice ?> • <?= $totalWeight ?>kg
                         </div>
                     </div>
+                    <?php if($totalWeight + $model->totalWeight($_SESSION['playerID']) > $user->getMaxWeight()): ?>
+                        <p style="color:red;">Votre sac est trop lourd. Vous allez perdre de la dexteriter si vous achetez ces items.</p>
+                    <?php endif ?>
                     <a type="button" href="/cart?buy=true" style="width:420px; height:55px; font-size:20px;" class="btn btn-secondary">Checkout</a>
                 </div>
             <?php endif ?>
