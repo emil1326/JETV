@@ -89,6 +89,8 @@ require 'views/partials/header.php';
                                     <a type="button" href="/cart?removeItem=true&itemID=<?= $item['item']->getID() ?>" class="btn btn-secondary" style="color:white; font-weight:bold;background-color: transparent; border-color:white; border-radius:10px; width:130px;">-</a>
                                     <div style="margin: 5px;"></div>
                                     <a type="button" href="/cart?addItem=true&itemID=<?= $item['item']->getId() ?>" class="btn btn-secondary" style="color:white; font-weight:bold;background-color: transparent; border-color:white; border-radius:10px; width:130px;">+</a>
+                                    <div style="margin: 5px;"></div>
+                                    <a type="button" href="/cart?clearItem=true&itemID=<?= $item['item']->getId() ?>" class="btn btn-secondary" style="color:white; font-weight:bold;background-color: transparent; border-color:white; border-radius:10px; width:130px; align-self: flex-end;">CLEAR</a>
 
                                 </div>
                             </div>
@@ -136,9 +138,10 @@ require 'views/partials/header.php';
                         </div>
                     </div>
                     <?php if($totalWeight + $model->totalWeight($_SESSION['playerID']) > $user->getMaxWeight()): ?>
-                        <p style="color:red;">Votre sac est trop lourd. Vous allez perdre de la dexteriter si vous achetez ces items.</p>
+                        <p style="color:red;">Votre sac est trop lourd. Vous allez perdre de la dexteriter si vous achetez des items</p>
                     <?php endif ?>
                     <a type="button" href="/cart?buy=true" style="width:420px; height:55px; font-size:20px;" class="btn btn-secondary">Checkout</a>
+                    <a type="button" href="/cart?clearCart=true" style="width:420px; height:55px; font-size:20px;" class="btn btn-warning">Clear Cart</a>
                 </div>
             <?php endif ?>
         </div>
