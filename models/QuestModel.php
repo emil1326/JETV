@@ -22,8 +22,9 @@ class QuestModel extends Model
                 fn($row) => new Quest(
                     $row['questID'],
                     $row['question'],
-                    $row['diffID'],
-                    $row['difficultyName']
+                    0,
+                    $row['difficultyName'],
+                    $row['pvLoss'],
                 ),
                 $data
             );
@@ -42,8 +43,10 @@ class QuestModel extends Model
             return new Quest(
                 $data['questID'],
                 $data['question'],
-                $data['diffID'],
-                $data['difficultyName']
+                // $data['diffID'],
+                0,
+                $data['difficultyName'],
+                $data['pvLoss']
             );
         }
         return null;
@@ -60,8 +63,10 @@ class QuestModel extends Model
             return array_map(fn($row) => new Quest(
                 $row['questID'],
                 $row['question'],
-                $row['diffID'],
-                $row['difficultyName']
+                0,
+                // $row['diffID'],
+                $row['difficultyName'],
+                $row['pvLoss']
             ), $data);
         }
         return null;
@@ -80,8 +85,9 @@ class QuestModel extends Model
             return new Quest(
                 $data['questID'],
                 $data['question'],
-                $data['diffID'],
-                $data['difficultyName']
+                0,
+                $data['difficultyName'],
+                $data['pvLoss'],
             );
         }
         return null;

@@ -3,22 +3,25 @@
 class Quest
 {
     private int $id;
-    private int $question;
+    private string $question;
     private int $difficultyId;
-    private int $difficulty;
+    private string $difficulty;
+    private int $pvLoss;
     // private array $answers;
 
     public function __construct(
         int $id,
-        int $question,
+        string $question,
         int $difficultyId,
-        int $difficulty,
+        string $difficulty,
+        int $pvLoss
         // array $answers
     ) {
         $this->id = $id;
         $this->question = $question;
         $this->difficultyId = $difficultyId;
         $this->difficulty = $difficulty;
+        $this->pvLoss = $pvLoss;
         // $this->answers = $answers;
     }
 
@@ -27,7 +30,7 @@ class Quest
     {
         return $this->id;
     }
-    public function getQuestion(): int
+    public function getQuestion(): string
     {
         return $this->question;
     }
@@ -35,9 +38,13 @@ class Quest
     {
         return $this->difficultyId;
     }
-    public function getDifficulty(): int
+    public function getDifficulty(): string
     {
         return $this->difficulty;
+    }
+    public function getPVLoss():int
+    {
+        return $this->pvLoss;
     }
     //  public function getAnswers(): array
     //  {
@@ -45,7 +52,7 @@ class Quest
     //  }
 
     // SETTERS //
-    public function setQuestion(int $question)
+    public function setQuestion(string $question)
     {
         $this->question = $question;
     }
@@ -53,7 +60,7 @@ class Quest
     {
         $this->difficultyId = $difficultyId;
     }
-    public function setDifficulty(int $difficulty)
+    public function setDifficulty(string $difficulty)
     {
         $this->difficulty = $difficulty;
     }
