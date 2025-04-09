@@ -12,7 +12,7 @@ class QuestModel extends Model
 
     public function selectAll(): null|array
     {
-        $stm = $this->pdo->prepare('call GetAllQuestions()');
+        $stm = $this->pdo->prepare('call GetAllQuestionsAndAwnser()');
         $stm->execute();
 
         $data = $stm->fetchAll(PDO::FETCH_ASSOC);
@@ -21,9 +21,9 @@ class QuestModel extends Model
             return array_map(
                 fn($row) => new Quest(
                     $row['questID'],
-                $row['question'],
-                $row['diffID'],
-                $row['difficultyName']
+                    $row['question'],
+                    $row['diffID'],
+                    $row['difficultyName']
                 ),
                 $data
             );
@@ -50,7 +50,7 @@ class QuestModel extends Model
     }
     public function selectByDifficulty(int $difficulty): null|array
     {
-        $stm = $this->pdo->prepare('call GetOneRandomByDifficulty(:difficulty)');
+        $stm = $this->pdo->prepare('call GetOneRandomQuestionByDifficulty(:difficulty)');
         $stm->bindValue(':difficulty', $difficulty, PDO::PARAM_INT);
         $stm->execute();
 
@@ -63,6 +63,26 @@ class QuestModel extends Model
                 $row['diffID'],
                 $row['difficultyName']
             ), $data);
+        }
+        return null;
+    }
+    public function GetOneQuestionAndAwnserByID(int $difficulty): null|Quest
+    {
+        $stm = $this->pdo->prepare('call GetOneQuestionAndAwnserByID(:difficulty)');
+        $stm->bindValue(':difficulty', $difficulty, PDO::PARAM_INT);
+        $stm->execute();
+
+        $data = $stm->fetch(PDO::FETCH_ASSOC);
+
+        // returns 4 row avc toute les reponses todo mod
+
+        if (!empty($data)) {
+            return new Quest(
+                $data['questID'],
+                $data['question'],
+                $data['diffID'],
+                $data['difficultyName']
+            );
         }
         return null;
     }
