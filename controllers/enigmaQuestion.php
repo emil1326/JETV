@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET) && isset($_GET['difficu
 
     $difficulty = (int)$_GET['difficulty'];
 
-    $quest = $model->selectByDifficulty($difficulty);
+    $quest = $model->GetOneRandomQuestionByDifficulty($difficulty);
 
     // temp
     var_dump($quest);
