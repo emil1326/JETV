@@ -15,6 +15,7 @@ drop table if exists listeQuetes cascade;
 drop table if exists diffQuetes cascade;
 drop table if exists item cascade;
 drop table if exists responseStreak cascade;
+drop table if exists playerQuests cascade;
 drop table if exists joueure cascade;
 
 -- [ tables ] --
@@ -206,6 +207,16 @@ create table responseStreak
     streak int not null default 0,
 
     foreign key (joueureID) references joueure(joueureID)
+);
+
+create table playerQuests
+(
+    joueureID int not null,
+    questID int not null,
+
+    foreign key (questID) references listeQuetes(questID),
+    foreign key (joueureID) references joueure(joueureID),
+    primary key (joueureID, questID)
 );
 
 -- [  VIEWS  ] --
@@ -909,6 +920,9 @@ begin
         set streak= streak + 1
         where joueureID= p_joueureID;
 
+        delete from playerQuests 
+        where joueureID= p_joueureID;
+
         return 1;
     else
         select dq.pvLoss into healthLoss
@@ -923,14 +937,17 @@ begin
         update responseStreak
         set streak= 0
         where joueureID= p_joueureID;
+        
+        delete from playerQuests 
+        where joueureID= p_joueureID;
 
         if (select pv from joueure where joueureID= p_joueureID) <= 0 then
             return 2;
         end if;
 
         return 0;
-        signal sqlstate '45000' set message_text = 'Incorrect answer';
     end if;
+    signal sqlstate '45000' set message_text = 'func not used properly, use a select';
 end;
 //
 delimiter ;
@@ -947,36 +964,88 @@ begin
     SET @row_count = (SELECT COUNT(*) FROM listeQuetes WHERE diffID = p_difficultyID);
     SET @random_offset = FLOOR(RAND() * @row_count);
 
-    select listeQuetes.questID, listeQuetes.question, diffQuetes.difficultyName, diffQuetes.pvLoss from listeQuetes
-    join diffQuetes on diffQuetes.diffID = listeQuetes.diffID and listeQuetes.diffID= p_difficultyID 
-    join reponsesQuetes on reponsesQuetes.questID = listeQuetes.questID
-    order by rand()
-    limit 1 OFFSET @random_offset;
-end;
-//
-delimiter ;
+    set @rnQuestID = (        
+        select questID from listeQuetes
+        order by rand()
+        limit 1 OFFSET @random_offset; 
+    )
 
--- get one by id
-drop procedure if exists GetOneQuestionByID;
-delimiter //
-create procedure GetOneQuestionByID(in p_questionID int)
-begin
     select listeQuetes.questID, listeQuetes.question, diffQuetes.difficultyName, diffQuetes.pvLoss from listeQuetes
-    join diffQuetes on diffQuetes.diffID = listeQuetes.diffID and listeQuetes.questID= p_questionID
-    limit 1;
-end;
-//
-delimiter ;
-
--- get one by id
-drop procedure if exists GetOneQuestionAndAwnserByID;
-delimiter //
-create procedure GetOneQuestionAndAwnserByID(in p_questionID int)
-begin
-    select listeQuetes.questID, listeQuetes.question, reponsesQuetes.reponse, diffQuetes.difficultyName, diffQuetes.pvLoss, reponsesQuetes.flagEstVrai from listeQuetes
-    join diffQuetes on diffQuetes.diffID = listeQuetes.diffID and listeQuetes.questID= p_questionID
+    join diffQuetes on diffQuetes.diffID = listeQuetes.diffID and listeQuetes.diffID= p_difficultyID and listeQuetes.questID = @rnQuestID
     join reponsesQuetes on reponsesQuetes.questID = listeQuetes.questID
     limit 4;
+end;
+//
+delimiter ;
+
+drop function if exists DoQuest;
+delimiter //
+create function DoQuest(
+    p_questID int,
+    p_joueureID int,
+    p_answerID int
+) returns int
+begin
+    declare correctAnswerExists boolean;
+    declare reward int;
+    declare healthLoss int;
+
+    select exists (
+        select 1 
+        from reponsesQuetes 
+        where questID = p_questID and awnserID = p_answerID and flagEstVrai = 1
+        limit 1
+    ) into correctAnswerExists;
+
+    if correctAnswerExists then
+        select dq.nbCaps into reward
+        from listeQuetes lq
+        join diffQuetes dq on lq.diffID = dq.diffID
+        where lq.questID = p_questID
+        limit 1;
+
+        set reward = reward + 
+            case 
+                when (select streak from responseStreak where joueureID = p_joueureID) % 3 = 0 then 1000
+                else 0
+            end;
+
+        update joueure
+        set caps = caps + reward
+        where joueureID = p_joueureID;
+
+        update responseStreak
+        set streak = streak + 1
+        where joueureID = p_joueureID;
+
+        delete from playerQuests 
+        where joueureID = p_joueureID;
+
+        return 1; -- Success
+    else
+        select dq.pvLoss into healthLoss
+        from listeQuetes lq
+        join diffQuetes dq on lq.diffID = dq.diffID
+        where lq.questID = p_questID
+        limit 1;
+
+        update joueure
+        set pv = pv - healthLoss
+        where joueureID = p_joueureID;
+
+        update responseStreak
+        set streak = 0
+        where joueureID = p_joueureID;
+
+        delete from playerQuests 
+        where joueureID = p_joueureID;
+
+        if (select pv from joueure where joueureID = p_joueureID) <= 0 then
+            return 2; -- Player dead
+        end if;
+
+        return 0; -- Incorrect answer
+    end if;
 end;
 //
 delimiter ;
@@ -986,7 +1055,7 @@ drop procedure if exists GetAllQuestionsAndAwnser;
 delimiter //
 create procedure GetAllQuestionsAndAwnser()
 begin
-    select listeQuetes.questID, listeQuetes.question, reponsesQuetes.reponse, diffQuetes.difficultyName, diffQuetes.pvLoss, reponsesQuetes.flagEstVrai from listeQuetes
+    select listeQuetes.questID, listeQuetes.question, reponsesQuetes.reponse, diffQuetes.difficultyName,reponsesQuetes.awnserID, diffQuetes.pvLoss, reponsesQuetes.flagEstVrai from listeQuetes
     join diffQuetes on diffQuetes.diffID = listeQuetes.diffID
     join reponsesQuetes on reponsesQuetes.questID = listeQuetes.questID;
 end;
@@ -1167,7 +1236,7 @@ begin
 
     insert into shop (itemID, qt)
     select itemID, qt from cart where joueureID = p_joueureID
-    on duplicate key update qt = qt + values(qt);
+    on duplicate key update shop.qt = shop.qt + cart.qt;
 
     delete from cart where joueureID = p_joueureID;
 
