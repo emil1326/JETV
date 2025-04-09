@@ -46,10 +46,10 @@ $inShop ?? false;
                                 data-bs-toggle="modal" data-bs-target="#sellModal"><a class="buttonst "
                                     style="color:white;">Vendre</a>
                             </button>
-
-                            <a type="button" href="/details?use=1&itemID=<?= $item->getId() ?>&isPlayer" class="btn btn-secondary"
+                            <?php if (ucfirst(get_class($item))=="Meds" || ucfirst(get_class($item))=="Food"): ?>
+                                <a type="button" href="/details?use=1&itemID=<?= $item->getId() ?>&isPlayer" class="btn btn-secondary"
                                 style="color:white; font-weight:bold;background-color: transparent; border-color:white; border-radius:10px; width:130px;">Use Item</a>
-
+                            <?php endif ?>
                         <?php endif ?>
                     <?php endif ?>
 
@@ -59,6 +59,16 @@ $inShop ?? false;
 
                     <p class="card-text"><small class="text-muted"><?= $item->getItemWeight() ?> kg</small></p>
                     <p class="card-text"><small class="text-muted"><?= $qt ?> Exemplaires</small></p>
+
+                    <?php if(isset($peuPasUse)):?>
+                        <p class="card-text"><small class="text-danger">Vous ne pouvez pas utiliser cet item</small></p>
+                    <?php endif ?>
+                    <?php if(isset($peuPasVendre)):?>
+                        <p class="card-text"><small class="text-danger">Vous ne pouvez pas vendre cet item</small></p>
+                    <?php endif ?>
+                    <?php if(isset($peuPasAcheter)):?>
+                        <p class="card-text"><small class="text-danger">Vous ne pouvez pas acheter cet item</small></p>
+                    <?php endif ?>
                     <!-- TODO itemquantity
                     <p class="card-text"><small class="text-muted"></small></p>
                     -->
