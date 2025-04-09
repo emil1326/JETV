@@ -72,6 +72,27 @@ class QuestModel extends Model
         }
         return null;
     }
+    public function GetOneRandomQuestionByDifficultyOrLastDone(int $difficulty, int $playerID): null|Quest
+    {
+        $stm = $this->pdo->prepare('call GetOneRandomQuestionByDifficultyOrLastDone(:difficulty, :playerID)');
+        $stm->bindValue(':difficulty', $difficulty, PDO::PARAM_INT);
+        $stm->bindValue(':playerID', $playerID, PDO::PARAM_INT);
+        $stm->execute();
+
+        $data = $stm->fetchAll(PDO::FETCH_ASSOC);
+
+        if (!empty($data)) {
+            $row = $data[0];
+            return new Quest(
+                $row['questID'],
+                $row['question'],
+                0,
+                $row['difficultyName'],
+                $row['pvLoss'],
+            );
+        }
+        return null;
+    }
     public function GetOneQuestionAndAwnserByID(int $difficulty): null|Quest
     {
         $stm = $this->pdo->prepare('call GetOneQuestionAndAwnserByID(:difficulty)');
@@ -109,10 +130,26 @@ class QuestModel extends Model
                     $row['questID'],
                     $row['reponse'],
                     $row['flagEstVrai'],
+                    $row['awnserID'],
                 );
             }
 
             return $answers;
+        }
+        return null;
+    }
+    public function DoQuest(int $questID, int $playerID, int $answerID): int|null
+    {
+        $stm = $this->pdo->prepare('select DoQuest(:questID, :playerID, :answerID)');
+        $stm->bindValue(':questID', $questID, PDO::PARAM_INT);
+        $stm->bindValue(':playerID', $playerID, PDO::PARAM_INT);
+        $stm->bindValue(':answerID', $answerID, PDO::PARAM_INT);
+        $stm->execute();
+
+        $data = $stm->fetchAll(PDO::FETCH_NUM);
+        var_dump($data);
+        if (!empty($data)) {
+            return $data[0][0];
         }
         return null;
     }

@@ -1,6 +1,13 @@
 <?php
 require 'partials/head.php';
 require 'partials/header.php';
+
+$didNotPassQuestion;
+
+if (!isset($didNotPassQuestion)) {
+    $didNotPassQuestion = false;
+}
+
 ?>
 
 
@@ -57,6 +64,10 @@ require 'partials/header.php';
         font-size: 1.5rem;
         text-align: center;
         padding: 3px;
+    }
+
+    .question-text {
+        color: white;
     }
 
     .game-options-container {
@@ -312,58 +323,67 @@ require 'partials/header.php';
     }
 </style>
 
+<?php if ($didNotPassQuestion): ?>
+    <main>
 
-<main>
+        <!-- todo ui for not passed question -->
 
+        :(
 
-    <div class="game-quiz-container">
-
-        <!-- <div class="game-details-container"
-
-        </div> -->
-
-        <div class="game-question-container" style="   position: relative;">
-            <i class="fa fa-question-circle questionM"></i>
-            <h1 id="display-question" style="color: white;"><?= $quest->getQuestion() ?></h1>
-        </div>
-
-        <div class="game-options-container">
+        <a type="button" href="/enigma" class="btn btn-secondary" style="margin-top:20px;">retour</a>
 
 
-            <span>
-                <input type="radio" id="option-one" name="option" class="radio" value="<?= $answers[0]->getIsCorrect() ?>" />
-                <label for="option-one" class="option" id="option-one-label"><?= $answers[0]->getAnswer() ?></label>
-            </span>
+    </main>
+<?php else: ?>
+    <main>
+        <form method="POST" action="/enigmaQuestion" class="game-quiz-container">
+
+            <div class="game-quiz-container">
+
+                <div class="game-question-container" style="position: relative;">
+                    <i class="fa fa-question-circle questionM"></i>
+                    <h1 id="display-question" class="question-text"><?= $quest->getQuestion() ?></h1>
+                </div>
+
+                <div class="game-options-container">
+
+                    <span>
+                        <input type="radio" id="option-one" name="option" class="radio" value="<?= $answers[0]->getAwnserID() ?>" />
+                        <label for="option-one" class="option" id="option-one-label"><?= $answers[0]->getAnswer() ?></label>
+                    </span>
+
+                    <span>
+                        <input type="radio" id="option-two" name="option" class="radio" value="<?= $answers[1]->getAwnserID() ?>" />
+                        <label for="option-two" class="option" id="option-two-label"><?= $answers[1]->getAnswer() ?></label>
+                    </span>
+
+                    <span>
+                        <input type="radio" id="option-three" name="option" class="radio" value="<?= $answers[2]->getAwnserID() ?>" />
+                        <label for="option-three" class="option" id="option-three-label"><?= $answers[2]->getAnswer() ?></label>
+                    </span>
+
+                    <span>
+                        <input type="radio" id="option-four" name="option" class="radio" value="<?= $answers[3]->getAwnserID() ?>" />
+                        <label for="option-four" class="option" id="option-four-label"><?= $answers[3]->getAnswer() ?></label>
+                    </span>
+
+                </div>
+
+                <input type="hidden" name="answer" value="">
+                <input type="hidden" name="questID" value="<?= $quest->getId() ?>">
+
+                <div class="next-button-container">
+                    <button type="submit">Envoyer</button>
+                </div>
+
+            </div>
+
+        </form>
 
 
-            <span>
-                <input type="radio" id="option-two" name="option" class="radio" value="<?= $answers[1]->getIsCorrect() ?>" />
-                <label for="option-two" class="option" id="option-two-label"><?= $answers[1]->getAnswer() ?></label>
-            </span>
+    </main>
+<?php endif ?>
 
-
-            <span>
-                <input type="radio" id="option-three" name="option" class="radio" value="<?= $answers[2]->getIsCorrect() ?>" />
-                <label for="option-three" class="option" id="option-three-label"><?= $answers[2]->getAnswer() ?></label>
-            </span>
-
-
-            <span>
-                <input type="radio" id="option-four" name="option" class="radio" value="<?= $answers[3]->getIsCorrect() ?>" />
-                <label for="option-four" class="option" id="option-four-label"><?= $answers[3]->getAnswer() ?></label>
-            </span>
-
-
-        </div>
-
-        <div class="next-button-container">
-            <button>Envoyer</button>
-        </div>
-
-    </div>
-
-
-</main>
 
 <?php
 require 'partials/footer.php';

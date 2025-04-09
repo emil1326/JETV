@@ -15,8 +15,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET) && isset($_GET['difficu
 
     $difficulty = (int)$_GET['difficulty'];
 
-    $quest = $model->GetOneRandomQuestionByDifficulty($difficulty);
+    $quest = $model->GetOneRandomQuestionByDifficultyOrLastDone($difficulty, $_SESSION['playerID']);
     $answers = $model->GetAnswersByQuestionId($quest->getId());
+} elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST) && isset($_POST['answer'])) {
+    require 'models/QuestModel.php';
+
+    $pdo = Database::getInstance()->getPDO();
+    $model = new QuestModel($pdo);
+
+    $res = $model->DoQuest($_POST['questID'], $_SESSION['playerID'], $_POST['option']);
+    if ($res)
+        redirect('/enigma');
+    else {
+        echo 'not pass';
+        $didNotPassQuestion = true;
+    }
 }
 
 require 'views/enigmaQuestion.php';
