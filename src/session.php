@@ -30,5 +30,13 @@ function sessionDestroy(): void
 function isAuthenticated(): bool
 {
     sessionStart();
-    return isset($_SESSION) && isset($_SESSION['playerID']) && $_SESSION['playerID'] != -1;
+    $res = isset($_SESSION) && isset($_SESSION['playerID']) && $_SESSION['playerID'] != -1;
+
+    if ($res != false) {
+        // logout on account destroyed
+        $um = new UserModel(pdo: Database::getInstance()->getPDO());
+        if ($um->selectById($_SESSION['playerID']) == null)
+            redirect('/logout');
+    }
+    return $res;
 }
