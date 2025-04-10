@@ -63,22 +63,24 @@
                 <ul class="nav flex-column" style="margin-top:20px;">
                     <li class="nav-item mb-2"><a href="/" class="nav-link p-0 text-body-secondary">Accueil</a></li>
                     <li class="nav-item mb-2"><a href="/shop" class="nav-link p-0 text-body-secondary">Shop</a></li>
-                    <li class="nav-item mb-2"><a href="/enigma" class="nav-link p-0 text-body-secondary">Enigma</a></li>
-                    <li class="nav-item mb-2"><a href="/backpack" class="nav-link p-0 text-body-secondary">Backpack</a></li>
-                    <li class="nav-item mb-2"><a href="/cart" class="nav-link p-0 text-body-secondary">Cart</a></li>
+                    <?php if (isAuthenticated()): ?>
+                        <li class="nav-item mb-2"><a href="/enigma" class="nav-link p-0 text-body-secondary">Enigma</a></li>
+                        <li class="nav-item mb-2"><a href="/backpack" class="nav-link p-0 text-body-secondary">Backpack</a></li>
+                        <li class="nav-item mb-2"><a href="/cart" class="nav-link p-0 text-body-secondary">Cart</a></li>
+                    <?php endif ?>
                 </ul>
             </div>
 
             <div class="col mb-3">
                 <h5>Découvrez l'équipe</h5>
                 <ul class="nav flex-column" style="margin-top:20px;">
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Jonathan Basque</a>
+                    <li class="nav-item mb-2"><a href="/meet-the-team?Member=JonathanBasque" class="nav-link p-0 text-body-secondary">Jonathan Basque</a>
                     </li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Emilien Devauchelle</a>
+                    <li class="nav-item mb-2"><a href="/meet-the-team?Member=EmilienDevauchelle" class="nav-link p-0 text-body-secondary">Emilien Devauchelle</a>
                     </li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Thomas Roeung</a>
+                    <li class="nav-item mb-2"><a href="/meet-the-team?Member=ThomasRoeung" class="nav-link p-0 text-body-secondary">Thomas Roeung</a>
                     </li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Victor Thibodeau</a>
+                    <li class="nav-item mb-2"><a href="/meet-the-team?Member=VictorThibodeau" class="nav-link p-0 text-body-secondary">Victor Thibodeau</a>
                     </li>
 
                 </ul>

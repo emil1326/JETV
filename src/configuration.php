@@ -13,6 +13,7 @@ const ROUTES = [
     '/details' => 'details.php',
     '/detailstemp' => 'detailstemp.php',
     '/logout' => 'logout.php',
+    '/meet-the-team' => 'meetTheTeam.php',
 
     '/src/autoRefreshPanel.js' => '/src/autoRefreshPanel.js'
 
