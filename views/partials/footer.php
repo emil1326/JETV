@@ -11,6 +11,8 @@
     }
 </style>
 </div> <!-- end for refreshMain -->
+</div>
+</div>
 <hr class="hr" style="align-self:center; width:98%; margin-top:50px;" />
 
 
@@ -92,11 +94,13 @@
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
 
+
 <?php if (!isset($doNotRefresh)): ?>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         //setup periodique auto refresh
         // let pannel = AutoRefreshedPanel("id","thisController",5sec)
-        // new AutoRefreshedPanel("refreshMain", "<?= $_SERVER['REQUEST_URI'] ?>", 5)
+        new AutoRefreshedPanel("refreshMain", "<?= $_SERVER['REQUEST_URI'] ?>", 5)
     </script>
 <?php endif ?>
 

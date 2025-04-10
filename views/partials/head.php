@@ -17,7 +17,7 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
     <link rel="icon" type="image/x-icon" href="/public/images/ICO/jetIcon.jpg">
-    <!-- <script src="public/js/autoRefreshPanel.js"></script> -->
+    <script src="public/js/autoRefreshPanel.js"></script>
 
 </head>
 
