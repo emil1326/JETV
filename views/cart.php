@@ -90,7 +90,7 @@ require 'views/partials/header.php';
                                     <div style="margin: 5px;"></div>
                                     <a type="button" href="/cart?addItem=true&itemID=<?= $item['item']->getId() ?>" class="btn btn-secondary" style="color:white; font-weight:bold;background-color: transparent; border-color:white; border-radius:10px; width:30%;">+</a>
                                     <div style="margin: 5px;"></div>
-                                    <a type="button" href="/cart?clearItem=true&itemID=<?= $item['item']->getId() ?>&itemQt=<?= $item['quantity'] ?>" class="btn btn-secondary" style="color:white; font-weight:bold;background-color: transparent; border-color:white; border-radius:10px; width:30%;">CLEAR</a>
+                                    <a type="button" href="/cart?clearItem=true&itemID=<?= $item['item']->getId() ?>&itemQt=<?= $item['quantity'] ?>" class="btn btn-secondary" style="color:white; font-weight:bold;background-color: transparent; border-color:white; border-radius:10px; width:30%;"><i class="bi bi-trash"></i></a>
 
                                 </div>
                             </div>

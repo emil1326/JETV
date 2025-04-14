@@ -147,7 +147,7 @@ class QuestModel extends Model
         $stm->execute();
 
         $data = $stm->fetchAll(PDO::FETCH_NUM);
-        var_dump($data);
+
         if (!empty($data)) {
             return $data[0][0];
         }

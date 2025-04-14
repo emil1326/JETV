@@ -151,7 +151,7 @@
 
                         <li class="nav-item nopadding">
                             <a class="nav-link navtagsw nopadding <?php if (isset($cartActif) && $cartActif)
-                                                                        echo 'active' ?>" href="/cart">Cart</a>
+                                                                        echo 'active' ?>" href="/cart"><i class="bi bi-cart"></i></a>
                         </li>
                     <?php endif; ?>
 
