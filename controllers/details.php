@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             if ($did)
                 redirect('/details?itemID=' . $itemID . '&isPlayer');
             else
-                redirect('/details?itemID=' . $itemID . '&isPlayer&peuPasUtuliser');
+                redirect('/details?itemID=' . $itemID . '&isPlayer&error=peuPasUtuliser');
         }
 
         if (isset($query['sell'])) {
@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             if ($did)
                 redirect('/backpack');
             else
-                redirect('/details?itemID=' . $itemID . '&isPlayer&peuPasVendre');
+                redirect('/details?itemID=' . $itemID . '&isPlayer&error=peuPasVendre');
         }
 
         $result  = $inventoryModel->selectOne($itemID, $_SESSION['playerID']);
@@ -68,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             if ($did)
                 redirect('/shop');
             else
-                redirect('/details?itemID=' . $itemID . '&peuPasAcheter');
+                redirect('/details?itemID=' . $itemID . '&error=peuPasAcheter');
         }
 
         $result = $shopModel->selectOne($itemID);

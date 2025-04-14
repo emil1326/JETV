@@ -4,10 +4,20 @@ require 'views/partials/head.php';
 require 'views/partials/header.php';
 
 // error codes
-$peuPasUse ?? false;
-$peuPasVendre ?? false;
-$peuPasAcheter ?? false;
-$peuPasVendre ?? false;
+$peuPasUse;
+$peuPasVendre;
+$peuPasAcheter;
+
+if (!isset($peuPasUse)) {
+    $peuPasUse = false;
+}
+if (!isset($peuPasVendre)) {
+    $peuPasVendre = false;
+}
+if (!isset($peuPasAcheter)) {
+    $peuPasAcheter = false;
+}
+
 
 // vals
 
@@ -60,13 +70,13 @@ $inShop ?? false;
                     <p class="card-text"><small class="text-muted"><?= $item->getItemWeight() ?> kg</small></p>
                     <p class="card-text"><small class="text-muted"><?= $qt ?> Exemplaires</small></p>
 
-                    <?php if (isset($peuPasUse)): ?>
+                    <?php if ($peuPasUse): ?>
                         <p class="card-text"><small class="text-danger">Vous ne pouvez pas utiliser cet item</small></p>
                     <?php endif ?>
-                    <?php if (isset($peuPasVendre)): ?>
+                    <?php if ($peuPasVendre): ?>
                         <p class="card-text"><small class="text-danger">Vous ne pouvez pas vendre cet item</small></p>
                     <?php endif ?>
-                    <?php if (isset($peuPasAcheter)): ?>
+                    <?php if ($peuPasAcheter): ?>
                         <p class="card-text"><small class="text-danger">Vous ne pouvez pas acheter cet item</small></p>
                     <?php endif ?>
                     <!-- TODO itemquantity
@@ -266,7 +276,7 @@ $inShop ?? false;
         const parent = button.closest('div');
         const input = parent.find(`input[name='${fieldName}']`);
         const currentVal = parseInt(input.val(), 10);
-    
+
         if (!isNaN(currentVal) && currentVal < <?= $qt ?>) {
             input.val(currentVal + 1);
             document.getElementById('quantityInput').value = currentVal + 1; // Update hidden input
@@ -275,7 +285,7 @@ $inShop ?? false;
             document.getElementById('quantityInput').value = 1;
         }
     }
-    
+
     function decrementValue(e) {
         e.preventDefault();
         const button = $(e.target);
@@ -283,7 +293,7 @@ $inShop ?? false;
         const parent = button.closest('div');
         const input = parent.find(`input[name='${fieldName}']`);
         const currentVal = parseInt(input.val(), 10);
-    
+
         if (!isNaN(currentVal) && currentVal > 1) {
             input.val(currentVal - 1);
             document.getElementById('quantityInput').value = currentVal - 1; // Update hidden input
@@ -292,14 +302,14 @@ $inShop ?? false;
             document.getElementById('quantityInput').value = 1;
         }
     }
-    
+
     function setValue(e) {
         e.preventDefault();
         const input = $(e.target);
         const fieldName = input.data('field');
         const parent = input.closest('div');
         const currentVal = parseInt(input.val(), 10);
-    
+
         if (!isNaN(currentVal) && currentVal > 0) {
             document.getElementById('quantityInput').value = currentVal; // Update hidden input
         } else {
@@ -307,16 +317,16 @@ $inShop ?? false;
             document.getElementById('quantityInput').value = 1;
         }
     }
-    
+
     // Attach event listeners using event delegation
     $(document).on('click', '.button-plus', function(e) {
         incrementValue(e);
     });
-    
+
     $(document).on('click', '.button-minus', function(e) {
         decrementValue(e);
     });
-    
+
     $(document).on('change', '.quantity-field', function(e) {
         setValue(e);
     });
