@@ -215,7 +215,7 @@ require 'partials/header.php';
                             <p><strong>9 ans :</strong> Ninja du CSS précoce</p>
 
                             <p>
-                                Thomas Dubois vint au monde en 1994 dans un quartier artistique de Lyon, entouré de graffitis colorés et de galeries d’art urbain. Dès l’âge de deux ans, il griffonnait des esquisses sur les murs avec des craies géantes, persuadé que chaque surface était une toile vierge. Sa première tablette graphique, offerte à cinq ans, devint son terrain de jeu : il y peignit des univers fantastiques peuplés de néons et de formes géométriques.
+                                Thomas Roeung vint au monde en 1994 dans un quartier artistique de Lyon, entouré de graffitis colorés et de galeries d’art urbain. Dès l’âge de deux ans, il griffonnait des esquisses sur les murs avec des craies géantes, persuadé que chaque surface était une toile vierge. Sa première tablette graphique, offerte à cinq ans, devint son terrain de jeu : il y peignit des univers fantastiques peuplés de néons et de formes géométriques.
 
                                 À six ans, Thomas s’inscrivit à un atelier de design numérique où il apprit les bases du HTML en jouant à construire des pages de fans de Pokémon. Il imagina des layouts responsives pour Pokéball, avec des menus déroulants en forme d’écailles de Salamèche. Sa professeure le surnomma « le petit architecte du web » lorsqu’il réussit à intégrer un diaporama animé sans plugin externe.
 
@@ -266,7 +266,7 @@ require 'partials/header.php';
                             <p><strong>9 ans :</strong> Directeur des labyrinthes fractals</p>
 
                             <p>
-                                Victor Martin naquit en 1991 à Bordeaux, ville de vin et de poésie. Très tôt, il manifesta un goût prononcé pour les formes et les structures mathématiques. À quatre ans, il jouait aux tangrams avec une telle précision qu’il battait ses parents à plate couture. À six ans, il s’amusa à modéliser en pâte à modeler des fractales de Mandelbrot, convaincu que l’on pouvait toucher l’infini avec les doigts.
+                                Victor Thibodeau naquit en 1991 à Bordeaux, ville de vin et de poésie. Très tôt, il manifesta un goût prononcé pour les formes et les structures mathématiques. À quatre ans, il jouait aux tangrams avec une telle précision qu’il battait ses parents à plate couture. À six ans, il s’amusa à modéliser en pâte à modeler des fractales de Mandelbrot, convaincu que l’on pouvait toucher l’infini avec les doigts.
 
                                 À huit ans, Victor reçut en cadeau un kit de construction de robots LEGO Mindstorms. Il bâtit un automate qui traçait des cercles parfaits sur du papier, avec une précision au dixième de millimètre. Ses camarades de classe le regardaient avec admiration quand il expliquait, schéma à l’appui, comment son robot calculait le rayon et la circonférence grâce à un algorithme maison.
 
