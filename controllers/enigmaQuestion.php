@@ -30,7 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET) && isset($_GET['difficu
         if ($res)
             redirect('/enigma');
         else {
-            echo 'not pass';
             $didNotPassQuestion = true;
             $doNotRefresh = true;
         }
