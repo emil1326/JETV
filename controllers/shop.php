@@ -37,7 +37,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && count($_GET) > 0) {
         'price_min' => null,
         'price_max' => null,
         'name' => null,
+        'sort_options' => 'price',
     ];
 }
+
+$items = $model->selectOrdered($items, $filters['sort_options']);
 
 require 'views/shop.php';
