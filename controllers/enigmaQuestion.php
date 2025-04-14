@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET) && isset($_GET['difficu
     $pdo = Database::getInstance()->getPDO();
     $model = new QuestModel($pdo);
 
-    $difficulty = (int)$_GET['difficulty'];
+    $difficulty = (int)$_GET['difficulty'] ?? 1;
 
     $quest = $model->GetOneRandomQuestionByDifficultyOrLastDone($difficulty, $_SESSION['playerID']);
     $answers = $model->GetAnswersByQuestionId($quest->getId());
@@ -30,7 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET) && isset($_GET['difficu
         if ($res)
             redirect('/enigma');
         else {
-            echo 'not pass';
             $didNotPassQuestion = true;
             $doNotRefresh = true;
         }

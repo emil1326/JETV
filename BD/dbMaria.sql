@@ -1253,6 +1253,10 @@ begin
     declare itemPrice int;
     declare playerBalance int;
 
+    if p_quantitySell < 0 then 
+        signal sqlstate '45000' set message_text = 'essaye de vendre une quantiter negative?';
+    end if;
+
     select qt into itemQT
     from inventaire
     where itemID = p_itemID and joueureID = p_joueureID;
@@ -1265,25 +1269,32 @@ begin
     from joueure
     where joueureID = p_joueureID;
 
-    set playerBalance = playerBalance + itemPrice * p_quantitySell;
+    if itemQT >= p_quantitySell then
+        -- normal case: sufficient quantity in inventory
+        update inventaire
+        set qt = itemQT - p_quantitySell
+        where itemID = p_itemID and joueureID = p_joueureID;
+
+        set playerBalance = playerBalance + (itemPrice * p_quantitySell);
+
+        insert into shop (itemID, qt)
+        values (p_itemID, p_quantitySell)
+        on duplicate key update qt = qt + p_quantitySell;
+    else
+        -- edge case: selling more than available quantity
+        delete from inventaire
+        where itemID = p_itemID and joueureID = p_joueureID;
+
+        set playerBalance = playerBalance + (itemPrice * itemQT);
+
+        insert into shop (itemID, qt)
+        values (p_itemID, itemQT)
+        on duplicate key update qt = qt + itemQT;
+    end if;
 
     update joueure
     set caps = playerBalance
     where joueureID = p_joueureID;
-
-    if itemQT <= p_quantitySell then
-        delete from inventaire
-        where itemID = p_itemID and joueureID = p_joueureID;
-    else
-        update inventaire
-        set qt = itemQT - p_quantitySell
-        where itemID = p_itemID and joueureID = p_joueureID;
-    end if;
-    
-    insert into shop (itemID, qt)
-    values (p_itemID, p_quantitySell)
-    on duplicate key update qt = qt + p_quantitySell;
-
 end;
 //
 delimiter ;
@@ -1416,31 +1427,34 @@ call CreateItem('Pomme', 'Une pomme fraîche', 1, 10.0, 5.0, 'pomme.png', 250, 0
 call CreateItem('Balle', 'Une balle de calibre 9mm', 1, 1.0, 0.5, 'balle.png', 0, 0, 'mun', '9mm', '', '', 0, 1000);
 call CreateItem('Hache de guerre', 'Une hache puissante pour les combats', 8, 200.0, 100.0, 'hache.png', 20, 0, 'arme', '70', 'Hache', '', 0, 5);
 call CreateItem('Casque en acier', 'Un casque robuste pour la protection', 3, 120.0, 60.0, 'casque.png', 15, 0, 'armure', 'Acier', 'Grand', '', 0, 50);
-call CreateItem('Antidote', 'Un remede contre les poisons', 1, 80.0, 40.0, 'antidote.png', 255, 0, 'med', 'Guerit les poisons', 'Instantane', 'Aucun', 0, 20);
+call CreateItem('Antidote', 'Un remede contre les poisons', 1, 80.0, 40.0, 'antidote.png', 255, 0, 'med', 'Guerit les poisons', 'Instantane', 'Aucun', 100, 20);
 call CreateItem('Pain', 'Un pain frais et nourrissant', 2, 20.0, 10.0, 'pain.png', 250, 0, 'food', '200 kcal', 'Glucides', 'Fibres', 5, 30);
 call CreateItem('Fusil', 'Un fusil de calibre 12', 5, 300.0, 150.0, 'fusil.png', 0, 0, 'arme', '12mm', '', '', 0, 500);
 call CreateItem('Arc', 'Un arc pour la chasse', 2, 150.0, 75.0, 'arc.png', 10, 0, 'arme', '60', 'Arc', '', 0, 10);
 call CreateItem('Plastron en cuir', 'Un plastron en cuir pour la protection', 4, 100.0, 50.0, 'plastron.png', 10, 0, 'armure', 'Cuir', 'Moyen', '', 0, 40);
-call CreateItem('Baume de guerison', 'Un baume pour soigner les blessures', 1, 70.0, 35.0, 'baume.png', 255, 0, 'med', 'Soigne les blessures', 'Application locale', 'Aucun', 0, 25);
-call CreateItem('Carotte', 'Une carotte fraîche et croquante', 1, 5.0, 2.5, 'carotte.png', 250, 0, 'food', '30 kcal', 'Vitamines', 'Mineraux', 0, 100);
+call CreateItem('Baume de guerison', 'Un baume pour soigner les blessures', 1, 70.0, 35.0, 'baume.png', 255, 0, 'med', 'Soigne les blessures', 'Application locale', 'Aucun', 25, 25);
+call CreateItem('Carotte', 'Une carotte fraîche et croquante', 1, 5.0, 2.5, 'carotte.png', 250, 0, 'food', '30 kcal', 'Vitamines', 'Mineraux', 10, 100);
+call CreateItem('Carotte malefique', 'Une carotte fraîche et malefique', 1, 5.0, 2.5, 'carotteMalefique.png', 250, 0, 'food', 'maleficisim', 'Vitamines', 'Mineraux', -10, 100);
 call CreateItem('Grenade', 'Une grenade explosive', 1, 50.0, 25.0, 'grenade.png', 0, 0, 'mun', 'Explosif', '', '', 0, 200);
 call CreateItem('Lance', 'Une lance pour les combats rapproches', 6, 180.0, 90.0, 'lance.png', 15, 0, 'arme', '65', 'Lance', '', 0, 8);
 call CreateItem('Gants en maille', 'Des gants en maille pour la protection', 1, 50.0, 25.0, 'gants.png', 5, 0, 'armure', 'Maille', 'Petit', '', 0, 60);
-call CreateItem('Serum de regeneration', 'Un serum pour regenerer les cellules', 1, 100.0, 50.0, 'serum.png', 255, 0, 'med', 'Regenere les cellules', 'Injection', 'Aucun', 0, 10);
-call CreateItem('Steak', 'Un steak juteux et savoureux', 2, 30.0, 15.0, 'steak.png', 250, 0, 'food', '250 kcal', 'Proteines', 'Fer', 0, 20);
+call CreateItem('Serum de regeneration', 'Un serum pour regenerer les cellules', 1, 100.0, 50.0, 'serum.png', 255, 0, 'med', 'Regenere les cellules', 'Injection', 'Aucun', 125, 10);
+call CreateItem('Steak', 'Un steak juteux et savoureux', 2, 30.0, 15.0, 'steak.png', 250, 0, 'food', '250 kcal', 'Proteines', 'Fer', 20, 20);
 call CreateItem('Fleche', 'Une fleche', 1, 2.0, 1.0, 'fleche.png', 0, 0, 'mun', 'Fleche', '', '', 0, 1000);
 call CreateItem('Dague', 'Une dague legere et tranchante', 1, 80.0, 40.0, 'dague.png', 10, 0, 'arme', '55', 'Dague', '', 0, 15);
 call CreateItem('Bouclier en fer', 'Un bouclier solide en fer', 5, 200.0, 100.0, 'bouclier_fer.png', 20, 0, 'armure', 'Fer', 'Grand', '', 0, 30);
-call CreateItem('Pommade antiseptique', 'Une pommade pour desinfecter les plaies', 1, 60.0, 30.0, 'pommade.png', 255, 0, 'med', 'Desinfecte les plaies', 'Application locale', 'Aucun', 0, 20);
-call CreateItem('Banane', 'Une banane mûre et sucree', 1, 15.0, 7.5, 'banane.png', 250, 0, 'food', '90 kcal', 'Potassium', 'Vitamines', 0, 50);
+call CreateItem('Pommade antiseptique', 'Une pommade pour desinfecter les plaies', 1, 60.0, 30.0, 'pommade.png', 255, 0, 'med', 'Desinfecte les plaies', 'Application locale', 'Aucun', 15, 20);
+call CreateItem('Banane', 'Une banane mûre et sucree', 1, 15.0, 7.5, 'banane.png', 250, 0, 'food', '90 kcal', 'Potassium', 'Vitamines', 5, 50);
 call CreateItem('Couteau de lancer', 'Un couteau equilibre pour le lancer', 1, 40.0, 20.0, 'couteau_lancer.png', 10, 0, 'arme', '45', 'Couteau', '', 0, 25);
 call CreateItem('Armure en titane', 'Une armure legere et resistante en titane', 10, 500.0, 250.0, 'armure_titane.png', 30, 0, 'armure', 'Titane', 'Tres grand', '', 0, 5);
 call CreateItem('Kit de premiers secours', 'Un kit complet pour les premiers soins', 2, 150.0, 75.0, 'kit_secours.png', 255, 0, 'med', 'Soins complets', 'Portable', 'Aucun', 0, 10);
-call CreateItem('Orange', 'Une orange juteuse et vitaminee', 1, 10.0, 5.0, 'orange.png', 250, 0, 'food', '60 kcal', 'Vitamines', 'Mineraux', 0, 80);
+call CreateItem('Orange', 'Une orange juteuse et vitaminee', 1, 10.0, 5.0, 'orange.png', 250, 0, 'food', '60 kcal', 'Vitamines', 'Mineraux', 13, 80);
 call CreateItem('Pistolet', 'Un pistolet de calibre 9mm', 3, 250.0, 125.0, 'pistolet.png', 0, 0, 'arme', '9mm', '', '', 0, 300);
 
 call CreateItem('SuperHeavy Pistol', 'Un pistolet de calibre 900mm', 100, 500.0, 125.0, 'pistoletSH.png', 0, 0, 'mun', '9mm', '', '', 0, 300);
 call CreateItem('SuperHeavy Pistol LW edition', 'Un pistolet de calibre 500mm', 50, 50.0, 125.0, 'pistoletSHLWE.png', 0, 0, 'mun', '9mm', '', '', 0, 30);
+call CreateItem('Mort Instantanée', 'Un item qui cause une mort instantanée', 1, 1000.0, 500.0, 'mort_instantanee.png', 255, 0, 'med', 'Cause la mort', 'Instantané', 'la mort', -10000, 10);
+call CreateItem('Super Gain de Vie', 'Un item qui donne 10 000 points de vie', 1, 5000.0, 2500.0, 'super_gain_vie.png', 255, 0, 'med', 'Donne 10 000 PV', 'Instantané', 'vivre une autre journer', 10000, 10);
 
 -- joueurs
 select CreateJoueur('je vins, je vus, je construit', 'bob', 'leBricoleur', 'passbob');

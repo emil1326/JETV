@@ -3,6 +3,8 @@ require 'views/partials/head.php';
 require 'views/partials/header.php';
 
 ?>
+
+
 <style>
     .card-group .card {
         max-width: 325px !important;
@@ -292,19 +294,21 @@ require 'views/partials/header.php';
                     <i class="fas fa-search"></i>
                 </span>
             </div>
-            <div id="taggies">
+            <div id='sort-options-radio-buttons' id="taggies">
+                <input form='main-form' value='price' type="radio" class="btn-check" name="sort_options" id="option1"
+                    autocomplete="off" <?= $filters['sort_options'] == 'price' ? ' checked style="border-radius:100px"' : '' ?>>
+                <label class=" btn btn-secondary" for="option1">Prix</label>
 
-                <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off" checked
-                    style="border-radius:100px">
-                <label class="btn btn-secondary" for="option1">Prix</label>
-
-                <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off">
+                <input form='main-form' value='utility' type="radio" class="btn-check" name="sort_options" id="option2"
+                    autocomplete="off" <?= $filters['sort_options'] == 'utility' ? ' checked style="border-radius:100px"' : '' ?>>
                 <label class="btn btn-secondary" for="option2">Utilité</label>
 
-                <input type="radio" class="btn-check" name="options" id="option3" autocomplete="off">
+                <input form='main-form' value='weight' type="radio" class="btn-check" name="sort_options" id="option3"
+                    autocomplete="off" <?= $filters['sort_options'] == 'weight' ? ' checked style="border-radius:100px"' : '' ?>>
                 <label class="btn btn-secondary" for="option3">Poids</label>
 
-                <input type="radio" class="btn-check" name="options" id="option4" autocomplete="off">
+                <input form='main-form' value='quantity' type="radio" class="btn-check" name="sort_options" id="option4"
+                    autocomplete="off" <?= $filters['sort_options'] == 'quantity' ? ' checked style="border-radius:100px"' : '' ?>>
                 <label class="btn btn-secondary" for="option4">Quantité</label>
             </div>
         </div>
@@ -359,6 +363,12 @@ require 'views/partials/header.php';
 
     allowOnlyIntegers(inputMin);
     allowOnlyIntegers(inputMax);
+
+    let form = $('#main-form');
+
+    $('#sort-options-radio-buttons > input').on('click', (e) => {
+        form.submit();
+    });
 </script>
 <?php
 require 'views/partials/footer.php';
