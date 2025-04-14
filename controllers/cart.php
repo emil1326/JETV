@@ -59,7 +59,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             // clear cart
             $res = $modelCart->clearCart($_SESSION["playerID"]);
             if ($res)
-                redirect('/shop');
+                redirect('/cart');
+            else {
+                redirect('/cart?error=peuPasClear');
+            }
+        }   elseif (isset($query['clearItem'])) {
+            // clear Item
+            $res =  $modelCart->removeItemFromCart($_SESSION["playerID"], $query['itemID'], $query['itemQt']);
+            if ($res)
+                redirect('/cart');
             else {
                 redirect('/cart?error=peuPasClear');
             }

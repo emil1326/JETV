@@ -84,13 +84,13 @@ require 'views/partials/header.php';
                                     </div>
                                 </div>
 
-                                <div style="display:flex; flex-direction: row; ">
+                                <div style="display:flex; flex-direction: col; justify-content: center; ">
 
-                                    <a type="button" href="/cart?removeItem=true&itemID=<?= $item['item']->getID() ?>" class="btn btn-secondary" style="color:white; font-weight:bold;background-color: transparent; border-color:white; border-radius:10px; width:130px;">-</a>
+                                    <a type="button" href="/cart?removeItem=true&itemID=<?= $item['item']->getID() ?>" class="btn btn-secondary" style="color:white; font-weight:bold;background-color: transparent; border-color:white; border-radius:10px; width:30%;">-</a>
                                     <div style="margin: 5px;"></div>
-                                    <a type="button" href="/cart?addItem=true&itemID=<?= $item['item']->getId() ?>" class="btn btn-secondary" style="color:white; font-weight:bold;background-color: transparent; border-color:white; border-radius:10px; width:130px;">+</a>
+                                    <a type="button" href="/cart?addItem=true&itemID=<?= $item['item']->getId() ?>" class="btn btn-secondary" style="color:white; font-weight:bold;background-color: transparent; border-color:white; border-radius:10px; width:30%;">+</a>
                                     <div style="margin: 5px;"></div>
-                                    <a type="button" href="/cart?clearItem=true&itemID=<?= $item['item']->getId() ?>" class="btn btn-secondary" style="color:white; font-weight:bold;background-color: transparent; border-color:white; border-radius:10px; width:130px; align-self: flex-end;">CLEAR</a>
+                                    <a type="button" href="/cart?clearItem=true&itemID=<?= $item['item']->getId() ?>&itemQt=<?= $item['quantity'] ?>" class="btn btn-secondary" style="color:white; font-weight:bold;background-color: transparent; border-color:white; border-radius:10px; width:30%;">CLEAR</a>
 
                                 </div>
                             </div>
