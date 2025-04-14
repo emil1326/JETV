@@ -23,12 +23,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET) && isset($_GET['difficu
     $pdo = Database::getInstance()->getPDO();
     $model = new QuestModel($pdo);
 
-    $res = $model->DoQuest($_POST['questID'], $_SESSION['playerID'], $_POST['option']);
-    if ($res)
-        redirect('/enigma');
-    else {
-        echo 'not pass';
-        $didNotPassQuestion = true;
+    if (isset($_POST['option'])) {
+
+        $res = $model->DoQuest($_POST['questID'], $_SESSION['playerID'], $_POST['option']);
+
+        if ($res)
+            redirect('/enigma');
+        else {
+            echo 'not pass';
+            $didNotPassQuestion = true;
+            $doNotRefresh = true;
+        }
+    } else {
+        $noQuestionChoosed = true;
+        $doNotRefresh = true;
     }
 }
 

@@ -3,9 +3,13 @@ require 'partials/head.php';
 require 'partials/header.php';
 
 $didNotPassQuestion;
+$noQuestionChoosed;
 
 if (!isset($didNotPassQuestion)) {
     $didNotPassQuestion = false;
+}
+if (!isset($noQuestionChoosed)) {
+    $noQuestionChoosed = false;
 }
 
 ?>
@@ -329,6 +333,18 @@ if (!isset($didNotPassQuestion)) {
         <!-- todo ui for not passed question -->
 
         :(
+
+        <a type="button" href="/enigma" class="btn btn-secondary" style="margin-top:20px;">retour</a>
+
+
+    </main>
+<?php elseif ($noQuestionChoosed): ?>
+    <main>
+
+        <!-- todo ui for not passed question -->
+
+        :( <br>
+        no awnser choosed
 
         <a type="button" href="/enigma" class="btn btn-secondary" style="margin-top:20px;">retour</a>
 
