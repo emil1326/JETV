@@ -32,7 +32,7 @@ require 'views/partials/header.php';
 </style>
 <div style="display:flex; flex-direction:row; column-gap: 20px;justify-content:center;">
 
-    <form method='GET'>
+    <form id='main-form' method='GET'>
 
         <!--  TODO: Add Name in form (search filters) -->
 
@@ -102,7 +102,8 @@ require 'views/partials/header.php';
             <p style="margin-bottom:0px; margin-right:0px;"> Nom : </p>
             <div class="input-group rounded"
                 style="width:486px; background-color:#1E1E1E; border:1px  #6c757d solid; border-radius:100px !important; color:white;">
-                <input id="search" type="search" class="form-control rounded searchy" placeholder="Search"
+                <input form='main-form' id="search" type="search" name='name' class="form-control rounded searchy" placeholder="Search"
+                    value="<?= $filters['name'] ?? '' ?>"
                     aria-label="Search"
                     style="background-color:#1E1E1E; border:0px;border-radius:100px !important; color:white;"
                     aria-describedby="search-addon" />
