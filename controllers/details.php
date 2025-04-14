@@ -5,7 +5,6 @@ if (isAuthenticated()) {
     $auth = false;
 }
 require 'models/ShopModel.php';
-require 'models/CartModel.php';
 
 $pdo = Database::getInstance()->getPDO();
 

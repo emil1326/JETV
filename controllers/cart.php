@@ -4,8 +4,6 @@ if (!isAuthenticated()) {
     // redirect('/');
 }
 
-require 'models/CartModel.php';
-
 # input => vieux params des forms => update les qt. , pay => call BD
 # itemID = int,  addItem removeItem clearItem buy peuPasAcheter tropHeavy
 

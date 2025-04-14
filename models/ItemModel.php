@@ -3,6 +3,7 @@
 require_once 'models/Model.php';
 require_once 'src/class/Item.php';
 
+
 class ItemModel extends Model
 {
     public function __construct(protected PDO $pdo)
@@ -157,6 +158,43 @@ class ItemModel extends Model
 
         return $filteredItems;
     }
+
+    public function selectOrdered(array $items, string $sortType): array
+    {
+        switch ($sortType) {
+            case 'price':
+                function price_cmp($a, $b): int
+                {
+                    return $a['item']->getBuyPrice() < $b['item']->getBuyPrice() ? -1 : 1;
+                }
+                usort($items, 'price_cmp');
+                break;
+            case 'utility':
+                function utility_cmp($a, $b): int
+                {
+                    return $a['item']->getUtility() < $b['item']->getUtility() ? -1 : 1;
+                }
+                usort($items, 'utility_cmp');
+                break;
+            case 'weight':
+                function weight_cmp($a, $b): int
+                {
+                    return $a['item']->getItemWeight() < $b['item']->getItemWeight() ? -1 : 1;
+                }
+                usort($items, 'weight_cmp');
+                break;
+            case 'quantity':
+                function quantity_cmp($a, $b): int
+                {
+                    return $a['quantity'] < $b['quantity'] ? -1 : 1;
+                }
+                usort($items, 'quantity_cmp');
+                break;
+        }
+
+        return $items;
+    }
+
 
     protected function makeItem(array $itemInfo, bool $allData = true): null|Item|Weapon|Armor|Meds|Food|Ammo
     {

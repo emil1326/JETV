@@ -150,8 +150,21 @@
                         </li>
 
                         <li class="nav-item nopadding">
-                            <a class="nav-link navtagsw nopadding <?php if (isset($cartActif) && $cartActif)
-                                                                        echo 'active' ?>" href="/cart">Cart</a>
+                            <a class="nav-link navtagsw nopadding 
+                                <?php if (isset($cartActif) && $cartActif)
+                                    echo 'active' ?>" href="/cart"><i class="bi bi-cart"></i>
+                                <?php 
+                                    $totalCountHeader = 0;
+                                    $modelCartHeader = new CartModel(Database::getInstance()->getPDO());
+                                    $itemsCart = $modelCartHeader->selectAll($_SESSION['playerID']);
+                                    if (isset($itemsCart))
+                                    foreach ($itemsCart as $itemDataHeader) {
+                                        $quantityHeader = $itemDataHeader['quantity'];
+                                        $totalCountHeader += $quantityHeader;
+                                    }
+                                    echo $totalCountHeader;
+                                ?>
+                            </a>
                         </li>
                     <?php endif; ?>
 
