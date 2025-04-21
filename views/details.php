@@ -25,15 +25,158 @@ $inShop ?? false;
 
 ?>
 <link rel="stylesheet" href="public/css/details.css">
+<style>
+    .item-image-container {
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center;
+        width: 50%;
+        min-height: 250px;
+    }
 
+    @media (max-width: 768px) {
+        .item-image-container {
+            min-height: 200px;
+            width: 100%;
+        }
+    }
+</style>
 <div style="display:flex; justify-content: center; flex-direction: column;align-items:center;">
+
+    <!-- Card Item Section -->
+    <div class="card mb-3" style="background-color:#1E1E1E; padding:10px; border:none; margin:20px 0; width:75%;">
+        <div class="row g-0">
+            <div class="col-md-4 item-image-container"
+                style=" background-image: url('public/images/<?= $item->getImageLink() ?>'); background-color: white;">
+                <!-- Image moved to background -->
+            </div>
+            <div class="col-12 col-md-6 p-3">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-white"><?= $item->getName() ?></h5>
+                    <p class="card-text" style="font-size:40px; font-weight:bold;"><span
+                            style="font-size:20px;">$</span><?= $item->getBuyPrice() ?></p>
+                    <p class="card-text"><small class="text-muted"><?= $item->getDescription() ?></small></p>
+
+                    <?php if ($auth): ?>
+                        <?php if ($inShop): ?>
+                            <button class="btn w-100 my-2"
+                                style="background-color:#303030; color:white; border:none; border-radius:8px;"
+                                data-bs-toggle="modal" data-bs-target="#exampleModalCenter">Acheter</button>
+                        <?php else: ?>
+                            <button class="btn w-100 my-2"
+                                style="background-color:#303030; color:white; border:none; border-radius:8px;"
+                                data-bs-toggle="modal" data-bs-target="#sellModal">Vendre</button>
+                            <?php if (ucfirst(get_class($item)) == "Meds" || ucfirst(get_class($item)) == "Food"): ?>
+                                <a href="/details?use=1&itemID=<?= $item->getId() ?>&isPlayer"
+                                    class="btn btn-outline-light w-100">Utiliser</a>
+                            <?php endif ?>
+                        <?php endif ?>
+                    <?php endif ?>
+
+                    <span class="badge bg-secondary mt-3"
+                        style="background-color:#434343 !important; font-size:14px;"><?= ucfirst(get_class($item)) ?></span>
+                    <p class="card-text mt-2 text-muted">Poids : <?= $item->getItemWeight() ?> kg</p>
+                    <p class="card-text text-muted">Quantité : <?= $qt ?> exemplaires</p>
+
+                    <?php if ($peuPasUse): ?>
+                        <p class="text-danger">Vous ne pouvez pas utiliser cet item</p>
+                    <?php endif ?>
+                    <?php if ($peuPasVendre): ?>
+                        <p class="text-danger">Vous ne pouvez pas vendre cet item</p>
+                    <?php endif ?>
+                    <?php if ($peuPasAcheter): ?>
+                        <p class="text-danger">Vous ne pouvez pas acheter cet item</p>
+                    <?php endif ?>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Attributes Carousel -->
+    <div style="background-color:#303030; width:100%; min-height: 300px ; padding:40px 0; ">
+        <div class="container" style="max-width:75%">
+            <h3 class="text-white mb-3" style="font-size:20px;">Attributs</h3>
+
+            <?php if (count($attributes) >= 4): ?>
+                <div class="text-end mb-2">
+                    <a class="btn btn-secondary btn-sm" href="#carouselExampleIndicators2" data-slide="prev"
+                        style="background-color:#303030; border:none;"><i class="fa fa-arrow-left"></i></a>
+                    <a class="btn btn-secondary btn-sm" href="#carouselExampleIndicators2" data-slide="next"
+                        style="background-color:#303030; border:none;"><i class="fa fa-arrow-right"></i></a>
+                </div>
+            <?php endif; ?>
+
+            <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <?php if (count($attributes) == 4): ?>
+                        <?php foreach (array_chunk($attributes, 2, true) as $index => $attributeChunk): ?>
+                            <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+                                <div class="row">
+                                    <?php foreach ($attributeChunk as $attributeName => $attributeValue): ?>
+                                        <div class="col-12 col-md-6 mb-3">
+                                            <div class="card bg-dark text-white"
+                                                style="background:transparent !important; border:none !important;">
+                                                <div class="card-body">
+                                                    <h5 class="card-title" style="font-size:18px;">
+                                                        <?= htmlspecialchars($attributeName) ?>
+                                                    </h5>
+                                                    <p class="card-text" style="font-size:16px;">
+                                                        <?= htmlspecialchars($attributeValue) ?>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <div class="row">
+                            <?php foreach ($attributes as $attributeName => $attributeValue): ?>
+                                <div class="col-12 col-md-4 mb-3">
+                                    <div class="card bg-dark text-white"
+                                        style="background:transparent !important; border:none !important;">
+                                        <div class="card-body">
+                                            <h5 class="card-title" style="font-size:22px;">
+                                                <?= htmlspecialchars($attributeName) ?>
+                                            </h5>
+                                            <p class="card-text" style="font-size:18px;">
+                                                <?= htmlspecialchars($attributeValue) ?>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<style>
+    @media (max-width: 768px) {
+        .card-title {
+            font-size: 18px;
+        }
+
+        .card-text {
+            font-size: 14px;
+        }
+    }
+</style>
+
+
+<!-- <div style="display:flex; justify-content: center; flex-direction: column;align-items:center;">
 
     <div class="card mb-3"
         style="background-color:#1E1E1E !important; padding:10px;border:none;  margin:20px; margin-top:0px; margin-bottom:0px; ">
         <div class="row g-0">
             <div class="col-md-4" style="width:50%; max-height:325px; ">
-                <img src="public/images/<?= $item->getImageLink() ?>"
-                    class="img-fluid rounded-start" alt="..." style="width:100%;height:110%;aspect-ratio: auto; background-color: white;">
+                <img src="public/images/<?= $item->getImageLink() ?>" class="img-fluid rounded-start" alt="..."
+                    style="width:100%;height:110%;aspect-ratio: auto; background-color: white;">
             </div>
             <div class=" col-md-8" style="padding-left:30px; width:50%; max-height:325px; ">
                 <div class="card-body" style="max-height:325px !important;">
@@ -43,7 +186,7 @@ $inShop ?? false;
                     <p class="card-text"><small class="text-muted"><?= $item->getDescription() ?></small></p>
                     <?php if ($auth): ?>
                         <?php if ($inShop): ?>
-                            <!-- if is in shop -->
+                         
                             <button class="btn btn-outline-secondary " type="button"
                                 style="margin-right:10px; width:100%; margin: 5px; border : none; border-radius:8px;padding-top:4px; background-color: #303030;"
                                 data-bs-toggle="modal" data-bs-target="#exampleModalCenter"><a class="buttonst "
@@ -57,13 +200,16 @@ $inShop ?? false;
                                     style="color:white;">Vendre</a>
                             </button>
                             <?php if (ucfirst(get_class($item)) == "Meds" || ucfirst(get_class($item)) == "Food"): ?>
-                                <a type="button" href="/details?use=1&itemID=<?= $item->getId() ?>&isPlayer" class="btn btn-secondary"
-                                    style="color:white; font-weight:bold;background-color: transparent; border-color:white; border-radius:10px; width:130px;">Use Item</a>
+                                <a type="button" href="/details?use=1&itemID=<?= $item->getId() ?>&isPlayer"
+                                    class="btn btn-secondary"
+                                    style="color:white; font-weight:bold;background-color: transparent; border-color:white; border-radius:10px; width:130px;">Use
+                                    Item</a>
                             <?php endif ?>
                         <?php endif ?>
                     <?php endif ?>
 
-                    <span class="badge bg-secondary" style="width:100px; font-size:15px; height:30px; margin-left:0px; margin-top:20px; background-color:#434343 !important;">
+                    <span class="badge bg-secondary"
+                        style="width:100px; font-size:15px; height:30px; margin-left:0px; margin-top:20px; background-color:#434343 !important;">
                         <?= ucfirst(get_class($item)) ?>
                     </span>
 
@@ -79,10 +225,10 @@ $inShop ?? false;
                     <?php if ($peuPasAcheter): ?>
                         <p class="card-text"><small class="text-danger">Vous ne pouvez pas acheter cet item</small></p>
                     <?php endif ?>
-                    <!-- TODO itemquantity
+                   TODO itemquantity
                     <p class="card-text"><small class="text-muted"></small></p>
-                    -->
-                    <!--
+                   
+                   
                     <div
                         style="display:flex; flex-direction: column; background-color: #303030; margin-top:10px; padding:15px; border-radius:8px; border:1px  #6c757d solid;">
                         <span class="badge bg-secondary" style="width:100px; font-size:15px; height:30px; margin-left:10px; background-color:#434343 !important;">Arme</span>
@@ -100,7 +246,7 @@ $inShop ?? false;
                             </div>
                         </div>
                     </div>
-                    -->
+                  
                 </div>
             </div>
         </div>
@@ -175,99 +321,96 @@ $inShop ?? false;
             </div>
         </div>
 
-    </div>
-    <!-- buy -->
-    <?php if ($inShop): ?>
-        <div class="modal fade" id="exampleModalCenter" tabindex="-1" aria-labelledby="exampleModalCenterTitle"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content" style="background-color:#303030;">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalCenterTitle">Ajouter votre quantité</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="col-12">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <p style="color:white;"><?= $item->getName() ?> <?= $item->getBuyPrice() ?>$</p>
-                                </div>
-                                <div class="input-group w-auto justify-content-end align-items-center">
-                                    <input type="button" value="-"
-                                        class="button-minus border rounded-circle  icon-shape icon-sm mx-1 "
-                                        data-field="quantity"
-                                        style="color:white; border:none; font-weight:bold;background-color: transparent;">
-                                    <input type="number" step="1" max="<?= $qt ?>" value="1" name="quantity"
-                                        class="quantity-field border-0 text-center w-25"
-                                        style="background-color:transparent; color:white; font-size:20px;">
-                                    <input type="button" value="+"
-                                        class="button-plus border rounded-circle icon-shape icon-sm "
-                                        style="color:white; border:none; font-weight:bold;background-color: transparent;"
-                                        data-field="quantity">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <form method="GET">
-                            <input type="hidden" name="itemID" value="<?= $item->getId() ?>">
-                            <input type="hidden" name="quantity" value="1" id="quantityInput">
-                            <input type="hidden" name="buy" value="1">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                            <button type="submit" class="btn btn-primary" style="background-color: white; color:black;"
-                                id="liveToastBtn">Ajouter</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- sell -->
-    <?php else: ?>
-        <div class="modal fade" id="sellModal" tabindex="-1" aria-labelledby="modalSell" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content" style="background-color:#303030;">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalSell">Vendre votre quantité</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="col-12">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <p style="color:white;"><?= $item->getName() ?> <?= $item->getBuyPrice() ?>$</p>
-                                </div>
-                                <div class="input-group w-auto justify-content-end align-items-center">
-                                    <input type="button" value="-"
-                                        class="button-minus border rounded-circle icon-shape icon-sm mx-1"
-                                        data-field="quantity"
-                                        style="color:white; border:none; font-weight:bold;background-color: transparent;">
-                                    <input type="number" step="1" max="<?= $qt ?>" value="1" name="quantity"
-                                        class="quantity-field border-0 text-center w-25"
-                                        style="background-color:transparent; color:white; font-size:20px;">
-                                    <input type="button" value="+"
-                                        class="button-plus border rounded-circle icon-shape icon-sm"
-                                        style="color:white; border:none; font-weight:bold;background-color: transparent;"
-                                        data-field="quantity">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <form method="GET"> <!-- Add action to sell the item -->
-                            <input type="hidden" name="itemID" value="<?= $item->getId() ?>">
-                            <input type="hidden" name="quantity" value="1" id="quantityInput">
-                            <input type="hidden" name="sell" value="1">
-                            <input type="hidden" name="isPlayer" value="1">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                            <button type="submit" class="btn btn-primary" style="background-color: white; color:black;" id="sellToastBtn">Vendre</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    <?php endif ?>
+    </div> -->
 
-</div>
+<?php if ($inShop): ?>
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background-color:#303030;">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Ajouter votre quantité</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-12">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <p style="color:white;"><?= $item->getName() ?>     <?= $item->getBuyPrice() ?>$</p>
+                            </div>
+                            <div class="input-group w-auto justify-content-end align-items-center">
+                                <input type="button" value="-"
+                                    class="button-minus border rounded-circle  icon-shape icon-sm mx-1 "
+                                    data-field="quantity"
+                                    style="color:white; border:none; font-weight:bold;background-color: transparent;">
+                                <input type="number" step="1" max="<?= $qt ?>" value="1" name="quantity"
+                                    class="quantity-field border-0 text-center w-25"
+                                    style="background-color:transparent; color:white; font-size:20px;">
+                                <input type="button" value="+" class="button-plus border rounded-circle icon-shape icon-sm "
+                                    style="color:white; border:none; font-weight:bold;background-color: transparent;"
+                                    data-field="quantity">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <form method="GET">
+                        <input type="hidden" name="itemID" value="<?= $item->getId() ?>">
+                        <input type="hidden" name="quantity" value="1" id="quantityInput">
+                        <input type="hidden" name="buy" value="1">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        <button type="submit" class="btn btn-primary" style="background-color: white; color:black;"
+                            id="liveToastBtn">Ajouter</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<?php else: ?>
+    <div class="modal fade" id="sellModal" tabindex="-1" aria-labelledby="modalSell" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background-color:#303030;">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalSell">Vendre votre quantité</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-12">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <p style="color:white;"><?= $item->getName() ?>     <?= $item->getBuyPrice() ?>$</p>
+                            </div>
+                            <div class="input-group w-auto justify-content-end align-items-center">
+                                <input type="button" value="-"
+                                    class="button-minus border rounded-circle icon-shape icon-sm mx-1" data-field="quantity"
+                                    style="color:white; border:none; font-weight:bold;background-color: transparent;">
+                                <input type="number" step="1" max="<?= $qt ?>" value="1" name="quantity"
+                                    class="quantity-field border-0 text-center w-25"
+                                    style="background-color:transparent; color:white; font-size:20px;">
+                                <input type="button" value="+" class="button-plus border rounded-circle icon-shape icon-sm"
+                                    style="color:white; border:none; font-weight:bold;background-color: transparent;"
+                                    data-field="quantity">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <form method="GET">
+                        <input type="hidden" name="itemID" value="<?= $item->getId() ?>">
+                        <input type="hidden" name="quantity" value="1" id="quantityInput">
+                        <input type="hidden" name="sell" value="1">
+                        <input type="hidden" name="isPlayer" value="1">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        <button type="submit" class="btn btn-primary" style="background-color: white; color:black;"
+                            id="sellToastBtn">Vendre</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif ?>
+
 <script>
     function incrementValue(e) {
         e.preventDefault();
@@ -319,15 +462,15 @@ $inShop ?? false;
     }
 
     // Attach event listeners using event delegation
-    $(document).on('click', '.button-plus', function(e) {
+    $(document).on('click', '.button-plus', function (e) {
         incrementValue(e);
     });
 
-    $(document).on('click', '.button-minus', function(e) {
+    $(document).on('click', '.button-minus', function (e) {
         decrementValue(e);
     });
 
-    $(document).on('change', '.quantity-field', function(e) {
+    $(document).on('change', '.quantity-field', function (e) {
         setValue(e);
     });
 </script>

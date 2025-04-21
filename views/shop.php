@@ -16,6 +16,7 @@ require 'views/partials/header.php';
 
     .card {
         min-width: 300px !important;
+
     }
 
     .card-group .card:hover {
@@ -213,6 +214,10 @@ require 'views/partials/header.php';
         transform: translateY(-10px);
     }
 </style>
+<div style="display:flex; justify-content: center; margin:20px 0px;">
+    <p style="margin:0px; font-size:23px; font-weight: bold;"> Shop </p>
+</div>
+
 <div id="allShop">
 
     <form id='main-form' method='GET'>
@@ -282,7 +287,7 @@ require 'views/partials/header.php';
 
     <div id="shopitems" style="display:flex; flex-direction: column; max-width:1000px; row-gap: 40px;">
         <div id="formCrit">
-            <p style="margin-bottom:0px; margin-right:0px;"> Nom : </p>
+            <p style="margin-bottom:0px; margin-right:0px; width:60px"> Nom : </p>
             <div class="input-group rounded"
                 style="width:100%; background-color:#1E1E1E; border:1px  #6c757d solid; border-radius:100px !important; color:white;">
                 <input form='main-form' id="search" type="search" name='name' class="form-control rounded searchy"
@@ -294,7 +299,7 @@ require 'views/partials/header.php';
                     <i class="fas fa-search"></i>
                 </span>
             </div>
-            <div id='sort-options-radio-buttons' id="taggies">
+            <div id='sort-options-radio-buttons' id="taggies" style="display:none;">
                 <input form='main-form' value='price' type="radio" class="btn-check" name="sort_options" id="option1"
                     autocomplete="off" <?= $filters['sort_options'] == 'price' ? ' checked style="border-radius:100px"' : '' ?>>
                 <label class=" btn btn-secondary" for="option1">Prix</label>
@@ -322,7 +327,7 @@ require 'views/partials/header.php';
                         onclick="window.location.href='/details?itemID=<?= $item['item']->getId() ?>'">
 
                         <div class="card"
-                            style="background-color:#1E1E1E !important; padding:10px; cursor:pointer;border:1px white solid;border-color: #6c757d; border-radius:8px; margin:20px; margin-top:0px; margin-bottom:0px;">
+                            style="background-color:#1E1E1E !important; padding:20 10px; width:100% !important; cursor:pointer;border:1px white solid;border-color: #6c757d; border-radius:8px; margin:20px; margin-top:0px; margin-bottom:0px;">
                             <div class="numberCircle" style="margin-right:0px;"><?= $item['quantity'] ?></div>
                             <img class="card-img-top" src="public/images/<?= $item['item']->getImageLink() ?>"
                                 alt="Card image cap" style="background-color:white;">

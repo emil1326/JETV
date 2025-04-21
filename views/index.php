@@ -64,7 +64,7 @@ $couldntGetCaps ?? false;
         <div style="display:flex; flex-direction:row; justify-content:center;">
             <a href="/shop" class="btn btn-outline-secondary buttonsw"
                 style="color:white; margin-right:10px;  border-radius: 8px;padding-top:4px; background-color: #303030;">Shop</a>
-            <?php if (isAuthenticated()) : ?>
+            <?php if (isAuthenticated()): ?>
                 <a href="/enigma" class="btn  btn-outline-secondary buttonsw"
                     style="color:black; background-color:white; border-radius: 8px;padding-top:4px;">Enigma</a></button>
             <?php endif; ?>
@@ -86,12 +86,10 @@ $couldntGetCaps ?? false;
                 <?php foreach ($items as $index => $item): ?>
                     <?php if ($count < 3): ?>
                         <div class="card"
-                            style="background-color:#1E1E1E !important; padding:10px; cursor:pointer;border:1px white solid;border-color: #6c757d; border-radius:8px; margin:20px; margin-top:0px; margin-bottom:0px;"
+                            style="background-color:#1E1E1E !important; padding:20 10px; cursor:pointer;border:1px white solid;border-color: #6c757d; border-radius:8px; margin:20px; margin-top:0px; margin-bottom:0px;"
                             onclick="window.location.href= '/details?itemID=<?= $item['item']->getId() ?>'">
                             <div class="numberCircle"><?= $item['quantity'] ?></div>
-                            <img class="card-img-top"
-                                src="public/images/<?= $item['item']->getImageLink() ?>"
-                                alt="Card image cap">
+                            <img class="card-img-top" src="public/images/<?= $item['item']->getImageLink() ?>" alt="Card image cap">
                             <div class="card-body" style="margin-bottom:20px;">
 
                                 <h5 class="card-title">
