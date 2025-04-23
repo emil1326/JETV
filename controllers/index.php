@@ -35,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 if ($res) {
                     $_SESSION['lastCaps'] = time();
                     $gotCaps = true;
+                    $doNotRefresh = true; // ne pas refresh apres sa
                 } else {
                     $couldntGetCaps = true;
                 }
