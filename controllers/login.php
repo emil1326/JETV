@@ -21,6 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $messageKey = '<div class="alert alert-danger">Échec de connexion: l\'alias et/ou le mot de passe sont invalide
         <a type="button" href="/signup" class="btn btn-secondary">Sign UP</a>
         </div>';
+        $doNotRefresh = true;
     } else {
         sessionStart();
         $_SESSION['playerID'] = $id;
