@@ -332,7 +332,7 @@ if (!isset($noQuestionChoosed)) {
 
         <!-- todo ui for not passed question -->
 
-        :(
+        Mauvaise réponse <br>
 
         <a type="button" href="/enigma" class="btn btn-secondary" style="margin-top:20px;">retour</a>
 
@@ -344,7 +344,7 @@ if (!isset($noQuestionChoosed)) {
         <!-- todo ui for not passed question -->
 
         :( <br>
-        no awnser choosed
+        no answer choosed
 
         <a type="button" href="/enigma" class="btn btn-secondary" style="margin-top:20px;">retour</a>
 
