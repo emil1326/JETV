@@ -13,6 +13,8 @@ $model = new ShopModel($pdo);
 $items = $model->selectAll();
 $accueilActif = true;
 
+//  WARNING: lastCapsTime ne peux pas être dans la session; migrer vers la BD
+
 if (!isset($_SESSION['lastCapsTime']))
     $_SESSION['lastCapsTime'] = 0; // premier log so set to 0
 
@@ -26,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
         $getCaps = $query['getCaps'] ?? 0;
 
-        if ($getCaps)
+        if ($getCaps) {
             if ($_SESSION['lastCapsTime'] > time() + 86400) {
                 $userModel = new UserModel($pdo);
                 $res =  $userModel->addCaps(200, $_SESSION['playerID']);
@@ -37,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                     $couldntGetCaps = true;
                 }
             }
+        }
     }
 }
 

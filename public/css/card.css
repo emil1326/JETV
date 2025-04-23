@@ -1,7 +1,9 @@
 .card-body {
     position: relative;
 }
-
+.card {
+    min-width: 300px !important;
+}
 .numberCircle {
     width: 34px;
     height: 32px;
