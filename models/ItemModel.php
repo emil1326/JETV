@@ -150,7 +150,7 @@ class ItemModel extends Model
                 && $item->getBuyPrice() >= $filter->getPriceMin()
                 && ($filter->getPriceMax() == 0 || $item->getBuyPrice() <= $filter->getPriceMax())
                 && ($filter->getStarsMin() == null || $item->getStarsMin() >= $filter->getStarsMin()) // wont work
-                && ($filter->getItemName() == null || str_contains($item->getName(), $filter->getItemName()))
+                && ($filter->getItemName() == null || str_contains(strtolower($item->getName()), strtolower($filter->getItemName())))
             ) {
                 $filteredItems[] = ['item' => $item, 'quantity' => $quantity];
             }
