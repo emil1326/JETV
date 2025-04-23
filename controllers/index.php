@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
         $getCaps = $query['getCaps'] ?? 0;
 
-        if ($getCaps) {
+        if ($getCaps && $auth) {
             if ($_SESSION['lastCapsTime'] > time() + 86400) {
                 $userModel = new UserModel($pdo);
                 $res =  $userModel->addCaps(200, $_SESSION['playerID']);
