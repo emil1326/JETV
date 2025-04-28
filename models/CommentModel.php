@@ -12,6 +12,9 @@ class CommentModel extends Model
 
     public function selectById(int $id): null|Comment
     {
+        throw new Exception("do not use select by here?");
+
+
         # todo fix this, pas utuliser les bonnes choses => foreach line, get comment, pas par user, pour evals use procedure
         try {
             $stm = $this->pdo->prepare('SELECT itemID, joueureID, commentaireID, commentaire FROM commentaires WHERE commentaireID=:id');
@@ -27,6 +30,32 @@ class CommentModel extends Model
                     $id,
                     $data['commentaire'],
                 );
+            }
+
+            return null;
+        } catch (PDOException $e) {
+            throw new PDOException($e->getMessage(), $e->getCode());
+        }
+    }
+    public function getAllCommentsOnItem(int $itemID): null|array
+    {
+        try {
+            $stm = $this->pdo->prepare('GetAllCommentaires(:id)');
+            $stm->bindValue(':id', $itemID, PDO::PARAM_INT);
+            $stm->execute();
+
+            $data = $stm->fetch(PDO::FETCH_ASSOC);
+
+            if (!empty($data)) {
+                foreach ($data as $row) {
+                    $items[] = new Comment(
+                        $row['itemID'],
+                        $row['joueureID'],
+                        $itemID,
+                        $row['commentaire'],
+                    );
+                }
+                return $items;
             }
 
             return null;
