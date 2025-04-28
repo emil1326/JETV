@@ -14,6 +14,7 @@ const ROUTES = [
     '/detailstemp' => 'detailstemp.php',
     '/logout' => 'logout.php',
     '/meet-the-team' => 'meetTheTeam.php',
+    '/profileForm' => 'profileForm.php',
 
     '/src/autoRefreshPanel.js' => '/src/autoRefreshPanel.js'
 
