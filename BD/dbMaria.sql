@@ -882,75 +882,77 @@ end;
 //
 delimiter ;
 
-drop function if exists DoQuest; -- utiliser pour checker si la reponse est la bonne et donner les caps
-delimiter //
-create function DoQuest(
-    p_questID int,
-    p_joueureID int,
-    p_answerID int
-) returns int
-begin
-    declare correctAnswerExists boolean;
-    declare reward int;
-    declare healthLoss int;
+-- unsure wtf that is, duplicate??
 
-    select exists (
-        select 1 
-        from reponsesQuetes 
-        where questID = p_questID and awnserID = p_answerID and flagEstVrai = 1
-    ) into correctAnswerExists;
+-- drop function if exists DoQuest; -- utiliser pour checker si la reponse est la bonne et donner les caps
+-- delimiter //
+-- create function DoQuest(
+--     p_questID int,
+--     p_joueureID int,
+--     p_answerID int
+-- ) returns int
+-- begin
+--     declare correctAnswerExists boolean;
+--     declare reward int;
+--     declare healthLoss int;
 
-    if correctAnswerExists then
-        select dq.nbCaps into reward
-        from listeQuetes lq
-        join diffQuetes dq on lq.diffID = dq.diffID
-        where lq.questID = questID;
+--     select exists (
+--         select 1 
+--         from reponsesQuetes 
+--         where questID = p_questID and awnserID = p_answerID and flagEstVrai = 1
+--     ) into correctAnswerExists;
 
-        set reward = reward + 
-            case 
-                when (select streak from responseStreak where joueureID = p_joueureID) % 3 = 0 then 1000
-                else 0
-            end;
+--     if correctAnswerExists then
+--         select dq.nbCaps into reward
+--         from listeQuetes lq
+--         join diffQuetes dq on lq.diffID = dq.diffID
+--         where lq.questID = questID;
 
-        update joueure
-        set caps = caps + reward
-        where joueureID= p_joueureID;
+--         set reward = reward + 
+--             case 
+--                 when (select streak from responseStreak where joueureID = p_joueureID) % 3 = 0 then 1000
+--                 else 0
+--             end;
 
-        update responseStreak
-        set streak= streak + 1
-        where joueureID= p_joueureID;
+--         update joueure
+--         set caps = caps + reward
+--         where joueureID= p_joueureID;
 
-        delete from playerQuests 
-        where joueureID= p_joueureID;
+--         update responseStreak
+--         set streak= streak + 1
+--         where joueureID= p_joueureID;
 
-        return 1;
-    else
-        select dq.pvLoss into healthLoss
-        from listeQuetes lq
-        join diffQuetes dq on lq.diffID = dq.diffID
-        where lq.questID= p_questID;
+--         delete from playerQuests 
+--         where joueureID= p_joueureID;
+
+--         return 1;
+--     else
+--         select dq.pvLoss into healthLoss
+--         from listeQuetes lq
+--         join diffQuetes dq on lq.diffID = dq.diffID
+--         where lq.questID= p_questID;
         
-        update joueure
-        set pv = pv - healthLoss
-        where joueureID= p_joueureID;
+--         update joueure
+--         set pv = pv - healthLoss
+--         where joueureID= p_joueureID;
 
-        update responseStreak
-        set streak= 0
-        where joueureID= p_joueureID;
+--         update responseStreak
+--         set streak= 0
+--         where joueureID= p_joueureID;
         
-        delete from playerQuests 
-        where joueureID= p_joueureID;
+--         delete from playerQuests 
+--         where joueureID= p_joueureID;
 
-        if (select pv from joueure where joueureID= p_joueureID) <= 0 then
-            return 2;
-        end if;
+--         if (select pv from joueure where joueureID= p_joueureID) <= 0 then
+--             return 2;
+--         end if;
 
-        return 0;
-    end if;
-    signal sqlstate '45000' set message_text = 'func not used properly, use a select';
-end;
-//
-delimiter ;
+--         return 0;
+--     end if;
+--     signal sqlstate '45000' set message_text = 'func not used properly, use a select';
+-- end;
+-- //
+-- delimiter ;
 
 -- get one random by diff
 -- get one by id
@@ -1062,7 +1064,7 @@ end;
 //
 delimiter ;
 
--- cart
+-- s_cart
 
 drop procedure if exists AddItemToCart;
 delimiter //
@@ -1270,7 +1272,7 @@ begin
     where joueureID = p_joueureID;
 
     if itemQT >= p_quantitySell then
-        -- normal case: sufficient quantity in inventory
+        -- sufficient quantity in inventory
         update inventaire
         set qt = itemQT - p_quantitySell
         where itemID = p_itemID and joueureID = p_joueureID;
@@ -1281,7 +1283,7 @@ begin
         values (p_itemID, p_quantitySell)
         on duplicate key update qt = qt + p_quantitySell;
     else
-        -- edge case: selling more than available quantity
+        -- selling more than available quantity
         delete from inventaire
         where itemID = p_itemID and joueureID = p_joueureID;
 

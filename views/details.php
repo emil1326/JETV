@@ -62,7 +62,7 @@ $inShop ?? false;
                             <button class="btn w-100 my-2"
                                 style="background-color:#303030; color:white; border:none; border-radius:8px;"
                                 data-bs-toggle="modal" data-bs-target="#exampleModalCenter">Acheter</button>
-                        <?php else: ?>
+                        <?php elseif($qt > 1): ?>
                             <button class="btn w-100 my-2"
                                 style="background-color:#303030; color:white; border:none; border-radius:8px;"
                                 data-bs-toggle="modal" data-bs-target="#sellModal">Vendre</button>
