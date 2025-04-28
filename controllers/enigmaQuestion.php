@@ -7,22 +7,17 @@ if (!isAuthenticated()) {
 
 $enigmaActif = true; // pour le header, savoir quoi highlight
 
+require 'models/QuestModel.php';
+
+$pdo = Database::getInstance()->getPDO();
+$model = new QuestModel($pdo);
+
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET) && isset($_GET['difficulty'])) {
-    require 'models/QuestModel.php';
-
-    $pdo = Database::getInstance()->getPDO();
-    $model = new QuestModel($pdo);
-
     $difficulty = (int)$_GET['difficulty'] ?? 1;
 
     $quest = $model->GetOneRandomQuestionByDifficultyOrLastDone($difficulty, $_SESSION['playerID']);
     $answers = $model->GetAnswersByQuestionId($quest->getId());
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST) && isset($_POST['answer'])) {
-    require 'models/QuestModel.php';
-
-    $pdo = Database::getInstance()->getPDO();
-    $model = new QuestModel($pdo);
-
     if (isset($_POST['option'])) {
 
         $res = $model->DoQuest($_POST['questID'], $_SESSION['playerID'], $_POST['option']);
