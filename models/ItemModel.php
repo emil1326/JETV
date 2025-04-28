@@ -16,32 +16,6 @@ class ItemModel extends Model
         return $this->pdo;
     }
 
-    // shop
-
-    //  FIXME: procedure not working
-    public function selectAllFromShop(): null|array
-    {
-        $items = [];
-
-        try {
-            $stm = $this->pdo->prepare('call GetAllShopItem()');
-            $stm->execute();
-
-            $data = $stm->fetchAll(PDO::FETCH_ASSOC);
-
-            if (! empty($data)) {
-                foreach ($data as $row) {
-                    $items[] = $this->makeItem($row);
-                }
-
-                return $items;
-            }
-            return null;
-        } catch (PDOException $e) {
-            throw new PDOException($e->getMessage(), $e->getCode());
-        }
-    }
-
     //  cart
     public function selectOneByPlayerIdFromCart(int $itemID, int $joueureID): null|Item
     {
@@ -194,7 +168,6 @@ class ItemModel extends Model
 
         return $items;
     }
-
 
     protected function makeItem(array $itemInfo, bool $allData = true): null|Item|Weapon|Armor|Meds|Food|Ammo
     {

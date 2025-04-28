@@ -10,15 +10,11 @@ class EvaluationModel extends Model
         parent::__construct($pdo);
     }
 
-    public function selectAllByIdItem(int $id): null|Comment
+    public function selectAvergeEval(int $itemID): null|Comment
     {
-        # todo fix this, pas utuliser les bonnes choses => foreach line, get comment, pas par user, pour evals use procedure
         try {
-            #$stm = $this->pdo->prepare('call setCaps(?, ?)');
-            #$stm->execute([$caps, $playerID]);
-
-            $stm = $this->pdo->prepare('call ');
-            $stm->bindValue(':id', $id, PDO::PARAM_INT);
+            $stm = $this->pdo->prepare('call GetAverageEvaluation(:id)');
+            $stm->bindValue(':id', $itemID, PDO::PARAM_INT);
             $stm->execute();
 
             $data = $stm->fetch(PDO::FETCH_ASSOC);
@@ -27,7 +23,7 @@ class EvaluationModel extends Model
                 return new Comment(
                     $data['itemID'],
                     $data['joueureID'],
-                    $id,
+                    $itemID,
                     $data['commentaire'],
                 );
             }
