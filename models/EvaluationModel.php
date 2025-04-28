@@ -1,20 +1,28 @@
 <?php
 
 require_once 'models/Model.php';
-require_once 'src/class/Comment.php';
+require_once 'src/class/Evaluation.php';
 
-class CommentModel extends Model
+class EvaluationModel extends Model
 {
     public function __construct(protected PDO $pdo)
     {
         parent::__construct($pdo);
     }
 
-    public function selectById(int $id): null|Comment
+    public function selectAllByIdItem(int $id): null|Comment
     {
         # todo fix this, pas utuliser les bonnes choses => foreach line, get comment, pas par user, pour evals use procedure
         try {
-            $stm = $this->pdo->prepare('SELECT itemID, joueureID, commentaireID, commentaire FROM commentaires WHERE commentaireID=:id');
+
+            // Garder seulement la bonne version selon [procédure / fonction]
+
+            // 1.
+            $stm = $this->pdo->prepare('call GET_ITEM_SQL_PROCEDURE_HERE(?)');
+            $stm->execute([$id]);
+
+            // 2.
+            $stm = $this->pdo->prepare('call GET_ITEM_SQL_PROCEDURE_HERE(:id)');
             $stm->bindValue(':id', $id, PDO::PARAM_INT);
             $stm->execute();
 
