@@ -1,5 +1,7 @@
 use dbknapsak9;
 
+-- make sell / use item pas possible si reste juste 1
+
 -- Drop tables if they exist
 drop table if exists cart cascade;
 drop table if exists inventaire cascade;
@@ -159,11 +161,22 @@ create table commentaires
     foreign key (joueureID) references joueure(joueureID),
     primary key (itemID, joueureID, commentaireID),
     
-    commentaire varchar(1200),
-    evaluations smallint,  -- entre 1 et 5/10 ?
-    
-    constraint ck_Commentaire_Evaluation check(evaluations between 1 and 5)    
+    commentaire varchar(1200)
 );
+
+create table evaluations
+(
+    itemID int,
+    joueureID int,
+
+    foreign key (itemID) references item(itemID),
+    foreign key (joueureID) references joueure(joueureID),
+    primary key (itemID, joueureID),
+
+    evaluations smallint,  -- entre 1 et 10
+    
+    constraint ck_Commentaire_Evaluation check(evaluations between 1 and 10)    
+)
 
 -- [ quetes ] --
 
@@ -695,7 +708,7 @@ delimiter ;
 
 drop procedure if exists UseItem;
 delimiter //
-create procedure UseItem(in p_itemID int, in p_joueureID int) -- will rmove de linventaire
+create procedure UseItem(in p_itemID int, in p_joueureID int) -- will remove de l'inventaire
 begin
     declare p_healthGain int;
     declare itemQT int;
@@ -786,54 +799,145 @@ end;
 //
 delimiter ;
 
--- s_commentaire
+-- s_commentaire Evals
 
-drop procedure if exists CreateCommentaireEvaluation; -- todo tf did i do here??????????
+-- Procedure to post a commentaire
+drop procedure if exists PostCommentaire;
 delimiter //
-create procedure CreateCommentaireEvaluation(
+create procedure PostCommentaire(
     in p_itemID int,
     in p_joueureID int,
-    in p_commentaireID int,
-    in p_commentaire varchar(1200),
-    in p_evaluations smallint
+    in p_commentaire varchar(1200)
 )
 begin
-    if exists(select 1 from commentaires where itemID = p_itemID and joueureID = p_joueureID and commentaireID = p_commentaireID limit 1) then
-        insert into commentaires (itemID, joueureID, commentaireID, commentaire, evaluations)
-        values (p_itemID, p_joueureID, p_commentaireID, p_commentaire, p_evaluations);
-    end if;
+    insert into commentaires (itemID, joueureID, commentaire)
+    values (p_itemID, p_joueureID, p_commentaire);
 end;
 //
 delimiter ;
 
-drop procedure if exists DeleteCommentaire;
+-- Procedure to remove a commentaire
+drop procedure if exists RemoveCommentaire;
 delimiter //
-create procedure DeleteCommentaire(in p_itemID int, in p_joueureID int, in p_commentaireID int)
+create procedure RemoveCommentaire(
+    in p_itemID int,
+    in p_joueureID int,
+    in p_commentaireID int
+)
 begin
     delete from commentaires where itemID = p_itemID and joueureID = p_joueureID and commentaireID = p_commentaireID;
 end;
 //
 delimiter ;
 
-drop procedure if exists GetEval;
+-- Procedure to get all commentaires for an item
+drop procedure if exists GetAllCommentaires;
 delimiter //
-create procedure GetEval(in p_itemID int, in p_joueureID int)
+create procedure GetAllCommentaires(
+    in p_itemID int
+)
 begin
-    select evaluations from commentaire where itemID = p_itemID and joueureID = p_joueureID and evaluations is not null limit 1;
+    select joueureID, commentaireID, commentaire
+    from commentaires
+    where itemID = p_itemID;
 end;
 //
 delimiter ;
 
-drop function if exists GetAverageEval;
+-- Procedure to modify a commentaire
+drop procedure if exists ModifyCommentaire;
 delimiter //
-create function GetAverageEval(p_itemID int)
-returns decimal(10,2)
+create procedure ModifyCommentaire(
+    in p_itemID int,
+    in p_joueureID int,
+    in p_commentaireID int,
+    in p_newCommentaire varchar(1200)
+)
 begin
-    declare avgEval decimal(10,2);
-    select avg(evaluations) into avgEval
-    from commentaire
-    where itemID = p_itemID and evaluations is not null;
-    return avgEval;
+    update commentaires
+    set commentaire = p_newCommentaire
+    where itemID = p_itemID and joueureID = p_joueureID and commentaireID = p_commentaireID;
+end;
+//
+delimiter ;
+
+-- Procedure to post an evaluation
+drop procedure if exists PostEvaluation;
+delimiter //
+create procedure PostEvaluation(
+    in p_itemID int,
+    in p_joueureID int,
+    in p_evaluation smallint
+)
+begin
+    if p_evaluation between 1 and 10 then
+        insert into evaluations (itemID, joueureID, evaluations)
+        values (p_itemID, p_joueureID, p_evaluation)
+        on duplicate key update evaluations = p_evaluation;
+    else
+        signal sqlstate '45000' set message_text = 'Evaluation must be between 1 and 10';
+    end if;
+end;
+//
+delimiter ;
+
+-- Procedure to remove an evaluation
+drop procedure if exists RemoveEvaluation;
+delimiter //
+create procedure RemoveEvaluation(
+    in p_itemID int,
+    in p_joueureID int
+)
+begin
+    delete from evaluations where itemID = p_itemID and joueureID = p_joueureID;
+end;
+//
+delimiter ;
+
+-- Procedure to get all evaluations for an item
+drop procedure if exists GetAllEvaluations;
+delimiter //
+create procedure GetAllEvaluations(
+    in p_itemID int
+)
+begin
+    select joueureID, evaluations
+    from evaluations
+    where itemID = p_itemID;
+end;
+//
+delimiter ;
+
+-- Procedure to modify an evaluation
+drop procedure if exists ModifyEvaluation;
+delimiter //
+create procedure ModifyEvaluation(
+    in p_itemID int,
+    in p_joueureID int,
+    in p_newEvaluation smallint
+)
+begin
+    if p_newEvaluation between 1 and 10 then
+        update evaluations
+        set evaluations = p_newEvaluation
+        where itemID = p_itemID and joueureID = p_joueureID;
+    else
+        signal sqlstate '45000' set message_text = 'Evaluation must be between 1 and 10';
+    end if;
+end;
+//
+delimiter ;
+
+-- Procedure to get the average evaluation for an item
+drop procedure if exists GetAverageEvaluation;
+delimiter //
+create procedure GetAverageEvaluation(
+    in p_itemID int
+)
+begin
+    select avg(evaluations) as averageEvaluation
+    from evaluations
+    where itemID = p_itemID;
 end;
 //
 delimiter ;
@@ -1006,6 +1110,15 @@ begin
         where lq.questID = p_questID
         limit 1;
 
+        if exists (select 1 from responseStreak where joueureID = p_joueureID) then
+            update responseStreak
+            set streak = streak + 1
+            where joueureID = p_joueureID;
+        else
+            insert into responseStreak (joueureID, streak)
+            values (p_joueureID, 1);
+        end if;
+
         set reward = reward + 
             case 
                 when (select streak from responseStreak where joueureID = p_joueureID) % 3 = 0 then 1000
@@ -1014,10 +1127,6 @@ begin
 
         update joueure
         set caps = caps + reward
-        where joueureID = p_joueureID;
-
-        update responseStreak
-        set streak = streak + 1
         where joueureID = p_joueureID;
 
         delete from playerQuests 
@@ -1035,9 +1144,14 @@ begin
         set pv = pv - healthLoss
         where joueureID = p_joueureID;
 
-        update responseStreak
-        set streak = 0
-        where joueureID = p_joueureID;
+        if exists (select 1 from responseStreak where joueureID = p_joueureID) then
+            update responseStreak
+            set streak = 0
+            where joueureID = p_joueureID;
+        else
+            insert into responseStreak (joueureID, streak)
+            values (p_joueureID, 0);
+        end if;
 
         delete from playerQuests 
         where joueureID = p_joueureID;

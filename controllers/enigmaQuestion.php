@@ -12,11 +12,12 @@ require 'models/QuestModel.php';
 $pdo = Database::getInstance()->getPDO();
 $model = new QuestModel($pdo);
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET) && isset($_GET['difficulty'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET) && isset($_GET['difficulty']) && !isset($_GET['answer']) && !isset($_POST['answer'])) {
     $difficulty = (int)$_GET['difficulty'] ?? 1;
 
     $quest = $model->GetOneRandomQuestionByDifficultyOrLastDone($difficulty, $_SESSION['playerID']);
     $answers = $model->GetAnswersByQuestionId($quest->getId());
+    
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST) && isset($_POST['answer'])) {
     if (isset($_POST['option'])) {
 
