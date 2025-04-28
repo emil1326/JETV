@@ -69,6 +69,26 @@
             padding-left: 0px !important;
         }
     }
+    a.profile-link:link
+    {
+    color: white;
+    text-decoration: none;
+    }
+    a.profile-link:visited
+    {
+    color: white;
+    text-decoration: none;
+    }
+    a.profile-link:hover
+    {
+    color: white;
+    text-decoration: none;
+    }
+    a.profile-link:active
+    {
+    color: white;
+    text-decoration: none;
+    }
 </style>
 
 <div class="container-fluid" style="padding-top:20px;background-color:#1E1E1E; padding-bottom:20px;">
@@ -83,14 +103,14 @@
                 <div style="display:flex; flex-direction:row;align-items:center; padding-right:10px; ">
                     <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle"
                         style="width: 50px; border-radius:10% !important; cursor:pointer;" alt="Avatar" />
-                    <p style="margin:0px; margin-left:20px;">
+                    <a href="/profileForm" class="profile-link" style="margin:0px; margin-left:20px;">
                         <?php
                         $pdo = Database::getInstance()->getPDO();
                         $userModel = new UserModel($pdo);
                         $user = $userModel->selectById($_SESSION['playerID']);
                         echo $user->getUsername();
                         ?>
-                    </p>
+                    </a>
                     <img style="margin:0px; margin-left:20px;"
                         src="https://images.fallout.wiki/1/1a/Score_currency_caps_l.webp" alt="Card image caps" width="30"
                         height="30">
