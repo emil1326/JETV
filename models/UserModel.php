@@ -115,4 +115,14 @@ class UserModel extends Model
     {
         return $this->setCaps($this->selectById($playerID)->getCaps() + $caps, $playerID);
     }
+    public function updateUser(string $username, string $firstName, string $lastName, string $password): bool
+    {
+        try {
+            $stm = $this->pdo->prepare('call UpdateJoueur(?, ?, ?, ?)');
+            $stm->execute([$username, $lastName, $firstName, $password]);
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
 }
