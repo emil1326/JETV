@@ -28,7 +28,7 @@ class Comment
     {
         return $this->userId;
     }
-    public function getCommentId(): int
+    public function getItemId(): int
     {
         return $this->itemId;
     }

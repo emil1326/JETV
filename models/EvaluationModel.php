@@ -14,10 +14,15 @@ class EvaluationModel extends Model
     {
         # todo fix this, pas utuliser les bonnes choses => foreach line, get comment, pas par user, pour evals use procedure
         try {
-            #$stm = $this->pdo->prepare('call setCaps(?, ?)');
-            #$stm->execute([$caps, $playerID]);
 
-            $stm = $this->pdo->prepare('call ');
+            // Garder seulement la bonne version selon [procédure / fonction]
+
+            // 1.
+            $stm = $this->pdo->prepare('call GET_ITEM_SQL_PROCEDURE_HERE(?)');
+            $stm->execute([$id]);
+
+            // 2.
+            $stm = $this->pdo->prepare('call GET_ITEM_SQL_PROCEDURE_HERE(:id)');
             $stm->bindValue(':id', $id, PDO::PARAM_INT);
             $stm->execute();
 
