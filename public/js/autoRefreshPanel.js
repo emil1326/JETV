@@ -25,7 +25,7 @@ class AutoRefreshedPanel {
             let parsedContent = $("<div>").html(htmlContent);
             let newContent = parsedContent.find("#" + this.panelId).html();
 
-            if (newContent) {
+            if (newContent !== this.currentContent) {
                 let cleanNewContent = newContent.replace(/<input name="__RequestVerificationToken".*?>/g, "");
                 let cleanCurrentContent = this.currentContent.replace(/<input name="__RequestVerificationToken".*?>/g, "");
 
@@ -43,7 +43,10 @@ class AutoRefreshedPanel {
                     console.log(`Content not updated, only CSRF token changed : ${this.panelId} : ${this.remeinder}`);
                 }
             } else {
-                console.log(`Failed to extract new content. ${this.panelId} : ${this.remeinder}`);
+                if (!newContent)
+                    console.log(`Failed to extract new content. ${this.panelId} : ${this.remeinder}`);
+                else
+                    console.log(`Same content received on ${this.panelId} : ${this.remeinder}`)
             }
 
             if (this.postRefreshCallback != null)
@@ -94,6 +97,10 @@ class AutoRefreshedPanel {
     refresh(stillDo = false) {
         if (!this.paused || stillDo) {
             // console.log(`refresh : ${this.panelId} : ${this.remeinder}`)
+            if (document.hidden) {
+                console.log(`Page is not visible. Skipping refresh for: ${this.panelId}`);
+                return;
+            }
             $.ajax({
                 url: this.contentServiceURL,
                 dataType: "html",
