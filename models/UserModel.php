@@ -118,7 +118,7 @@ class UserModel extends Model
     public function updateUser(string $username, string $firstName, string $lastName, string $password): bool
     {
         try {
-            $stm = $this->pdo->prepare('call UpdateJoueur(?, ?, ?, ?)');
+            $stm = $this->pdo->prepare('call ModifyUser;(?, ?, ?, ?)');
             $stm->execute([$username, $lastName, $firstName, $password]);
             return true;
         } catch (PDOException $e) {
