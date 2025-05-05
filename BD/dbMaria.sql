@@ -638,7 +638,7 @@ begin
     update joueure
     set alias = p_alias,
         nom = p_nom,
-        prenom = p_prenom,
+        prenom = p_prenom
     where joueureID = p_id;
 end;
 //
