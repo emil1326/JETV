@@ -160,31 +160,28 @@
                 $user = $userModel->selectById($_SESSION['playerID']);
                 ?>
                 <div id="profilNotCollapse">
-                    <img src="../../public/images/users/<?= $user->getProfileImage(); ?>" class="rounded-circle"
+                    <img src="public/images/users/<?= $user->getProfileImage(); ?>" class="rounded-circle"
                         style="width: 50px; border-radius:10% !important; cursor:pointer;" alt="Avatar" />
                     <a href="/profileForm" class="profile-link" style="margin:0px; margin-left:20px;">
                         <?= $user->getUsername(); ?>
                     </a>
-                    <img style="margin:0px; margin-left:20px;"
-                        src="public/images/ui/caps.png" alt="Card image caps" width="30"
-                        height="30">
+                    <img style="margin:0px; margin-left:20px;" src="public/images/ui/caps.png" alt="Card image caps"
+                        width="30" height="30">
                     <p style="margin:0px; margin-left:5px;">
                         <?php
 
                         echo " : " . $user->getCaps() . " Caps";
                         ?>
                     </p>
-                    <img style="margin:0px; margin-left:20px;"
-                        src="public/images/ui/health.webp"
-                        alt="Card image caps" width="30" height="30">
+                    <img style="margin:0px; margin-left:20px;" src="public/images/ui/health.webp" alt="Card image caps"
+                        width="30" height="30">
                     <p style="margin:0px; margin-left:5px;">
                         <?php
                         echo " : " . $user->getHealth() . " PV";
                         ?>
                     </p>
-                    <img style="margin:0px; margin-left:20px;"
-                        src="public/images/ui/weight.webp"
-                        alt="Card image caps" width="30" height="30">
+                    <img style="margin:0px; margin-left:20px;" src="public/images/ui/weight.webp" alt="Card image caps"
+                        width="30" height="30">
                     <p style="margin:0px; margin-left:5px;">
                         <?php
                         $model = new InventoryModel($pdo);
@@ -192,8 +189,8 @@
                         echo ' : ' . $model->totalWeight($_SESSION['playerID']) . ' / ' . $user->getMaxWeight() . " kg";
                         ?>
                     </p>
-                    <img style="margin:0px; margin-left:20px;" src="public/images/ui/dext.png"
-                        alt="Card image caps" width="40" height="40">
+                    <img style="margin:0px; margin-left:20px;" src="public/images/ui/dext.png" alt="Card image caps"
+                        width="40" height="40">
                     <p style="margin:0px; margin-left:5px;">
                         <?php
                         echo ' : ' . $userModel->getDexteriter($_SESSION['playerID']) . " / " . $user->getDexterity() . " Dex";
@@ -213,9 +210,8 @@
 
                             ?>
                             <div id="profilCollapse" style="display:flex; flex-direction:column; ">
-                                <div>
-                                    <img src="../../public/images/users/<?= $user->getProfileImage(); ?>"
-                                        class="rounded-circle"
+                                <div style="margin-bottom: 10px;">
+                                    <img src="public/images/users/<?= $user->getProfileImage(); ?>" class="rounded-circle"
                                         style="width: 50px; border-radius:10% !important; cursor:pointer;" alt="Avatar" />
                                     <a href="/profileForm" class="profile-link" style="margin:0px; margin-left:20px;">
                                         <?php
@@ -227,7 +223,7 @@
 
 
                                 <div style="display:flex; flex-direction: row; margin-top:5px;">
-                                    <img src="../../public/images/ui/caps.png" alt="Card image caps" width="30" height="30">
+                                    <img src="public/images/ui/caps.png" alt="Card image caps" width="30" height="30">
                                     <p style="margin:0px; margin-left:5px;">
                                         <?php
 
@@ -236,8 +232,7 @@
                                     </p>
                                 </div>
                                 <div style="display:flex; flex-direction: row; margin-top:5px;">
-                                    <img src="https://static.wikia.nocookie.net/fallout/images/7/75/FO76_icon_weight.png"
-                                        alt="Card image caps" width="30" height="30">
+                                    <img src="public/images/ui/weight.webp" alt="Card image caps" width="30" height="30">
                                     <p style="margin:0px; margin-left:5px;">
                                         <?php
                                         $model = new InventoryModel($pdo);
@@ -247,8 +242,7 @@
                                     </p>
                                 </div>
                                 <div style="display:flex; flex-direction: row; margin-top:5px;">
-                                    <img src="https://cdn.iconscout.com/icon/free/png-256/free-health-symbol-icon-download-in-svg-png-gif-file-formats--medical-sign-services-pack-healthcare-icons-3401408.png?f=webp&w=256"
-                                        alt="Card image caps" width="30" height="30">
+                                    <img src="public/images/ui/health.webp" alt="Card image caps" width="30" height="30">
                                     <p style="margin:0px; margin-left:5px;">
                                         <?php
                                         echo " : " . $user->getHealth() . " PV";
@@ -256,8 +250,7 @@
                                     </p>
                                 </div>
                                 <div style="display:flex; flex-direction: row; margin-top:5px; margin-bottom:5px;">
-                                    <img src="https://static.thenounproject.com/png/4494012-200.png" alt="Card image caps"
-                                        width="40" height="40">
+                                    <img src="public/images/ui/dext.png" alt="Card image caps" width="40" height="40">
                                     <p style="margin:0px; margin-left:5px;">
                                         <?php
                                         echo ' : ' . $userModel->getDexteriter($_SESSION['playerID']) . " / " . $user->getDexterity() . " Dex";
@@ -267,40 +260,41 @@
                             </div>
                         <?php endif; ?>
                         <a class="nav-link navtagsw nopadding <?php if (isset($accueilActif) && $accueilActif)
-                                                                    echo 'active' ?>" aria-current="page" href="/">Accueil</a>
-                    </li>
-                    <li class="nav-item nopadding">
-                        <a class="nav-link navtagsw nopadding <?php if (isset($shopActif) && $shopActif)
-                                                                    echo 'active' ?>" href="/shop">Shop</a>
-                    </li>
+                            echo 'active' ?>" aria-current="page" href="/">Accueil</a>
+                        </li>
+                        <li class="nav-item nopadding">
+                            <a class="nav-link navtagsw nopadding <?php if (isset($shopActif) && $shopActif)
+                            echo 'active' ?>" href="/shop">Shop</a>
+                        </li>
                     <?php if (isAuthenticated()): ?>
                         <li class="nav-item nopadding">
                             <a class="nav-link navtagsw nopadding <?php if (isset($enigmaActif) && $enigmaActif)
-                                                                        echo 'active' ?>" href="/enigma">Enigma</a>
-                        </li>
+                                echo 'active' ?>" href="/enigma">Enigma</a>
+                            </li>
 
-                        <li class="nav-item nopadding">
-                            <a class="nav-link navtagsw nopadding <?php if (isset($backActif) && $backActif)
-                                                                        echo 'active' ?>" href="/backpack">Backpack</a>
-                        </li>
+                            <li class="nav-item nopadding">
+                                <a class="nav-link navtagsw nopadding <?php if (isset($backActif) && $backActif)
+                                echo 'active' ?>" href="/backpack">Backpack</a>
+                            </li>
 
-                        <li class="nav-item nopadding">
-                            <a class="nav-link navtagsw nopadding 
+                            <li class="nav-item nopadding">
+                                <a class="nav-link navtagsw nopadding 
                                 <?php if (isset($cartActif) && $cartActif)
-                                    echo 'active' ?>" href="/cart"><i class="bi bi-cart"></i>
-                                <?php
-                                $totalCountHeader = 0;
-                                $modelCartHeader = new CartModel(Database::getInstance()->getPDO());
-                                $itemsCart = $modelCartHeader->selectAll($_SESSION['playerID']);
-                                if (isset($itemsCart))
-                                    foreach ($itemsCart as $itemDataHeader) {
-                                        $quantityHeader = $itemDataHeader['quantity'];
-                                        $totalCountHeader += $quantityHeader;
-                                    }
-                                echo $totalCountHeader;
-                                ?>
+                                echo 'active' ?>" href="/cart"><i class="bi bi-cart"></i>
+                                    <?php
+                            $totalCountHeader = 0;
+                            $modelCartHeader = new CartModel(Database::getInstance()->getPDO());
+                            $itemsCart = $modelCartHeader->selectAll($_SESSION['playerID']);
+                            if (isset($itemsCart))
+                                foreach ($itemsCart as $itemDataHeader) {
+                                    $quantityHeader = $itemDataHeader['quantity'];
+                                    $totalCountHeader += $quantityHeader;
+                                }
+                            echo $totalCountHeader;
+                            ?>
                             </a>
                         </li>
+
                     <?php endif; ?>
 
                     <form class="container-fluid justify-content-start" id="signinregister">
