@@ -100,16 +100,16 @@
             </button>
 
             <?php if (isAuthenticated()): ?>
+                <?php
+                $pdo = Database::getInstance()->getPDO();
+                $userModel = new UserModel($pdo);
+                $user = $userModel->selectById($_SESSION['playerID']);
+                ?>
                 <div style="display:flex; flex-direction:row;align-items:center; padding-right:10px; ">
-                    <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle"
+                    <img src="../../public/images/users/<?= $user->getProfileImage(); ?>" class="rounded-circle"
                         style="width: 50px; border-radius:10% !important; cursor:pointer;" alt="Avatar" />
                     <a href="/profileForm" class="profile-link" style="margin:0px; margin-left:20px;">
-                        <?php
-                        $pdo = Database::getInstance()->getPDO();
-                        $userModel = new UserModel($pdo);
-                        $user = $userModel->selectById($_SESSION['playerID']);
-                        echo $user->getUsername();
-                        ?>
+                        <?= $user->getUsername(); ?>
                     </a>
                     <img style="margin:0px; margin-left:20px;"
                         src="../../public/images/ui/caps.png" alt="Card image caps" width="30"

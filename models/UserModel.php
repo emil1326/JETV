@@ -23,7 +23,7 @@ class UserModel extends Model
             if (!empty($data)) {
 
                 if ($data['playerImageLink'] == null) {
-                    $data['playerImageLink'] = '../public/images/users/default.png';
+                    $data['playerImageLink'] = 'default.webp';
                 }
 
                 return new User(
@@ -81,7 +81,7 @@ class UserModel extends Model
     public function createUser(string $username, string $firstName, string $lastName, string $password, string $profileImage = null): null|PDOException
     {
         if ($profileImage == null) {
-            $profileImage = '../public/images/users/default.png';
+            $profileImage = 'default.webp';
         }
 
         try {
