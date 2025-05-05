@@ -125,24 +125,22 @@ class UserModel extends Model
     {
         return $this->setCaps($this->selectById($playerID)->getCaps() + $caps, $playerID);
     }
-    public function updateUser(string $username, string $firstName, string $lastName): bool
+    public function updateUser(string $username, string $firstName, string $lastName, int $id): bool
     {
-        try {
-            $stm = $this->pdo->prepare('call ModifyUser;(?, ?, ?)');
-            $stm->execute([$username, $lastName, $firstName]);
+        // try {
+            $stm = $this->pdo->prepare('call ModifyUser;(?, ?, ?, ?)');
+            $stm->execute([$username, $lastName, $firstName, $id]);
             return true;
-        } catch (PDOException $e) {
-            return false;
-        }
+        // } 
     }
-    public function updatePassword(string $username, string $password): bool
+    public function updatePassword(int $id, string $password): bool
     {
-        try {
-            $stm = $this->pdo->prepare('call updatePassword;(?, ?)');
-            $stm->execute([$username, $password]);
+        // try {
+            $stm = $this->pdo->prepare('call ChangePassword;(?, ?)');
+            $stm->execute([$id, $password]);
             return true;
-        } catch (PDOException $e) {
-            return false;
-        }
+        // } catch (PDOException $e) {
+        //     return false;
+        // }
     }
 }

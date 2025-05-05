@@ -629,16 +629,17 @@ delimiter ;
 drop procedure if exists ModifyUser;
 delimiter //
 create procedure ModifyUser(
-    p_alias varchar(50),
-    p_nom varchar(50),
-    p_prenom varchar(50)
+   in p_alias varchar(50),
+   in p_nom varchar(50),
+   in p_prenom varchar(50),
+   in p_id int
 )
 begin
     update joueure
     set alias = p_alias,
         nom = p_nom,
-        prenom = p_prenom,
-    where alias = p_alias;
+        prenom = p_prenom
+    where joueureID = p_id;
 end;
 //
 delimiter ;
