@@ -38,13 +38,29 @@ $couldntGetCaps ?? false;
             flex-flow: row wrap;
         }
     }
+
+    #daily {
+        width: 100%;
+        background-color: transparent;
+    }
 </style>
 
-<!-- floating popup getCaps -->
-<?php if ($canGetCaps): ?>
-    <div>
-        <!-- popup asking if u want 200 caps -->
 
+<?php if ($canGetCaps): ?>
+
+    <div id="daily" class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true"
+        data-bs-autohide="false" style="text-align:center; font-size:18px; background-color: #bdbfbe">
+        <div class=" d-flex" style="justify-content: center;">
+            <div class="toast-body" style="color:black;">
+                Hello! You earned your daily 200 caps.
+
+
+                <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="toast" aria-label="Close"
+                    style="background-color:black; border:none; margin-left:10px; font-size:18px;">Claim</button>
+
+
+            </div>
+        </div>
     </div>
 <?php elseif ($gotCaps): ?>
     <div>
@@ -52,13 +68,17 @@ $couldntGetCaps ?? false;
 
     </div>
 <?php elseif ($couldntGetCaps): ?>
-    <div>
-        <!-- pop-up when u cant caps ==> error -->
 
-    </div>
 <?php endif ?>
+
+
+
 <div class="card text-center" style="background-color: #303030;">
+
+    <!-- floating popup getCaps -->
+
     <div class="card-body" style="padding-top:200px; padding-bottom: 200px;">
+
         <h1 class="card-title" style="font-size:60px;font-weight: bold;">JETV™</h1>
         <p class="card-text" style="font-size:30px;">Le magasin</p>
         <div style="display:flex; flex-direction:row; justify-content:center;">
@@ -108,7 +128,14 @@ $couldntGetCaps ?? false;
         </div>
     </div>
 </div>
+<script>
 
+    const toast = document.getElementById('daily');
+    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toast);
+    toastBootstrap.show();
+
+
+</script>
 <?php
 require 'views/partials/footer.php';
 ?>
