@@ -101,7 +101,7 @@
 
             <?php if (isAuthenticated()): ?>
                 <div style="display:flex; flex-direction:row;align-items:center; padding-right:10px; ">
-                    <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle"
+                    <img src="public/images/defaultAvatar.webp" class="rounded-circle"
                         style="width: 50px; border-radius:10% !important; cursor:pointer;" alt="Avatar" />
                     <a href="/profileForm" class="profile-link" style="margin:0px; margin-left:20px;">
                         <?php
@@ -112,7 +112,7 @@
                         ?>
                     </a>
                     <img style="margin:0px; margin-left:20px;"
-                        src="../../public/images/caps1.png" alt="Card image caps" width="30"
+                        src="public/images/caps1.png" alt="Card image caps" width="30"
                         height="30">
                     <p style="margin:0px; margin-left:5px;">
                         <?php
@@ -121,7 +121,7 @@
                         ?>
                     </p>
                     <img style="margin:0px; margin-left:20px;"
-                        src="https://cdn.iconscout.com/icon/free/png-256/free-health-symbol-icon-download-in-svg-png-gif-file-formats--medical-sign-services-pack-healthcare-icons-3401408.png?f=webp&w=256"
+                        src="public/images/health.webp"
                         alt="Card image caps" width="30" height="30">
                     <p style="margin:0px; margin-left:5px;">
                         <?php
@@ -129,7 +129,7 @@
                         ?>
                     </p>
                     <img style="margin:0px; margin-left:20px;"
-                        src="https://static.wikia.nocookie.net/fallout/images/7/75/FO76_icon_weight.png"
+                        src="public/images/weight.webp"
                         alt="Card image caps" width="30" height="30">
                     <p style="margin:0px; margin-left:5px;">
                         <?php
@@ -138,7 +138,7 @@
                         echo ' : ' . $model->totalWeight($_SESSION['playerID']) . ' / ' . $user->getMaxWeight() . " kg";
                         ?>
                     </p>
-                    <img style="margin:0px; margin-left:20px;" src="https://static.thenounproject.com/png/4494012-200.png"
+                    <img style="margin:0px; margin-left:20px;" src="public/images/dext.webp"
                         alt="Card image caps" width="40" height="40">
                     <p style="margin:0px; margin-left:5px;">
                         <?php
