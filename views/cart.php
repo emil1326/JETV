@@ -266,7 +266,7 @@ require 'views/partials/header.php';
                         <div class="card"
                             style="background-color:#1E1E1E !important; padding:20 10px; width:100% !important;height:100% !important; cursor:pointer;border:1px white solid;border-color: #6c757d; border-radius:8px; margin:20px; margin-top:0px; margin-bottom:0px;">
                             <div class="numberCircle" style="margin-right:0px;"><?= $item['quantity'] ?></div>
-                            <img class="card-img-top" src="public/images/<?= $item['item']->getImageLink() ?>"
+                            <img class="card-img-top" src="public/images/products/<?= $item['item']->getImageLink() ?>"
                                 alt="Card image cap" style="background-color:white;">
                             <div class="card-body" style="margin-bottom:20px;">
 

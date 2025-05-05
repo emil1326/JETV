@@ -109,7 +109,7 @@ $couldntGetCaps ?? false;
                             style="background-color:#1E1E1E !important; padding:20 10px; cursor:pointer;border:1px white solid;border-color: #6c757d; border-radius:8px; margin:20px; margin-top:0px; margin-bottom:0px;"
                             onclick="window.location.href= '/details?itemID=<?= $item['item']->getId() ?>'">
                             <div class="numberCircle"><?= $item['quantity'] ?></div>
-                            <img class="card-img-top" src="public/images/<?= $item['item']->getImageLink() ?>" alt="Card image cap">
+                            <img class="card-img-top" src="public/images/products/<?= $item['item']->getImageLink() ?>" alt="Card image cap">
                             <div class="card-body" style="margin-bottom:20px;">
 
                                 <h5 class="card-title">
@@ -129,12 +129,9 @@ $couldntGetCaps ?? false;
     </div>
 </div>
 <script>
-
     const toast = document.getElementById('daily');
     const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toast);
     toastBootstrap.show();
-
-
 </script>
 <?php
 require 'views/partials/footer.php';
