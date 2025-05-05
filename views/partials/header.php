@@ -121,7 +121,7 @@
                         ?>
                     </p>
                     <img style="margin:0px; margin-left:20px;"
-                        src="public/images/health.webp"
+                        src="public/images/ui/health.webp"
                         alt="Card image caps" width="30" height="30">
                     <p style="margin:0px; margin-left:5px;">
                         <?php
@@ -129,7 +129,7 @@
                         ?>
                     </p>
                     <img style="margin:0px; margin-left:20px;"
-                        src="public/images/weight.webp"
+                        src="public/images/ui/weight.webp"
                         alt="Card image caps" width="30" height="30">
                     <p style="margin:0px; margin-left:5px;">
                         <?php
@@ -138,7 +138,7 @@
                         echo ' : ' . $model->totalWeight($_SESSION['playerID']) . ' / ' . $user->getMaxWeight() . " kg";
                         ?>
                     </p>
-                    <img style="margin:0px; margin-left:20px;" src="public/images/dext.webp"
+                    <img style="margin:0px; margin-left:20px;" src="public/images/ui/dext.webp"
                         alt="Card image caps" width="40" height="40">
                     <p style="margin:0px; margin-left:5px;">
                         <?php
