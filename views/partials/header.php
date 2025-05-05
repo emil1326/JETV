@@ -112,7 +112,7 @@
                         ?>
                     </a>
                     <img style="margin:0px; margin-left:20px;"
-                        src="https://images.fallout.wiki/1/1a/Score_currency_caps_l.webp" alt="Card image caps" width="30"
+                        src="../../public/images/caps1.png" alt="Card image caps" width="30"
                         height="30">
                     <p style="margin:0px; margin-left:5px;">
                         <?php
