@@ -122,9 +122,9 @@
         }
     }
 
-    @media(max-width:900px) {}
+    <<<<<<< HEAD @media(max-width:900px) {}
 
-    a.profile-link:link {
+    =======>>>>>>>c68cab264518697b8071e4d6629ed9137e208831 a.profile-link:link {
         color: white;
         text-decoration: none;
     }
@@ -154,20 +154,20 @@
             </button>
 
             <?php if (isAuthenticated()): ?>
-                <div id="profilNotCollapse">
-                    <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle"
+                <?php
+                $pdo = Database::getInstance()->getPDO();
+                $userModel = new UserModel($pdo);
+                $user = $userModel->selectById($_SESSION['playerID']);
+                ?>
+                <div id="profilNotCollapse"
+                    style="display:flex; flex-direction:row;align-items:center; padding-right:10px; ">
+                    <img src="../../public/images/users/<?= $user->getProfileImage(); ?>" class="rounded-circle"
                         style="width: 50px; border-radius:10% !important; cursor:pointer;" alt="Avatar" />
                     <a href="/profileForm" class="profile-link" style="margin:0px; margin-left:20px;">
-                        <?php
-                        $pdo = Database::getInstance()->getPDO();
-                        $userModel = new UserModel($pdo);
-                        $user = $userModel->selectById($_SESSION['playerID']);
-                        echo $user->getUsername();
-                        ?>
+                        <?= $user->getUsername(); ?>
                     </a>
-                    <img style="margin:0px; margin-left:20px;"
-                        src="https://images.fallout.wiki/1/1a/Score_currency_caps_l.webp" alt="Card image caps" width="30"
-                        height="30">
+                    <img style="margin:0px; margin-left:20px;" src="../../public/images/ui/caps.png" alt="Card image caps"
+                        width="30" height="30">
                     <p style="margin:0px; margin-left:5px;">
                         <?php
 

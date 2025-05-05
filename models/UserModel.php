@@ -14,13 +14,18 @@ class UserModel extends Model
     public function selectById(int $id): null|User
     {
         try {
-            $stm = $this->pdo->prepare('SELECT alias, nom, prenom, caps, dexteriter, pv, poidsMax, isAdmin, playerPassword FROM joueure WHERE joueureID=:id');
+            $stm = $this->pdo->prepare('SELECT alias, nom, prenom, caps, dexteriter, pv, poidsMax, isAdmin, playerPassword, playerImageLink FROM joueure WHERE joueureID=:id');
             $stm->bindValue(':id', $id, PDO::PARAM_INT);
             $stm->execute();
 
             $data = $stm->fetch(PDO::FETCH_ASSOC);
 
             if (!empty($data)) {
+
+                if ($data['playerImageLink'] == null) {
+                    $data['playerImageLink'] = 'default.webp';
+                }
+
                 return new User(
                     $id,
                     $data['alias'],
@@ -31,7 +36,8 @@ class UserModel extends Model
                     $data['dexteriter'],
                     $data['pv'],
                     $data['poidsMax'],
-                    $data['isAdmin']
+                    $data['isAdmin'],
+                    $data['playerImageLink'],
                 );
             }
 
@@ -72,11 +78,15 @@ class UserModel extends Model
         }
     }
 
-    public function createUser(string $username, string $firstName, string $lastName, string $password): null|PDOException
+    public function createUser(string $username, string $firstName, string $lastName, string $password, string $profileImage = null): null|PDOException
     {
+        if ($profileImage == null) {
+            $profileImage = 'default.webp';
+        }
+
         try {
-            $stm = $this->pdo->prepare('SELECT CreateJoueur(?, ?, ?, ?)');
-            $stm->execute([$username, $lastName, $firstName, $password]);
+            $stm = $this->pdo->prepare('SELECT CreateJoueur(?, ?, ?, ?, ?)');
+            $stm->execute([$username, $lastName, $firstName, $password, $profileImage]);
             return null;
         } catch (PDOException $e) {
             return $e;
@@ -104,7 +114,7 @@ class UserModel extends Model
         try {
             $stm = $this->pdo->prepare('call setCaps(?, ?)');
             $stm->execute([$caps, $playerID]);
-            
+
             return true;
         } catch (PDOException $e) {
             return false;
