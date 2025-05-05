@@ -36,7 +36,8 @@ create table joueure
     caps int default 1000 not null,
     dexteriter int default 100 not null,
     pv int default 100 not null,
-    poidsMax int default 200 not null
+    poidsMax int default 200 not null,
+    playerImageLink varchar(300)
 );
 
 -- [ items ] --
@@ -598,7 +599,8 @@ create function CreateJoueur(
     p_alias varchar(50),
     p_nom varchar(50),
     p_prenom varchar(50),
-    p_playerPassword varchar(50)
+    p_playerPassword varchar(50),
+    p_playerImageLink varchar(300)
 ) returns int
 begin
     declare p_playerID int;
@@ -609,8 +611,8 @@ begin
     limit 1;
 
     if p_playerID is null then
-        insert into joueure (alias, nom, prenom, playerPassword)
-            values (p_alias, p_nom, p_prenom, SHA2(p_playerPassword, 256)); 
+        insert into joueure (alias, nom, prenom, playerPassword, playerImageLink)
+            values (p_alias, p_nom, p_prenom, SHA2(p_playerPassword, 256), p_playerImageLink); 
 
         select joueureID into p_playerID
         from joueure
@@ -1211,7 +1213,7 @@ begin
 
     -- Verifie si l'item est interdit à la vente
     if item_status in (2,3) then
-        signal sqlstate '45000' set message_text = 'Cet item ne peut pas être achete.';
+        signal sqlstate '45000' set message_text = 'Cet item ne peut pas etre achete.';
     end if;
 
     -- Si on veut ajouter des items
@@ -1500,10 +1502,10 @@ delimiter ;
 
 -- [ DEFAULT DATA ] --
 
--- Difficultes des quêtes
+-- Difficultes des quetes
 insert into diffQuetes (diffID, difficultyName, pvLoss, nbCaps) values (1, 'facile', 10, 50), (2, 'moyen', 20, 100), (3, 'difficile', 40, 200);
 
--- Creation de quêtes
+-- Creation de quetes
 call CreateQuest(1, 'Quelle est la couleur du ciel ?', 'Bleu', 1, 'Vert', 0, 'Rouge', 0, 'Jaune', 0);
 call CreateQuest(1, 'Combien de pattes a un chien ?', '2', 0, '4', 1, '6', 0, '8', 0);
 call CreateQuest(1, 'Quelle est la capitale de la France ?', 'Berlin', 0, 'Madrid', 0, 'Paris', 1, 'Rome', 0);
@@ -1526,7 +1528,7 @@ call CreateQuest(3, 'Quel est le plus grand lac d’eau douce du monde ?', 'Lac 
 call CreateQuest(3, 'Quel est le plus grand volcan actif du monde ?', 'Etna', 0, 'Mauna Loa', 1, 'Kilimandjaro', 0, 'Vesuve', 0);
 call CreateQuest(3, 'Quel est le plus grand desert chaud du monde ?', 'Sahara', 1, 'Gobi', 0, 'Kalahari', 0, 'Atacama', 0);
 call CreateQuest(3, 'Quel est le plus grand recif corallien du monde ?', 'Recif de Belize', 0, 'Grande Barrière de Corail', 1, 'Recif de Floride', 0, 'Recif de Palancar', 0);
-call CreateQuest(3, 'Quel est le plus grand arbre du monde ?', 'Sequoia', 1, 'Chêne', 0, 'Baobab', 0, 'erable', 0);
+call CreateQuest(3, 'Quel est le plus grand arbre du monde ?', 'Sequoia', 1, 'Chene', 0, 'Baobab', 0, 'erable', 0);
 call CreateQuest(3, 'Quel est le plus grand oiseau du monde ?', 'Aigle', 0, 'Autruche', 1, 'Condor', 0, 'Albatros', 0);
 call CreateQuest(3, 'Quel est le plus grand reptile du monde ?', 'Crocodile', 1, 'Serpent', 0, 'Tortue', 0, 'Iguane', 0);
 call CreateQuest(3, 'Quel est le plus grand poisson du monde ?', 'Requin blanc', 0, 'Requin-baleine', 1, 'Espadon', 0, 'Thon', 0);
@@ -1582,7 +1584,7 @@ select CreateJoueur('playerA', 'firstname', 'lastname', 'password');
 
 -- evaluations 
 call CreateCommentaireEvaluation(1, 1, 1, 'Tres bon produit !', 5);
-call CreateCommentaireEvaluation(2, 2, 1, 'Pas mal, mais pourrait être mieux.', 3);
+call CreateCommentaireEvaluation(2, 2, 1, 'Pas mal, mais pourrait etre mieux.', 3);
 call CreateCommentaireEvaluation(3, 3, 1, 'Je ne suis pas satisfait.', 1);
 
 -- [ php exemples ] -- 
@@ -1637,13 +1639,13 @@ call CreateCommentaireEvaluation(3, 3, 1, 'Je ne suis pas satisfait.', 1);
 -- CALL DeleteCommentaire(101, 1, 1);
 -- Supprime le commentaire avec commentaireID 1 pour l'item avec itemID 101 par le joueure avec joueureID 1.
 
--- Creer une quête
+-- Creer une quete
 -- CALL CreateQuest(1, 'question', 'reponse1', 1, 'reponse2', 0, 'reponse3', 0, 'reponse4', 0);
--- Cree une nouvelle quête avec les reponses specifiees. Dans cet exemple, la premiere reponse est correcte.
+-- Cree une nouvelle quete avec les reponses specifiees. Dans cet exemple, la premiere reponse est correcte.
 
--- Supprimer une quête
+-- Supprimer une quete
 -- CALL DeleteQuest(1);
--- Supprime la quête avec questID 1.
+-- Supprime la quete avec questID 1.
 
 -- aperçu on moin d'info que details, details a tout genre apport calorique
 
