@@ -43,6 +43,11 @@ $couldntGetCaps ?? false;
         width: 100%;
         background-color: transparent;
     }
+
+    #daily2 {
+        width: 100%;
+        background-color: transparent;
+    }
 </style>
 
 
@@ -52,7 +57,7 @@ $couldntGetCaps ?? false;
         data-bs-autohide="false" style="text-align:center; font-size:18px; background-color: #bdbfbe">
         <div class=" d-flex" style="justify-content: center;">
             <div class="toast-body" style="color:black;">
-                Hello! You earned your daily 200 caps.
+                Hello! Réclamez vos 200 caps journalier.
 
 
                 <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="toast" aria-label="Close"
@@ -63,12 +68,35 @@ $couldntGetCaps ?? false;
         </div>
     </div>
 <?php elseif ($gotCaps): ?>
-    <div>
-        <!-- pop-up when u get caps -->
+    <div id="daily2" class="toast2 align-items-center" role="alert" aria-live="assertive" aria-atomic="true"
+        data-bs-autohide="false" style="text-align:center; font-size:18px; background-color: #bdbfbe">
+        <div class=" d-flex" style="justify-content: center;">
+            <div class="toast-body" style="color:black;">
+                Vous avez gagné 200 caps!
 
+
+                <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="toast2" aria-label="Close"
+                    style="background-color:black; border:none; margin-left:10px; font-size:18px;">Close</button>
+
+
+            </div>
+        </div>
     </div>
 <?php elseif ($couldntGetCaps): ?>
+    <div id="daily3" class="toast2 align-items-center" role="alert" aria-live="assertive" aria-atomic="true"
+        data-bs-autohide="false" style="text-align:center; font-size:18px; background-color: #bdbfbe">
+        <div class=" d-flex" style="justify-content: center;">
+            <div class="toast-body" style="color:black;">
 
+                Erreur: 200 caps non reçus
+
+                <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="toast2" aria-label="Close"
+                    style="background-color:black; border:none; margin-left:10px; font-size:18px;">Close</button>
+
+
+            </div>
+        </div>
+    </div>
 <?php endif ?>
 
 
@@ -109,7 +137,8 @@ $couldntGetCaps ?? false;
                             style="background-color:#1E1E1E !important; padding:20 10px; cursor:pointer;border:1px white solid;border-color: #6c757d; border-radius:8px; margin:20px; margin-top:0px; margin-bottom:0px;"
                             onclick="window.location.href= '/details?itemID=<?= $item['item']->getId() ?>'">
                             <div class="numberCircle"><?= $item['quantity'] ?></div>
-                            <img class="card-img-top" src="public/images/products/<?= $item['item']->getImageLink() ?>" alt="Card image cap">
+                            <img class="card-img-top" src="public/images/products/<?= $item['item']->getImageLink() ?>"
+                                alt="Card image cap">
                             <div class="card-body" style="margin-bottom:20px;">
 
                                 <h5 class="card-title">
@@ -132,6 +161,10 @@ $couldntGetCaps ?? false;
     const toast = document.getElementById('daily');
     const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toast);
     toastBootstrap.show();
+
+    const toast2 = document.getElementById('daily2');
+    const toastBootstrap2 = bootstrap.Toast.getOrCreateInstance(toast2);
+    toastBootstrap2.show();
 </script>
 <?php
 require 'views/partials/footer.php';
