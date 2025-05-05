@@ -165,8 +165,9 @@
                     <a href="/profileForm" class="profile-link" style="margin:0px; margin-left:20px;">
                         <?= $user->getUsername(); ?>
                     </a>
-                    <img style="margin:0px; margin-left:20px;" src="../../public/images/ui/caps.png" alt="Card image caps"
-                        width="30" height="30">
+                    <img style="margin:0px; margin-left:20px;"
+                        src="public/images/ui/caps.png" alt="Card image caps" width="30"
+                        height="30">
                     <p style="margin:0px; margin-left:5px;">
                         <?php
 
@@ -174,7 +175,7 @@
                         ?>
                     </p>
                     <img style="margin:0px; margin-left:20px;"
-                        src="https://cdn.iconscout.com/icon/free/png-256/free-health-symbol-icon-download-in-svg-png-gif-file-formats--medical-sign-services-pack-healthcare-icons-3401408.png?f=webp&w=256"
+                        src="public/images/ui/health.webp"
                         alt="Card image caps" width="30" height="30">
                     <p style="margin:0px; margin-left:5px;">
                         <?php
@@ -182,7 +183,7 @@
                         ?>
                     </p>
                     <img style="margin:0px; margin-left:20px;"
-                        src="https://static.wikia.nocookie.net/fallout/images/7/75/FO76_icon_weight.png"
+                        src="public/images/ui/weight.webp"
                         alt="Card image caps" width="30" height="30">
                     <p style="margin:0px; margin-left:5px;">
                         <?php
@@ -191,7 +192,7 @@
                         echo ' : ' . $model->totalWeight($_SESSION['playerID']) . ' / ' . $user->getMaxWeight() . " kg";
                         ?>
                     </p>
-                    <img style="margin:0px; margin-left:20px;" src="https://static.thenounproject.com/png/4494012-200.png"
+                    <img style="margin:0px; margin-left:20px;" src="public/images/ui/dext.webp"
                         alt="Card image caps" width="40" height="40">
                     <p style="margin:0px; margin-left:5px;">
                         <?php
