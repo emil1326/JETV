@@ -16,6 +16,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pdo = Database::getInstance()->getPDO();
     $userModel = new UserModel($pdo);
 
+    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+    if($check !== false) {
+        move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
+    }
     // Check for empty fields
     if (emptyFields($firstName, $lastName, $username)) {
         $messageKey = 'Tous les renseignements doivent être remplis';

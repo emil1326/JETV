@@ -61,7 +61,11 @@ legend {
                 <button type="submit" class="btn btn-primary">Modifier</button>
                 <a class="btn btn-secondary" role="button" href="/">Annuler</a>
             </form>
-
+            <form action="upload.php" method="post" enctype="multipart/form-data">
+            Select image to upload:
+            <input type="file" name="fileToUpload" id="fileToUpload">
+            <input type="submit" value="Upload Image" name="submit">
+            </form>
         </div>
 
     </div>
