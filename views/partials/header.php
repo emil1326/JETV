@@ -49,45 +49,99 @@
         padding-top: 2px;
     }
 
+
+
     @media(min-width:992px) {
         #balance {
 
             display: none;
         }
+
+        #profilCollapse {
+            display: none !important;
+        }
+
+        #profilNotCollapse {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding-right: 10px;
+        }
     }
 
-    @media (max-width: 992px) {
+
+
+
+    @media (max-width: 1400px) {
+        .navbar-expand-lg .navbar-toggler {
+            display: block;
+        }
+
         .navbar-collapse {
             justify-content: flex-start !important;
             margin-top: 30px;
+            flex-basis: 100% !important;
+            flex-grow: 1;
+            align-items: center;
         }
 
+        .navbar {
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: .5rem;
+            padding-bottom: .5rem;
+        }
 
+        #profilNotCollapse {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: start;
+            padding-right: 10px;
+            flex: 1;
+            margin-left: 30px;
+        }
 
+    }
+
+    @media(max-width:992px) {
         #signinregister {
             margin-top: 30px;
             padding-left: 0px !important;
         }
+
+        #profilCollapse {
+            display: flex;
+        }
+
+        #profilNotCollapse {
+            display: none;
+        }
     }
-    a.profile-link:link
-    {
-    color: white;
-    text-decoration: none;
+
+    @media(max-width:900px) {}
+
+    a.profile-link:link {
+        color: white;
+        text-decoration: none;
     }
-    a.profile-link:visited
-    {
-    color: white;
-    text-decoration: none;
+
+    a.profile-link:visited {
+        color: white;
+        text-decoration: none;
     }
-    a.profile-link:hover
-    {
-    color: white;
-    text-decoration: none;
+
+    a.profile-link:hover {
+        color: white;
+        text-decoration: none;
     }
-    a.profile-link:active
-    {
-    color: white;
-    text-decoration: none;
+
+    a.profile-link:active {
+        color: white;
+        text-decoration: none;
     }
 </style>
 
@@ -100,7 +154,7 @@
             </button>
 
             <?php if (isAuthenticated()): ?>
-                <div style="display:flex; flex-direction:row;align-items:center; padding-right:10px; ">
+                <div id="profilNotCollapse">
                     <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle"
                         style="width: 50px; border-radius:10% !important; cursor:pointer;" alt="Avatar" />
                     <a href="/profileForm" class="profile-link" style="margin:0px; margin-left:20px;">
@@ -112,7 +166,7 @@
                         ?>
                     </a>
                     <img style="margin:0px; margin-left:20px;"
-                        src="../../public/images/caps1.png" alt="Card image caps" width="30"
+                        src="https://images.fallout.wiki/1/1a/Score_currency_caps_l.webp" alt="Card image caps" width="30"
                         height="30">
                     <p style="margin:0px; margin-left:5px;">
                         <?php
@@ -142,7 +196,7 @@
                         alt="Card image caps" width="40" height="40">
                     <p style="margin:0px; margin-left:5px;">
                         <?php
-                        echo ' : ' . $userModel->getDexteriter($_SESSION['playerID']) .  " / " . $user->getDexterity() . " Dex";
+                        echo ' : ' . $userModel->getDexteriter($_SESSION['playerID']) . " / " . $user->getDexterity() . " Dex";
                         ?>
                     </p>
                 </div>
@@ -151,39 +205,95 @@
             <div class="collapse navbar-collapse d-md-flex justify-content-md-end" id="navbarNavDropdown">
                 <ul class="navbar-nav ">
                     <li class="nav-item nopadding">
+                        <div id="profilCollapse" style="display:flex; flex-direction:column; ">
+                            <div>
+                                <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle"
+                                    style="width: 50px; border-radius:10% !important; cursor:pointer;" alt="Avatar" />
+                                <a href="/profileForm" class="profile-link" style="margin:0px; margin-left:20px;">
+                                    <?php
+                                    $pdo = Database::getInstance()->getPDO();
+                                    $userModel = new UserModel($pdo);
+                                    $user = $userModel->selectById($_SESSION['playerID']);
+                                    echo $user->getUsername();
+                                    ?>
+                                </a>
+                            </div>
+
+
+                            <div style="display:flex; flex-direction: row; margin-top:5px;">
+                                <img src="https://images.fallout.wiki/1/1a/Score_currency_caps_l.webp"
+                                    alt="Card image caps" width="30" height="30">
+                                <p style="margin:0px; margin-left:5px;">
+                                    <?php
+
+                                    echo " : " . $user->getCaps() . " Caps";
+                                    ?>
+                                </p>
+                            </div>
+                            <div style="display:flex; flex-direction: row; margin-top:5px;">
+                                <img src="https://static.wikia.nocookie.net/fallout/images/7/75/FO76_icon_weight.png"
+                                    alt="Card image caps" width="30" height="30">
+                                <p style="margin:0px; margin-left:5px;">
+                                    <?php
+                                    $model = new InventoryModel($pdo);
+
+                                    echo ' : ' . $model->totalWeight($_SESSION['playerID']) . ' / ' . $user->getMaxWeight() . " kg";
+                                    ?>
+                                </p>
+                            </div>
+                            <div style="display:flex; flex-direction: row; margin-top:5px;">
+                                <img src="https://cdn.iconscout.com/icon/free/png-256/free-health-symbol-icon-download-in-svg-png-gif-file-formats--medical-sign-services-pack-healthcare-icons-3401408.png?f=webp&w=256"
+                                    alt="Card image caps" width="30" height="30">
+                                <p style="margin:0px; margin-left:5px;">
+                                    <?php
+                                    echo " : " . $user->getHealth() . " PV";
+                                    ?>
+                                </p>
+                            </div>
+                            <div style="display:flex; flex-direction: row; margin-top:5px; margin-bottom:5px;">
+                                <img src="https://static.thenounproject.com/png/4494012-200.png" alt="Card image caps"
+                                    width="40" height="40">
+                                <p style="margin:0px; margin-left:5px;">
+                                    <?php
+                                    echo ' : ' . $userModel->getDexteriter($_SESSION['playerID']) . " / " . $user->getDexterity() . " Dex";
+                                    ?>
+                                </p>
+                            </div>
+                        </div>
+
                         <a class="nav-link navtagsw nopadding <?php if (isset($accueilActif) && $accueilActif)
-                                                                    echo 'active' ?>" aria-current="page" href="/">Accueil</a>
-                    </li>
-                    <li class="nav-item nopadding">
-                        <a class="nav-link navtagsw nopadding <?php if (isset($shopActif) && $shopActif)
-                                                                    echo 'active' ?>" href="/shop">Shop</a>
-                    </li>
+                            echo 'active' ?>" aria-current="page" href="/">Accueil</a>
+                        </li>
+                        <li class="nav-item nopadding">
+                            <a class="nav-link navtagsw nopadding <?php if (isset($shopActif) && $shopActif)
+                            echo 'active' ?>" href="/shop">Shop</a>
+                        </li>
                     <?php if (isAuthenticated()): ?>
                         <li class="nav-item nopadding">
                             <a class="nav-link navtagsw nopadding <?php if (isset($enigmaActif) && $enigmaActif)
-                                                                        echo 'active' ?>" href="/enigma">Enigma</a>
-                        </li>
+                                echo 'active' ?>" href="/enigma">Enigma</a>
+                            </li>
 
-                        <li class="nav-item nopadding">
-                            <a class="nav-link navtagsw nopadding <?php if (isset($backActif) && $backActif)
-                                                                        echo 'active' ?>" href="/backpack">Backpack</a>
-                        </li>
+                            <li class="nav-item nopadding">
+                                <a class="nav-link navtagsw nopadding <?php if (isset($backActif) && $backActif)
+                                echo 'active' ?>" href="/backpack">Backpack</a>
+                            </li>
 
-                        <li class="nav-item nopadding">
-                            <a class="nav-link navtagsw nopadding 
+                            <li class="nav-item nopadding">
+                                <a class="nav-link navtagsw nopadding 
                                 <?php if (isset($cartActif) && $cartActif)
-                                    echo 'active' ?>" href="/cart"><i class="bi bi-cart"></i>
-                                <?php 
-                                    $totalCountHeader = 0;
-                                    $modelCartHeader = new CartModel(Database::getInstance()->getPDO());
-                                    $itemsCart = $modelCartHeader->selectAll($_SESSION['playerID']);
-                                    if (isset($itemsCart))
-                                    foreach ($itemsCart as $itemDataHeader) {
-                                        $quantityHeader = $itemDataHeader['quantity'];
-                                        $totalCountHeader += $quantityHeader;
-                                    }
-                                    echo $totalCountHeader;
-                                ?>
+                                echo 'active' ?>" href="/cart"><i class="bi bi-cart"></i>
+                                    <?php
+                            $totalCountHeader = 0;
+                            $modelCartHeader = new CartModel(Database::getInstance()->getPDO());
+                            $itemsCart = $modelCartHeader->selectAll($_SESSION['playerID']);
+                            if (isset($itemsCart))
+                                foreach ($itemsCart as $itemDataHeader) {
+                                    $quantityHeader = $itemDataHeader['quantity'];
+                                    $totalCountHeader += $quantityHeader;
+                                }
+                            echo $totalCountHeader;
+                            ?>
                             </a>
                         </li>
                     <?php endif; ?>
