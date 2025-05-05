@@ -17,21 +17,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userModel = new UserModel($pdo);
 
     // Check for empty fields
-    if (emptyFields($firstName, $lastName, $username, $password, $passwordConfirm)) {
-        $messageKey = displayError('Tous les renseignements doivent être remplis');
+    if (emptyFields($firstName, $lastName, $username)) {
+        $messageKey = 'Tous les renseignements doivent être remplis';
     } else if (strlen($password) < 8 && strlen($password) > 0) {
-        $messageKey = displayError('Le mot de passe dois être au moins 8 caractères');
+        $messageKey = 'Le mot de passe dois être au moins 8 caractères';
     } else if ($password != $passwordConfirm) {
-        $messageKey = displayError('Les deux mots de passe ne sont pas identiques');
+        $messageKey = 'Les deux mots de passe ne sont pas identiques';
     } else if (!$userModel->isUsernameAvailable($username)) {
-        $messageKey = displayError('Cet alias est déjà pris');
+        $messageKey = 'Cet alias est déjà pris';
     } else {
         if(!empty($password)) {
             $password = password_hash($password, PASSWORD_DEFAULT);
         } else {
             $password = $user->getPassword();
         }
-        //$userModel->updateUser($username, $firstName, $lastName, $password);
+        $userModel->updateUser($username, $firstName, $lastName, $password);
         header("Location: /");
     }
 }

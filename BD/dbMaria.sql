@@ -626,7 +626,24 @@ begin
 end;
 //
 delimiter ;
-
+drop procedure if exists ModifyUser;
+delimiter //
+create procedure ModifyUser(
+    p_alias varchar(50),
+    p_nom varchar(50),
+    p_prenom varchar(50),
+    p_playerPassword varchar(50)
+)
+begin
+    update joueure
+    set alias = p_alias,
+        nom = p_nom,
+        prenom = p_prenom,
+        playerPassword = SHA2(p_playerPassword, 256)
+    where alias = p_alias;
+end;
+//
+delimiter ;
 drop procedure if exists SetCaps;
 delimiter //
 create procedure SetCaps(in p_joueureID int, in p_amount int)

@@ -29,7 +29,7 @@ legend {
 
             <form method="post">
 
-                <?= $messageKey ?? '' ?>
+                <p><?= $messageKey ?? '' ?></p>
 
                 <div class="mb-3">
                     <label for="firstName" class="form-label">Prénom</label>
