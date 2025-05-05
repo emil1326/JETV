@@ -122,9 +122,9 @@
         }
     }
 
-    <<<<<<< HEAD @media(max-width:900px) {}
+    @media(max-width:900px) {}
 
-    =======>>>>>>>c68cab264518697b8071e4d6629ed9137e208831 a.profile-link:link {
+    a.profile-link:link {
         color: white;
         text-decoration: none;
     }
@@ -161,7 +161,7 @@
                 ?>
                 <div id="profilNotCollapse"
                     style="display:flex; flex-direction:row;align-items:center; padding-right:10px; ">
-                    <img src="../../public/images/users/<?= $user->getProfileImage(); ?>" class="rounded-circle"
+                    <img src="public/images/users/<?= $user->getProfileImage(); ?>" class="rounded-circle"
                         style="width: 50px; border-radius:10% !important; cursor:pointer;" alt="Avatar" />
                     <a href="/profileForm" class="profile-link" style="margin:0px; margin-left:20px;">
                         <?= $user->getUsername(); ?>
@@ -193,7 +193,7 @@
                         echo ' : ' . $model->totalWeight($_SESSION['playerID']) . ' / ' . $user->getMaxWeight() . " kg";
                         ?>
                     </p>
-                    <img style="margin:0px; margin-left:20px;" src="public/images/ui/dext.webp"
+                    <img style="margin:0px; margin-left:20px;" src="public/images/ui/dext.png"
                         alt="Card image caps" width="40" height="40">
                     <p style="margin:0px; margin-left:5px;">
                         <?php
@@ -208,7 +208,7 @@
                     <li class="nav-item nopadding">
                         <div id="profilCollapse" style="display:flex; flex-direction:column; ">
                             <div>
-                                <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle"
+                                <img src="public/images/users/<?= $user->getProfileImage(); ?>" class="rounded-circle"
                                     style="width: 50px; border-radius:10% !important; cursor:pointer;" alt="Avatar" />
                                 <a href="/profileForm" class="profile-link" style="margin:0px; margin-left:20px;">
                                     <?php
@@ -222,7 +222,7 @@
 
 
                             <div style="display:flex; flex-direction: row; margin-top:5px;">
-                                <img src="https://images.fallout.wiki/1/1a/Score_currency_caps_l.webp"
+                                <img src="public/images/ui/caps.png"
                                     alt="Card image caps" width="30" height="30">
                                 <p style="margin:0px; margin-left:5px;">
                                     <?php
@@ -232,7 +232,7 @@
                                 </p>
                             </div>
                             <div style="display:flex; flex-direction: row; margin-top:5px;">
-                                <img src="https://static.wikia.nocookie.net/fallout/images/7/75/FO76_icon_weight.png"
+                                <img src="public/images/ui/weight.webp"
                                     alt="Card image caps" width="30" height="30">
                                 <p style="margin:0px; margin-left:5px;">
                                     <?php
@@ -243,7 +243,7 @@
                                 </p>
                             </div>
                             <div style="display:flex; flex-direction: row; margin-top:5px;">
-                                <img src="https://cdn.iconscout.com/icon/free/png-256/free-health-symbol-icon-download-in-svg-png-gif-file-formats--medical-sign-services-pack-healthcare-icons-3401408.png?f=webp&w=256"
+                                <img src="public/images/ui/health.webp"
                                     alt="Card image caps" width="30" height="30">
                                 <p style="margin:0px; margin-left:5px;">
                                     <?php
@@ -252,7 +252,7 @@
                                 </p>
                             </div>
                             <div style="display:flex; flex-direction: row; margin-top:5px; margin-bottom:5px;">
-                                <img src="https://static.thenounproject.com/png/4494012-200.png" alt="Card image caps"
+                                <img src="public/images/ui/dext.png" alt="Card image caps"
                                     width="40" height="40">
                                 <p style="margin:0px; margin-left:5px;">
                                     <?php
@@ -263,38 +263,38 @@
                         </div>
 
                         <a class="nav-link navtagsw nopadding <?php if (isset($accueilActif) && $accueilActif)
-                            echo 'active' ?>" aria-current="page" href="/">Accueil</a>
-                        </li>
-                        <li class="nav-item nopadding">
-                            <a class="nav-link navtagsw nopadding <?php if (isset($shopActif) && $shopActif)
-                            echo 'active' ?>" href="/shop">Shop</a>
-                        </li>
+                                                                    echo 'active' ?>" aria-current="page" href="/">Accueil</a>
+                    </li>
+                    <li class="nav-item nopadding">
+                        <a class="nav-link navtagsw nopadding <?php if (isset($shopActif) && $shopActif)
+                                                                    echo 'active' ?>" href="/shop">Shop</a>
+                    </li>
                     <?php if (isAuthenticated()): ?>
                         <li class="nav-item nopadding">
                             <a class="nav-link navtagsw nopadding <?php if (isset($enigmaActif) && $enigmaActif)
-                                echo 'active' ?>" href="/enigma">Enigma</a>
-                            </li>
+                                                                        echo 'active' ?>" href="/enigma">Enigma</a>
+                        </li>
 
-                            <li class="nav-item nopadding">
-                                <a class="nav-link navtagsw nopadding <?php if (isset($backActif) && $backActif)
-                                echo 'active' ?>" href="/backpack">Backpack</a>
-                            </li>
+                        <li class="nav-item nopadding">
+                            <a class="nav-link navtagsw nopadding <?php if (isset($backActif) && $backActif)
+                                                                        echo 'active' ?>" href="/backpack">Backpack</a>
+                        </li>
 
-                            <li class="nav-item nopadding">
-                                <a class="nav-link navtagsw nopadding 
+                        <li class="nav-item nopadding">
+                            <a class="nav-link navtagsw nopadding 
                                 <?php if (isset($cartActif) && $cartActif)
-                                echo 'active' ?>" href="/cart"><i class="bi bi-cart"></i>
-                                    <?php
-                            $totalCountHeader = 0;
-                            $modelCartHeader = new CartModel(Database::getInstance()->getPDO());
-                            $itemsCart = $modelCartHeader->selectAll($_SESSION['playerID']);
-                            if (isset($itemsCart))
-                                foreach ($itemsCart as $itemDataHeader) {
-                                    $quantityHeader = $itemDataHeader['quantity'];
-                                    $totalCountHeader += $quantityHeader;
-                                }
-                            echo $totalCountHeader;
-                            ?>
+                                    echo 'active' ?>" href="/cart"><i class="bi bi-cart"></i>
+                                <?php
+                                $totalCountHeader = 0;
+                                $modelCartHeader = new CartModel(Database::getInstance()->getPDO());
+                                $itemsCart = $modelCartHeader->selectAll($_SESSION['playerID']);
+                                if (isset($itemsCart))
+                                    foreach ($itemsCart as $itemDataHeader) {
+                                        $quantityHeader = $itemDataHeader['quantity'];
+                                        $totalCountHeader += $quantityHeader;
+                                    }
+                                echo $totalCountHeader;
+                                ?>
                             </a>
                         </li>
                     <?php endif; ?>
