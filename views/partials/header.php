@@ -69,25 +69,25 @@
             padding-left: 0px !important;
         }
     }
-    a.profile-link:link
-    {
-    color: white;
-    text-decoration: none;
+
+    a.profile-link:link {
+        color: white;
+        text-decoration: none;
     }
-    a.profile-link:visited
-    {
-    color: white;
-    text-decoration: none;
+
+    a.profile-link:visited {
+        color: white;
+        text-decoration: none;
     }
-    a.profile-link:hover
-    {
-    color: white;
-    text-decoration: none;
+
+    a.profile-link:hover {
+        color: white;
+        text-decoration: none;
     }
-    a.profile-link:active
-    {
-    color: white;
-    text-decoration: none;
+
+    a.profile-link:active {
+        color: white;
+        text-decoration: none;
     }
 </style>
 
@@ -112,7 +112,7 @@
                         ?>
                     </a>
                     <img style="margin:0px; margin-left:20px;"
-                        src="public/images/caps1.png" alt="Card image caps" width="30"
+                        src="public/images/ui/caps.png" alt="Card image caps" width="30"
                         height="30">
                     <p style="margin:0px; margin-left:5px;">
                         <?php
@@ -173,16 +173,16 @@
                             <a class="nav-link navtagsw nopadding 
                                 <?php if (isset($cartActif) && $cartActif)
                                     echo 'active' ?>" href="/cart"><i class="bi bi-cart"></i>
-                                <?php 
-                                    $totalCountHeader = 0;
-                                    $modelCartHeader = new CartModel(Database::getInstance()->getPDO());
-                                    $itemsCart = $modelCartHeader->selectAll($_SESSION['playerID']);
-                                    if (isset($itemsCart))
+                                <?php
+                                $totalCountHeader = 0;
+                                $modelCartHeader = new CartModel(Database::getInstance()->getPDO());
+                                $itemsCart = $modelCartHeader->selectAll($_SESSION['playerID']);
+                                if (isset($itemsCart))
                                     foreach ($itemsCart as $itemDataHeader) {
                                         $quantityHeader = $itemDataHeader['quantity'];
                                         $totalCountHeader += $quantityHeader;
                                     }
-                                    echo $totalCountHeader;
+                                echo $totalCountHeader;
                                 ?>
                             </a>
                         </li>
