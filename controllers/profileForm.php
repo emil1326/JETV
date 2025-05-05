@@ -27,9 +27,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $messageKey = 'Cet alias est déjà pris';
     } else {
         if(!empty($password) && $password != $user->getPassword()) {
-            $userModel->updatePassword($username, $password);
+            $userModel->updatePassword($user->getId(), $password);
         }
-        $userModel->updateUser($username, $firstName, $lastName);
+        $userModel->updateUser($username, $firstName, $lastName, $user->getId());
         header("Location: /");
     }
 }
