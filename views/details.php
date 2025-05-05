@@ -47,7 +47,7 @@ $inShop ?? false;
     <div class="card mb-3" style="background-color:#1E1E1E; padding:10px; border:none; margin:20px 0; width:75%;">
         <div class="row g-0">
             <div class="col-md-4 item-image-container"
-                style=" background-image: url('public/images/<?= $item->getImageLink() ?>'); background-color: white;">
+                style=" background-image: url('public/images/products/<?= $item->getImageLink() ?>'); background-color: white;">
                 <!-- Image moved to background -->
             </div>
             <div class="col-12 col-md-6 p-3">
@@ -62,7 +62,7 @@ $inShop ?? false;
                             <button class="btn w-100 my-2"
                                 style="background-color:#303030; color:white; border:none; border-radius:8px;"
                                 data-bs-toggle="modal" data-bs-target="#exampleModalCenter">Acheter</button>
-                        <?php elseif($qt > 1): ?>
+                        <?php elseif ($qt > 1): ?>
                             <button class="btn w-100 my-2"
                                 style="background-color:#303030; color:white; border:none; border-radius:8px;"
                                 data-bs-toggle="modal" data-bs-target="#sellModal">Vendre</button>
@@ -336,7 +336,7 @@ $inShop ?? false;
                     <div class="col-12">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <p style="color:white;"><?= $item->getName() ?>     <?= $item->getBuyPrice() ?>$</p>
+                                <p style="color:white;"><?= $item->getName() ?> <?= $item->getBuyPrice() ?>$</p>
                             </div>
                             <div class="input-group w-auto justify-content-end align-items-center">
                                 <input type="button" value="-"
@@ -379,7 +379,7 @@ $inShop ?? false;
                     <div class="col-12">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <p style="color:white;"><?= $item->getName() ?>     <?= $item->getBuyPrice() ?>$</p>
+                                <p style="color:white;"><?= $item->getName() ?> <?= $item->getBuyPrice() ?>$</p>
                             </div>
                             <div class="input-group w-auto justify-content-end align-items-center">
                                 <input type="button" value="-"
@@ -462,15 +462,15 @@ $inShop ?? false;
     }
 
     // Attach event listeners using event delegation
-    $(document).on('click', '.button-plus', function (e) {
+    $(document).on('click', '.button-plus', function(e) {
         incrementValue(e);
     });
 
-    $(document).on('click', '.button-minus', function (e) {
+    $(document).on('click', '.button-minus', function(e) {
         decrementValue(e);
     });
 
-    $(document).on('change', '.quantity-field', function (e) {
+    $(document).on('change', '.quantity-field', function(e) {
         setValue(e);
     });
 </script>

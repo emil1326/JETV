@@ -20,12 +20,9 @@ class EvaluationModel extends Model
             $data = $stm->fetch(PDO::FETCH_ASSOC);
 
             if (!empty($data)) {
-                return new Comment(
-                    $data['itemID'],
-                    $data['joueureID'],
-                    $itemID,
-                    $data['commentaire'],
-                );
+                //return new Evaluation(
+                //  $data['field here'];
+                //);
             }
 
             return null;
