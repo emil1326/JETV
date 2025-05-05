@@ -23,15 +23,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $messageKey = 'Le mot de passe dois être au moins 8 caractères';
     } else if ($password != $passwordConfirm) {
         $messageKey = 'Les deux mots de passe ne sont pas identiques';
-    } else if (!$userModel->isUsernameAvailable($username)) {
+    } else if (!$userModel->isUsernameAvailable($username) && $username != $user->getUsername()) {
         $messageKey = 'Cet alias est déjà pris';
     } else {
-        if(!empty($password)) {
-            $password = password_hash($password, PASSWORD_DEFAULT);
-        } else {
-            $password = $user->getPassword();
+        if(!empty($password) && $password != $user->getPassword()) {
+            $userModel->updatePassword($username, $password);
         }
-        $userModel->updateUser($username, $firstName, $lastName, $password);
+        $userModel->updateUser($username, $firstName, $lastName);
         header("Location: /");
     }
 }

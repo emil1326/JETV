@@ -23,7 +23,7 @@ class UserModel extends Model
             if (!empty($data)) {
 
                 if ($data['playerImageLink'] == null) {
-                    $data['playerImageLink'] = '../public/images/users/default.png';
+                    $data['playerImageLink'] = 'default.webp';
                 }
 
                 return new User(
@@ -81,7 +81,7 @@ class UserModel extends Model
     public function createUser(string $username, string $firstName, string $lastName, string $password, string $profileImage = null): null|PDOException
     {
         if ($profileImage == null) {
-            $profileImage = '../public/images/users/default.png';
+            $profileImage = 'default.webp';
         }
 
         try {
@@ -125,11 +125,21 @@ class UserModel extends Model
     {
         return $this->setCaps($this->selectById($playerID)->getCaps() + $caps, $playerID);
     }
-    public function updateUser(string $username, string $firstName, string $lastName, string $password): bool
+    public function updateUser(string $username, string $firstName, string $lastName): bool
     {
         try {
-            $stm = $this->pdo->prepare('call ModifyUser;(?, ?, ?, ?)');
-            $stm->execute([$username, $lastName, $firstName, $password]);
+            $stm = $this->pdo->prepare('call ModifyUser;(?, ?, ?)');
+            $stm->execute([$username, $lastName, $firstName]);
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+    public function updatePassword(string $username, string $password): bool
+    {
+        try {
+            $stm = $this->pdo->prepare('call updatePassword;(?, ?)');
+            $stm->execute([$username, $password]);
             return true;
         } catch (PDOException $e) {
             return false;
