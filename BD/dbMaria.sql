@@ -631,15 +631,13 @@ delimiter //
 create procedure ModifyUser(
     p_alias varchar(50),
     p_nom varchar(50),
-    p_prenom varchar(50),
-    p_playerPassword varchar(50)
+    p_prenom varchar(50)
 )
 begin
     update joueure
     set alias = p_alias,
         nom = p_nom,
         prenom = p_prenom,
-        playerPassword = SHA2(p_playerPassword, 256)
     where alias = p_alias;
 end;
 //
@@ -789,11 +787,11 @@ delimiter ;
 
 drop procedure if exists ChangePassword;
 delimiter //
-create procedure ChangePassword(in p_alias varchar(50), in p_playerPassword varchar(50))
+create procedure ChangePassword(in p_playerID varchar(50), in p_playerPassword varchar(50))
 begin
     update joueure
     set playerPassword = SHA2(p_playerPassword, 256)
-    where alias = p_alias;
+    where joueureID = p_playerID;
 end;
 //
 delimiter ;
