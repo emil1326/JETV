@@ -165,26 +165,23 @@
                     <a href="/profileForm" class="profile-link" style="margin:0px; margin-left:20px;">
                         <?= $user->getUsername(); ?>
                     </a>
-                    <img style="margin:0px; margin-left:20px;"
-                        src="public/images/ui/caps.png" alt="Card image caps" width="30"
-                        height="30">
+                    <img style="margin:0px; margin-left:20px;" src="public/images/ui/caps.png" alt="Card image caps"
+                        width="30" height="30">
                     <p style="margin:0px; margin-left:5px;">
                         <?php
 
                         echo " : " . $user->getCaps() . " Caps";
                         ?>
                     </p>
-                    <img style="margin:0px; margin-left:20px;"
-                        src="public/images/ui/health.webp"
-                        alt="Card image caps" width="30" height="30">
+                    <img style="margin:0px; margin-left:20px;" src="public/images/ui/health.webp" alt="Card image caps"
+                        width="30" height="30">
                     <p style="margin:0px; margin-left:5px;">
                         <?php
                         echo " : " . $user->getHealth() . " PV";
                         ?>
                     </p>
-                    <img style="margin:0px; margin-left:20px;"
-                        src="public/images/ui/weight.webp"
-                        alt="Card image caps" width="30" height="30">
+                    <img style="margin:0px; margin-left:20px;" src="public/images/ui/weight.webp" alt="Card image caps"
+                        width="30" height="30">
                     <p style="margin:0px; margin-left:5px;">
                         <?php
                         $model = new InventoryModel($pdo);
@@ -192,8 +189,8 @@
                         echo ' : ' . $model->totalWeight($_SESSION['playerID']) . ' / ' . $user->getMaxWeight() . " kg";
                         ?>
                     </p>
-                    <img style="margin:0px; margin-left:20px;" src="public/images/ui/dext.png"
-                        alt="Card image caps" width="40" height="40">
+                    <img style="margin:0px; margin-left:20px;" src="public/images/ui/dext.png" alt="Card image caps"
+                        width="40" height="40">
                     <p style="margin:0px; margin-left:5px;">
                         <?php
                         echo ' : ' . $userModel->getDexteriter($_SESSION['playerID']) . " / " . $user->getDexterity() . " Dex";
@@ -213,7 +210,7 @@
 
                             ?>
                             <div id="profilCollapse" style="display:flex; flex-direction:column; ">
-                                <div>
+                                <div style="margin-bottom: 10px;">
                                     <img src="../../public/images/users/<?= $user->getProfileImage(); ?>"
                                         class="rounded-circle"
                                         style="width: 50px; border-radius:10% !important; cursor:pointer;" alt="Avatar" />
@@ -267,38 +264,38 @@
                             </div>
                         <?php endif; ?>
                         <a class="nav-link navtagsw nopadding <?php if (isset($accueilActif) && $accueilActif)
-                                                                    echo 'active' ?>" aria-current="page" href="/">Accueil</a>
-                    </li>
-                    <li class="nav-item nopadding">
-                        <a class="nav-link navtagsw nopadding <?php if (isset($shopActif) && $shopActif)
-                                                                    echo 'active' ?>" href="/shop">Shop</a>
-                    </li>
+                            echo 'active' ?>" aria-current="page" href="/">Accueil</a>
+                        </li>
+                        <li class="nav-item nopadding">
+                            <a class="nav-link navtagsw nopadding <?php if (isset($shopActif) && $shopActif)
+                            echo 'active' ?>" href="/shop">Shop</a>
+                        </li>
                     <?php if (isAuthenticated()): ?>
                         <li class="nav-item nopadding">
                             <a class="nav-link navtagsw nopadding <?php if (isset($enigmaActif) && $enigmaActif)
-                                                                        echo 'active' ?>" href="/enigma">Enigma</a>
-                        </li>
+                                echo 'active' ?>" href="/enigma">Enigma</a>
+                            </li>
 
-                        <li class="nav-item nopadding">
-                            <a class="nav-link navtagsw nopadding <?php if (isset($backActif) && $backActif)
-                                                                        echo 'active' ?>" href="/backpack">Backpack</a>
-                        </li>
+                            <li class="nav-item nopadding">
+                                <a class="nav-link navtagsw nopadding <?php if (isset($backActif) && $backActif)
+                                echo 'active' ?>" href="/backpack">Backpack</a>
+                            </li>
 
-                        <li class="nav-item nopadding">
-                            <a class="nav-link navtagsw nopadding 
+                            <li class="nav-item nopadding">
+                                <a class="nav-link navtagsw nopadding 
                                 <?php if (isset($cartActif) && $cartActif)
-                                    echo 'active' ?>" href="/cart"><i class="bi bi-cart"></i>
-                                <?php
-                                $totalCountHeader = 0;
-                                $modelCartHeader = new CartModel(Database::getInstance()->getPDO());
-                                $itemsCart = $modelCartHeader->selectAll($_SESSION['playerID']);
-                                if (isset($itemsCart))
-                                    foreach ($itemsCart as $itemDataHeader) {
-                                        $quantityHeader = $itemDataHeader['quantity'];
-                                        $totalCountHeader += $quantityHeader;
-                                    }
-                                echo $totalCountHeader;
-                                ?>
+                                echo 'active' ?>" href="/cart"><i class="bi bi-cart"></i>
+                                    <?php
+                            $totalCountHeader = 0;
+                            $modelCartHeader = new CartModel(Database::getInstance()->getPDO());
+                            $itemsCart = $modelCartHeader->selectAll($_SESSION['playerID']);
+                            if (isset($itemsCart))
+                                foreach ($itemsCart as $itemDataHeader) {
+                                    $quantityHeader = $itemDataHeader['quantity'];
+                                    $totalCountHeader += $quantityHeader;
+                                }
+                            echo $totalCountHeader;
+                            ?>
                             </a>
                         </li>
                     <?php endif; ?>
