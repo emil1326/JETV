@@ -11,11 +11,6 @@ if (!isset($gotCaps))
 if (!isset($couldntGetCaps))
     $couldntGetCaps = false;
 
-$canGetCaps ?? false;
-// when just received caps
-$gotCaps ?? false;
-$couldntGetCaps ?? false;
-
 ?>
 
 <style>
@@ -50,8 +45,11 @@ $couldntGetCaps ?? false;
     }
 </style>
 
+<!-- comment -->
 
 <?php if ($canGetCaps): ?>
+    
+    <!-- floating popup getCaps -->
 
     <div id="daily" class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true"
         data-bs-autohide="false" style="text-align:center; font-size:18px; background-color: #bdbfbe">
@@ -68,6 +66,9 @@ $couldntGetCaps ?? false;
         </div>
     </div>
 <?php elseif ($gotCaps): ?>
+    
+    <!-- floating popup gotCaps -->
+
     <div id="daily2" class="toast2 align-items-center" role="alert" aria-live="assertive" aria-atomic="true"
         data-bs-autohide="false" style="text-align:center; font-size:18px; background-color: #bdbfbe">
         <div class=" d-flex" style="justify-content: center;">
@@ -83,6 +84,9 @@ $couldntGetCaps ?? false;
         </div>
     </div>
 <?php elseif ($couldntGetCaps): ?>
+    
+    <!-- floating popup error got caps -->
+
     <div id="daily3" class="toast2 align-items-center" role="alert" aria-live="assertive" aria-atomic="true"
         data-bs-autohide="false" style="text-align:center; font-size:18px; background-color: #bdbfbe">
         <div class=" d-flex" style="justify-content: center;">
@@ -102,8 +106,6 @@ $couldntGetCaps ?? false;
 
 
 <div class="card text-center" style="background-color: #303030;">
-
-    <!-- floating popup getCaps -->
 
     <div class="card-body" style="padding-top:200px; padding-bottom: 200px;">
 

@@ -44,4 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }
 }
 
+$canGetCaps = true;
+
 require 'views/index.php';
