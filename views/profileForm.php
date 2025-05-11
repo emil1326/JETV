@@ -58,13 +58,14 @@ legend {
                         <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" value="<?= $pass2 ?? '' ?>">
                     </div>
                 </fieldset>
+                <input type="hidden" name="Modifier" value="true">
                 <button type="submit" class="btn btn-primary">Modifier</button>
                 <a class="btn btn-secondary" role="button" href="/">Annuler</a>
             </form>
-            <form action="upload.php" method="post" enctype="multipart/form-data">
-            Select image to upload:
-            <input type="file" name="fileToUpload" id="fileToUpload">
-            <input type="submit" value="Upload Image" name="submit">
+            <form action="/profileForm" method="post" enctype="multipart/form-data">
+                <label for="fileToUpload">Changer l'image de profil :</label>
+                <input type="file" name="fileToUpload" id="fileToUpload" class="form-control mb-3">
+                <button type="submit" class="btn btn-primary" name="submit">Mettre à jour l'image</button>
             </form>
         </div>
 

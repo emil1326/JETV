@@ -127,20 +127,34 @@ class UserModel extends Model
     }
     public function updateUser(string $username, string $firstName, string $lastName, int $id): bool
     {
-        // try {
+        try {
             $stm = $this->pdo->prepare('call ModifyUser(?, ?, ?, ?)');
             $stm->execute([$username, $lastName, $firstName, $id]);
             return true;
-        // } 
+        } catch (PDOException $e) {
+            return false;
+        }
     }
     public function updatePassword(int $id, string $password): bool
     {
-        // try {
+        try {
             $stm = $this->pdo->prepare('call ChangePassword(?, ?)');
             $stm->execute([$id, $password]);
             return true;
-        // } catch (PDOException $e) {
-        //     return false;
-        // }
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+    public function updateUserProfileImage(int $id, string $profileImage): bool
+    {
+        try {
+            $stm = $this->pdo->prepare('UPDATE joueure SET playerImageLink = :profileImage WHERE joueureID = :id');
+            $stm->bindValue(':profileImage', $profileImage, PDO::PARAM_STR);
+            $stm->bindValue(':id', $id, PDO::PARAM_INT);
+            $stm->execute();
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
     }
 }

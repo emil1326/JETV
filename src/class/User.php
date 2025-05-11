@@ -122,6 +122,6 @@ class User
     // cannot set is admin
     public function setProfileImage(string $profileImage)
     {
-        $this->profileImage = (int)$profileImage;
+        $this->profileImage = $profileImage;
     }
 }
