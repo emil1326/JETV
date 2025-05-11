@@ -37,7 +37,7 @@ class CommentModel extends Model
             throw new PDOException($e->getMessage(), $e->getCode());
         }
     }
-    public function getAllCommentsOnItem(int $itemID): null|array
+    public function selectAllByItemId(int $itemID): null|array
     {
         try {
             $stm = $this->pdo->prepare('GetAllCommentaires(:id)');

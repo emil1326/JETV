@@ -4,7 +4,10 @@ if (isAuthenticated()) {
 } else {
     $auth = false;
 }
+
 require 'models/ShopModel.php';
+require 'models/CommentModel.php';
+
 
 $pdo = Database::getInstance()->getPDO();
 
@@ -101,5 +104,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 } else {
     redirect("/");  // todo change vers une page custom ??
 }
+
+$commentModel = new CommentModel($pdo);
+//$comments = $commentModel->selectAllByItemId($itemID);
 
 require 'views/details.php';
