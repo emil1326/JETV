@@ -56,25 +56,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Allow only specific file formats
-        if (!in_array($imageFileType, ['jpg', 'jpeg', 'png', 'gif'])) {
+        if (!in_array($imageFileType, ['jpg', 'jpeg', 'png', 'gif', 'webp'])) {
             $messageKey = "Seuls les fichiers JPG, JPEG, PNG et GIF sont autorisés.";
             $uploadOk = 0;
         }
 
         // Attempt to upload the file
         if ($uploadOk && move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $targetFile)) {
-            // Update the user's profile image URI in the database
             $model->updateUserProfileImage($_SESSION['playerID'], $fileName);
             $messageKey = "L'image de profil a été mise à jour avec succès.";
         } else {
-            // Debugging: Check why move_uploaded_file failed
-            if (!is_writable($targetDir)) {
-                $messageKey = "Le dossier cible n'est pas accessible en écriture.";
-            } elseif (!file_exists($_FILES["fileToUpload"]["tmp_name"])) {
-                $messageKey = "Le fichier temporaire n'existe pas.";
-            } else {
-                $messageKey = "Désolé, une erreur s'est produite lors du téléchargement de votre fichier.";
-            }
+            $messageKey = "Désolé, une erreur s'est produite lors du téléchargement de votre fichier.";
         }
     }
 }
