@@ -57,10 +57,9 @@ if (!isset($couldntGetCaps))
             <div class="toast-body" style="color:black;">
                 Hello! Réclamez vos 200 caps quotidien !
 
-
                 <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="toast" aria-label="Close"
-                    style="background-color:black; border:none; margin-left:10px; font-size:18px;">Claim</button>
-
+                    style="background-color:black; border:none; margin-left:10px; font-size:18px;"
+                    onclick="window.location.href='?getCaps'">Claim</button>
 
             </div>
         </div>

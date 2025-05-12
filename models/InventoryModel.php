@@ -85,7 +85,7 @@ class InventoryModel extends ItemModel
         }
     }
 
-    public function sellItem(int $itemID, int $playerID, int $quantity)
+    public function sellItem(int $itemID, int $playerID, int $quantity): bool
     {
         try {
             $stm = $this->pdo->prepare('call SellItem( :itemID , :playerID , :qt )');

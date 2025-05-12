@@ -238,6 +238,17 @@ create table playerQuests
     primary key (joueureID, questID)
 );
 
+-- player last time --
+
+create table lastTimeTable
+(
+	playerID int not null,
+    
+    foreign key (playerID) references joueure(joueureID),
+    
+	lastTime int
+)
+
 -- [  VIEWS  ] --
 
 -- removed les view pcq sa aide pas pis sa add du clutter pour a rien

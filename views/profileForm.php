@@ -17,6 +17,15 @@ legend {
     width: auto;
     padding: 2px;
 }
+.profile-image {
+    display: block;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 2px solid #ccc;
+}
 </style>
 <div class="container marketing">
 
@@ -58,11 +67,18 @@ legend {
                         <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" value="<?= $pass2 ?? '' ?>">
                     </div>
                 </fieldset>
-
-                <div class="mb-3">
-                    <label for="fileToUpload">Changer l'image de profil :</label>
-                    <input type="file" name="fileToUpload" id="fileToUpload" class="form-control">
-                </div>
+                <br>
+                <fieldset class="mb-3">
+                <legend class="col-form-label pt-0">Modifier Image de Profile : </legend>
+                    <div class="text-center">
+                        <img src="public/images/users/<?= $user->getProfileImage() ?>" alt="Profile Image" class="profile-image">
+                    </div>
+                    <div class="mb-3">
+                        <label for="fileToUpload">Changer l'image de profil :</label>
+                        <input type="file" name="fileToUpload" id="fileToUpload" class="form-control">
+                    </div>
+                </fieldset>
+                
 
                 <button type="submit" class="btn btn-primary">Modifier</button>
                 <a class="btn btn-secondary" role="button" href="/">Annuler</a>

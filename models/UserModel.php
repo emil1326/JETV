@@ -157,4 +157,30 @@ class UserModel extends Model
             return false;
         }
     }
+    public function getLastCapsTime(int $playerID): int
+    {
+        // fuck it :p
+        $stm = $this->pdo->prepare('select lastTime from lastTimeTable where playerID = :playerID');
+        $stm->bindValue(':playerID', $playerID, PDO::PARAM_INT);
+        $stm->execute();
+
+        $data = $stm->fetch(PDO::FETCH_ASSOC);
+
+        if (!empty($data) && isset($data['lastTime'])) {
+            return (int)$data['lastTime'];
+        }
+        return 0;
+    }
+    public function updateLastCapsTime(int $playerID, int $time): bool
+    {
+        try {
+            $stm = $this->pdo->prepare('INSERT INTO lastTimeTable (playerID, lastTime) VALUES (:playerID, :time) ON DUPLICATE KEY UPDATE lastTime = :time');
+            $stm->bindValue(':time', $time, PDO::PARAM_INT);
+            $stm->bindValue(':playerID', $playerID, PDO::PARAM_INT);
+            $stm->execute();
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
 }

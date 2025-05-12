@@ -124,14 +124,15 @@ $comments = $commentModel->selectAllByItemId($itemID);
 $userModel = new UserModel($pdo);
 
 $commentsData = [];
-foreach ($comments as $comment) {
-    $user = $userModel->selectById($comment->getUserId());
-    $commentsData[] = [
-        "username" => $user->getUsername(),
-        "userProfileImage" => $user->getProfileImage(),
-        "comment" => $comment->getComment(),
-        "starCount" => $comment->getStarCount()
-    ];
-}
+if (isset($comments))
+    foreach ($comments as $comment) {
+        $user = $userModel->selectById($comment->getUserId());
+        $commentsData[] = [
+            "username" => $user->getUsername(),
+            "userProfileImage" => $user->getProfileImage(),
+            "comment" => $comment->getComment(),
+            "starCount" => $comment->getStarCount()
+        ];
+    }
 
 require 'views/details.php';

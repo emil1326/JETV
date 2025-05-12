@@ -115,7 +115,7 @@ class QuestModel extends Model
         }
         return null;
     }
-    public function GetAnswersByQuestionId(int $id)
+    public function GetAnswersByQuestionId(int $id): array|null
     {
         $stm = $this->pdo->prepare('call GetOneQuestionAndAwnserByID(:id)');
         $stm->bindValue(':id', $id, PDO::PARAM_INT);
