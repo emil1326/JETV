@@ -218,105 +218,106 @@ require 'views/partials/header.php';
     <p style="margin:0px; font-size:23px; font-weight: bold;"> Backpack </p>
 </div>
 <div id="allShop">
+    <?php if (isset($items)): ?>
+        <form id='main-form' method='GET'>
 
-    <form id='main-form' method='GET'>
+            <!--  TODO: Add Name in form (search filters) -->
 
-        <!--  TODO: Add Name in form (search filters) -->
+            <div id="form-check-section">
 
-        <div id="form-check-section">
+                <p>Types</p>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="1" id="armes" name="type_arme"
+                        <?= updateCheckField('arme', $types ?? []) ?>>
+                    <label class="form-check-label" for="armes">
+                        Armes
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="1" id="armures" name="type_armure"
+                        <?= updateCheckField('armure', $types ?? []) ?>>
+                    <label class="form-check-label" for="armures">
+                        Armures
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="1" id="meds" name="type_med"
+                        <?= updateCheckField('med', $types ?? []) ?>>
+                    <label class="form-check-label" for="meds">
+                        Médicaments
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="1" id="food" name="type_food"
+                        <?= updateCheckField('food', $types ?? []) ?>>
+                    <label class="form-check-label" for="food">
+                        Nourriture
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="1" id="munitions" name="type_mun"
+                        <?= updateCheckField('mun', $types ?? []) ?>>
+                    <label class="form-check-label" for="munitions">
+                        Munitions
+                    </label>
+                </div>
 
-            <p>Types</p>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="1" id="armes" name="type_arme"
-                    <?= updateCheckField('arme', $types ?? []) ?>>
-                <label class="form-check-label" for="armes">
-                    Armes
-                </label>
+                <br>
+
+                <div data-mdb-input-init class="form-outline">
+                    <label for="postfix" class="form-label" style="display: inline;">Price Range</label>
+                    <input id="postfix" value="<?= $filters['price_min'] ?? '' ?>" type="number" id="form2" name="price_min"
+                        class="form-control" placeholder="Min" style="height:30px; margin-top: 5px;" />
+                </div>
+
+                <div data-mdb-input-init class="form-outline">
+                    <input id="postfix" value="<?= $filters['price_max'] ?? '' ?>" type="number" id="form2" name="price_max"
+                        class="form-control" placeholder="Max" style="height:30px;" />
+                </div>
+                <br>
+
+                <input type='submit' value='Search'>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="1" id="armures" name="type_armure"
-                    <?= updateCheckField('armure', $types ?? []) ?>>
-                <label class="form-check-label" for="armures">
-                    Armures
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="1" id="meds" name="type_med"
-                    <?= updateCheckField('med', $types ?? []) ?>>
-                <label class="form-check-label" for="meds">
-                    Médicaments
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="1" id="food" name="type_food"
-                    <?= updateCheckField('food', $types ?? []) ?>>
-                <label class="form-check-label" for="food">
-                    Nourriture
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="1" id="munitions" name="type_mun"
-                    <?= updateCheckField('mun', $types ?? []) ?>>
-                <label class="form-check-label" for="munitions">
-                    Munitions
-                </label>
-            </div>
 
-            <br>
-
-            <div data-mdb-input-init class="form-outline">
-                <label for="postfix" class="form-label" style="display: inline;">Price Range</label>
-                <input id="postfix" value="<?= $filters['price_min'] ?? '' ?>" type="number" id="form2" name="price_min"
-                    class="form-control" placeholder="Min" style="height:30px; margin-top: 5px;" />
-            </div>
-
-            <div data-mdb-input-init class="form-outline">
-                <input id="postfix" value="<?= $filters['price_max'] ?? '' ?>" type="number" id="form2" name="price_max"
-                    class="form-control" placeholder="Max" style="height:30px;" />
-            </div>
-            <br>
-
-            <input type='submit' value='Search'>
-        </div>
-
-    </form>
-
+        </form>
+    <?php endif ?>
 
 
 
     <div id="shopitems" style="display:flex; flex-direction: column; max-width:1000px; row-gap: 40px;">
-        <div id="formCrit">
-            <p style="margin-bottom:0px; margin-right:0px; width:60px"> Nom : </p>
-            <div class="input-group rounded"
-                style="width:100%; background-color:#1E1E1E; border:1px  #6c757d solid; border-radius:100px !important; color:white;">
-                <input form='main-form' id="search" type="search" name='name' class="form-control rounded searchy"
-                    placeholder="Search" value="<?= $filters['name'] ?? '' ?>" aria-label="Search"
-                    style="background-color:#1E1E1E; border:0px;border-radius:100px !important; color:white;"
-                    aria-describedby="search-addon" />
-                <span class="input-group-text border-0" id="search-addon"
-                    style="border-radius:100px !important; background-color:#1E1E1E; color:white;">
-                    <i class="fas fa-search"></i>
-                </span>
+        <?php if (isset($items)): ?>
+            <div id="formCrit">
+                <p style="margin-bottom:0px; margin-right:0px; width:60px"> Nom : </p>
+                <div class="input-group rounded"
+                    style="width:100%; background-color:#1E1E1E; border:1px  #6c757d solid; border-radius:100px !important; color:white;">
+                    <input form='main-form' id="search" type="search" name='name' class="form-control rounded searchy"
+                        placeholder="Search" value="<?= $filters['name'] ?? '' ?>" aria-label="Search"
+                        style="background-color:#1E1E1E; border:0px;border-radius:100px !important; color:white;"
+                        aria-describedby="search-addon" />
+                    <span class="input-group-text border-0" id="search-addon"
+                        style="border-radius:100px !important; background-color:#1E1E1E; color:white;">
+                        <i class="fas fa-search"></i>
+                    </span>
+                </div>
+                <div id='sort-options-radio-buttons' id="taggies" style="display:none;">
+                    <input form='main-form' value='price' type="radio" class="btn-check" name="sort_options" id="option1"
+                        autocomplete="off" <?= $filters['sort_options'] == 'price' ? ' checked style="border-radius:100px"' : '' ?>>
+                    <label class=" btn btn-secondary" for="option1">Prix</label>
+
+                    <input form='main-form' value='utility' type="radio" class="btn-check" name="sort_options" id="option2"
+                        autocomplete="off" <?= $filters['sort_options'] == 'utility' ? ' checked style="border-radius:100px"' : '' ?>>
+                    <label class="btn btn-secondary" for="option2">Utilité</label>
+
+                    <input form='main-form' value='weight' type="radio" class="btn-check" name="sort_options" id="option3"
+                        autocomplete="off" <?= $filters['sort_options'] == 'weight' ? ' checked style="border-radius:100px"' : '' ?>>
+                    <label class="btn btn-secondary" for="option3">Poids</label>
+
+                    <input form='main-form' value='quantity' type="radio" class="btn-check" name="sort_options" id="option4"
+                        autocomplete="off" <?= $filters['sort_options'] == 'quantity' ? ' checked style="border-radius:100px"' : '' ?>>
+                    <label class="btn btn-secondary" for="option4">Quantité</label>
+                </div>
             </div>
-            <div id='sort-options-radio-buttons' id="taggies" style="display:none;">
-                <input form='main-form' value='price' type="radio" class="btn-check" name="sort_options" id="option1"
-                    autocomplete="off" <?= $filters['sort_options'] == 'price' ? ' checked style="border-radius:100px"' : '' ?>>
-                <label class=" btn btn-secondary" for="option1">Prix</label>
-
-                <input form='main-form' value='utility' type="radio" class="btn-check" name="sort_options" id="option2"
-                    autocomplete="off" <?= $filters['sort_options'] == 'utility' ? ' checked style="border-radius:100px"' : '' ?>>
-                <label class="btn btn-secondary" for="option2">Utilité</label>
-
-                <input form='main-form' value='weight' type="radio" class="btn-check" name="sort_options" id="option3"
-                    autocomplete="off" <?= $filters['sort_options'] == 'weight' ? ' checked style="border-radius:100px"' : '' ?>>
-                <label class="btn btn-secondary" for="option3">Poids</label>
-
-                <input form='main-form' value='quantity' type="radio" class="btn-check" name="sort_options" id="option4"
-                    autocomplete="off" <?= $filters['sort_options'] == 'quantity' ? ' checked style="border-radius:100px"' : '' ?>>
-                <label class="btn btn-secondary" for="option4">Quantité</label>
-            </div>
-        </div>
-
+        <?php endif ?>
 
 
         <div class="masonry">
@@ -346,7 +347,7 @@ require 'views/partials/header.php';
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
-                <div style="margin-right: 20vw;"> <!-- todo justify center -->
+                <div> <!-- todo justify center -->
                     Rien a afficher ici <br>
                 </div>
             <?php endif ?>

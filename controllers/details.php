@@ -16,6 +16,9 @@ $pdo = Database::getInstance()->getPDO();
 
 # output => one item or redirect to menu or use item or redirect ot backpack
 
+
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $parts = parse_url($_SERVER['REQUEST_URI']);
     parse_str($parts['query'], $query);
@@ -51,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 redirect('/details?itemID=' . $itemID . '&isPlayer&error=peuPasVendre');
         }
 
-        $result  = $inventoryModel->selectOne($itemID, $_SESSION['playerID']);
+        $result = $inventoryModel->selectOne($itemID, $_SESSION['playerID']);
         if ($result !== null) {
             [$item, $qt] = [$result['item'], $result['quantity']];
         } else {
@@ -93,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         elseif ($query['error'] == 'peuPasAcheter')
             $peuPasAcheter = true;
 
-    $attributes =  $item->getAttributes();
+    $attributes = $item->getAttributes();
 
     if ($item == null)
         if (isset($query['isPlayer']))
@@ -104,6 +107,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 } else {
     redirect("/");  // todo change vers une page custom ??
 }
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['content'])) {
+    $commentText = trim($_POST['content']);
+    $itemID = $item->getId();
+    $joueureID = $user->getId();
+
+    if (!empty($commentText)) {
+        try {
+            $stmt = $pdo->prepare("INSERT INTO commentaires (itemID, joueureID, commentaire) VALUES (:itemID, :joueureID, :commentaire)");
+            $stmt->bindValue(':itemID', $itemID, PDO::PARAM_INT);
+            $stmt->bindValue(':joueureID', $joueureID, PDO::PARAM_INT);
+            $stmt->bindValue(':commentaire', $commentText, PDO::PARAM_STR);
+            $stmt->execute();
+
+            redirect('/details?itemID=' . $itemID);
+        } catch (PDOException $e) {
+            echo "Erreur lors de l'ajout du commentaire : " . $e->getMessage();
+        }
+    }
+}
+
 
 $commentModel = new CommentModel($pdo);
 $comments = $commentModel->selectAllByItemId($itemID);
@@ -117,7 +141,7 @@ foreach ($comments as $comment) {
         "username" => $user->getUsername(),
         "userProfileImage" => $user->getProfileImage(),
         "comment" => $comment->getComment(),
-        "starCount" => $comment->getStarCount(),
+        "starCount" => $comment->getStarCount()
     ];
 }
 
