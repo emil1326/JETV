@@ -2,13 +2,10 @@
 require 'views/partials/head.php';
 require 'views/partials/header.php';
 
-if (!isset($canGetCaps))
     $canGetCaps = false;
 
-if (!isset($gotCaps))
     $gotCaps = false;
 
-if (!isset($couldntGetCaps))
     $couldntGetCaps = false;
 
 ?>

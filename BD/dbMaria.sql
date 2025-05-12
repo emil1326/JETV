@@ -20,6 +20,7 @@ drop table if exists item cascade;
 drop table if exists responseStreak cascade;
 drop table if exists playerQuests cascade;
 drop table if exists joueure cascade;
+drop table if exists lastTimeTable cascade;
 
 -- [ tables ] --
 
