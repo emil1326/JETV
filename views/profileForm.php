@@ -27,7 +27,7 @@ legend {
 
         <div class="col-lg-6 mx-auto ">
 
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
 
                 <p><?= $messageKey ?? '' ?></p>
 
@@ -58,14 +58,14 @@ legend {
                         <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" value="<?= $pass2 ?? '' ?>">
                     </div>
                 </fieldset>
-                <input type="hidden" name="Modifier" value="true">
+
+                <div class="mb-3">
+                    <label for="fileToUpload">Changer l'image de profil :</label>
+                    <input type="file" name="fileToUpload" id="fileToUpload" class="form-control">
+                </div>
+
                 <button type="submit" class="btn btn-primary">Modifier</button>
                 <a class="btn btn-secondary" role="button" href="/">Annuler</a>
-            </form>
-            <form action="/profileForm" method="post" enctype="multipart/form-data">
-                <label for="fileToUpload">Changer l'image de profil :</label>
-                <input type="file" name="fileToUpload" id="fileToUpload" class="form-control mb-3">
-                <button type="submit" class="btn btn-primary" name="submit">Mettre à jour l'image</button>
             </form>
         </div>
 
