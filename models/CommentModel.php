@@ -17,7 +17,7 @@ class CommentModel extends Model
 
         # todo fix this, pas utuliser les bonnes choses => foreach line, get comment, pas par user, pour evals use procedure
         try {
-            $stm = $this->pdo->prepare('SELECT itemID, joueureID, commentaireID, commentaire FROM commentaires WHERE commentaireID=:id');
+            $stm = $this->pdo->prepare('SELECT itemID, joueureID, commentaireID, commentaire, evaluations FROM commentaires WHERE commentaireID=:id');
             $stm->bindValue(':id', $id, PDO::PARAM_INT);
             $stm->execute();
 
@@ -29,6 +29,7 @@ class CommentModel extends Model
                     $data['joueureID'],
                     $id,
                     $data['commentaire'],
+                    $data['evaluations'],
                 );
             }
 
@@ -53,6 +54,7 @@ class CommentModel extends Model
                         $row['joueureID'],
                         $itemID,
                         $row['commentaire'],
+                        $row['evaluations'],
                     );
                 }
                 return $items;

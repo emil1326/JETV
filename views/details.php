@@ -272,7 +272,9 @@ $inShop ?? false;
                     <div style="display: flex; margin: 20px; padding-top: 20px;">
                         <img src="public/images/users/<?= $comment['userProfileImage']; ?>" class="rounded-circle"
                             style="width: 30px; border-radius:10% !important; cursor:pointer;" alt="Avatar" />
-                        <p style="margin-left: 10px;"><?= $comment['username']; ?></p>
+                        <p style="margin-left: 10px; margin-right: 10px; text-align: center; margin-top: auto; margin-bottom: auto;"><?= $comment['username']; ?></p>
+                        <img src="public/images/ui/stars_<?= $comment['starCount'] ?>" class="rounded-circle"
+                            style="height: 30px; border-radius:10% !important; cursor:pointer;" alt="Avatar" />
                     </div>
                     <div style="margin-left: 20px;">
                         <p><?= $comment['comment']; ?></p>

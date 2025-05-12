@@ -12,6 +12,7 @@ drop table if exists Medicaments cascade;
 drop table if exists Nourriture cascade;
 drop table if exists Munition cascade;
 drop table if exists commentaires cascade;
+drop table if exists evaluations cascade;
 drop table if exists reponsesQuetes cascade;
 drop table if exists listeQuetes cascade;
 drop table if exists diffQuetes cascade;
@@ -160,11 +161,15 @@ create table commentaires
     
     foreign key (itemID) references item(itemID),
     foreign key (joueureID) references joueure(joueureID),
-    primary key (itemID, joueureID, commentaireID),
+    primary key (commentaireID),
+
+    commentaire varchar(1200),
+    evaluations smallint,  -- entre 1 et 5
     
-    commentaire varchar(1200)
+    constraint ck_Commentaire_Evaluation check(evaluations between 1 and 5)
 );
 
+--[ DEPRICATED ]--
 create table evaluations
 (
     itemID int,
@@ -177,7 +182,7 @@ create table evaluations
     evaluations smallint,  -- entre 1 et 10
     
     constraint ck_Commentaire_Evaluation check(evaluations between 1 and 10)    
-)
+);
 
 -- [ quetes ] --
 
@@ -825,11 +830,12 @@ delimiter //
 create procedure PostCommentaire(
     in p_itemID int,
     in p_joueureID int,
-    in p_commentaire varchar(1200)
+    in p_commentaire varchar(1200),
+    in p_evaluations int
 )
 begin
-    insert into commentaires (itemID, joueureID, commentaire)
-    values (p_itemID, p_joueureID, p_commentaire);
+    insert into commentaires (itemID, joueureID, commentaire, evaluations)
+    values (p_itemID, p_joueureID, p_commentaire, p_evaluations);
 end;
 //
 delimiter ;
@@ -2082,9 +2088,13 @@ select CreateJoueur('joueur3', 'Alice', 'Johnson', 'passalice');
 select CreateJoueur('playerA', 'firstname', 'lastname', 'password');
 
 -- evaluations 
-call CreateCommentaireEvaluation(1, 1, 1, 'Tres bon produit !', 5);
-call CreateCommentaireEvaluation(2, 2, 1, 'Pas mal, mais pourrait etre mieux.', 3);
-call CreateCommentaireEvaluation(3, 3, 1, 'Je ne suis pas satisfait.', 1);
+call PostCommentaire(5, 2, 'Superbe !!', 4);
+call PostCommentaire(5, 5, 'Épatant !!', 5);
+call PostCommentaire(5, 3, 'Ce n''est pas incroyable...', 2);
+
+-- call CreateCommentaireEvaluation(1, 1, 1, 'Tres bon produit !', 5);
+-- call CreateCommentaireEvaluation(2, 2, 1, 'Pas mal, mais pourrait etre mieux.', 3);
+-- call CreateCommentaireEvaluation(3, 3, 1, 'Je ne suis pas satisfait.', 1);
 
 -- [ php exemples ] -- 
 

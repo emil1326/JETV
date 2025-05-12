@@ -117,6 +117,7 @@ foreach ($comments as $comment) {
         "username" => $user->getUsername(),
         "userProfileImage" => $user->getProfileImage(),
         "comment" => $comment->getComment(),
+        "starCount" => $comment->getStarCount(),
     ];
 }
 
