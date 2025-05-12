@@ -10,12 +10,11 @@ require 'models/CommentModel.php';
 
 
 $pdo = Database::getInstance()->getPDO();
-
+$commentModel = new CommentModel($pdo);
 # input => playerID, itemID, fromCart = false
 # use buy sell quantity isPlayer
 
 # output => one item or redirect to menu or use item or redirect ot backpack
-
 
 
 
@@ -104,32 +103,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         else
             redirect('/'); // redirect to homepage si ni playerID ni itemID, peu pas show l'item -> apres avoir fais genre un sell buy use
 
+} else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $commentText = trim($_POST['comment']);
+
+    if (!empty($commentText) && isset($_POST['playerID'], $_POST['itemID'])) {
+        $commentModel->addComment($_POST['itemID'], $_POST['playerID'], $commentText);
+    }
+    redirect('/details?itemID=' . $_POST['itemID']);
 } else {
     redirect("/");  // todo change vers une page custom ??
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['content'])) {
-    $commentText = trim($_POST['content']);
-    $itemID = $item->getId();
-    $joueureID = $user->getId();
-
-    if (!empty($commentText)) {
-        try {
-            $stmt = $pdo->prepare("INSERT INTO commentaires (itemID, joueureID, commentaire) VALUES (:itemID, :joueureID, :commentaire)");
-            $stmt->bindValue(':itemID', $itemID, PDO::PARAM_INT);
-            $stmt->bindValue(':joueureID', $joueureID, PDO::PARAM_INT);
-            $stmt->bindValue(':commentaire', $commentText, PDO::PARAM_STR);
-            $stmt->execute();
-
-            redirect('/details?itemID=' . $itemID);
-        } catch (PDOException $e) {
-            echo "Erreur lors de l'ajout du commentaire : " . $e->getMessage();
-        }
-    }
-}
 
 
-$commentModel = new CommentModel($pdo);
+
+
 $comments = $commentModel->selectAllByItemId($itemID);
 
 $userModel = new UserModel($pdo);

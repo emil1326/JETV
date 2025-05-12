@@ -181,7 +181,7 @@ $inShop ?? false;
                     <div class="col-12">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <p style="color:white;"><?= $item->getName() ?> <?= $item->getBuyPrice() ?>$</p>
+                                <p style="color:white;"><?= $item->getName() ?>     <?= $item->getBuyPrice() ?>$</p>
                             </div>
                             <div class="input-group w-auto justify-content-end align-items-center">
                                 <input type="button" value="-"
@@ -224,7 +224,7 @@ $inShop ?? false;
                     <div class="col-12">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <p style="color:white;"><?= $item->getName() ?> <?= $item->getBuyPrice() ?>$</p>
+                                <p style="color:white;"><?= $item->getName() ?>     <?= $item->getBuyPrice() ?>$</p>
                             </div>
                             <div class="input-group w-auto justify-content-end align-items-center">
                                 <input type="button" value="-"
@@ -258,11 +258,14 @@ $inShop ?? false;
 
 
 <div id='commentSection'>
-    <form id='commentSection-form' method="post">
-        <label for='content'>Commentaire</label>
-        <textarea type='text' name='content' id='commentSection-form-content'></textarea>
-
-        <input type='submit'>
+    <form id="commentSection-form" class="form-comment mt-3" method="POST" action="/details">
+        <div class="form-group">
+            <label for="comment">Ajouter un commentaire :</label>
+            <input type="hidden" name="itemID" value="<?= $item->getId() ?>">
+            <input type="hidden" name="playerID" value="<?= $user->getId() ?>">
+            <textarea class="form-control" id="comment" name="comment" rows="3" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary mt-2">Envoyer</button>
     </form>
 
     <div>
@@ -272,7 +275,10 @@ $inShop ?? false;
                     <div style="display: flex; margin: 20px; padding-top: 20px;">
                         <img src="public/images/users/<?= $comment['userProfileImage']; ?>" class="rounded-circle"
                             style="width: 30px; border-radius:10% !important; cursor:pointer;" alt="Avatar" />
-                        <p style="margin-left: 10px; margin-right: 10px; text-align: center; margin-top: auto; margin-bottom: auto;"><?= $comment['username']; ?></p>
+                        <p
+                            style="margin-left: 10px; margin-right: 10px; text-align: center; margin-top: auto; margin-bottom: auto;">
+                            <?= $comment['username']; ?>
+                        </p>
                         <img src="public/images/ui/stars_<?= $comment['starCount'] ?>" class="rounded-circle"
                             style="height: 30px; border-radius:10% !important; cursor:pointer;" alt="Avatar" />
                     </div>
@@ -287,9 +293,6 @@ $inShop ?? false;
 
 
 <script>
-    $("#commentSection-form").on('submit', (e) => {
-
-    });
 
     function incrementValue(e) {
         e.preventDefault();
@@ -341,15 +344,15 @@ $inShop ?? false;
     }
 
     // Attach event listeners using event delegation
-    $(document).on('click', '.button-plus', function(e) {
+    $(document).on('click', '.button-plus', function (e) {
         incrementValue(e);
     });
 
-    $(document).on('click', '.button-minus', function(e) {
+    $(document).on('click', '.button-minus', function (e) {
         decrementValue(e);
     });
 
-    $(document).on('change', '.quantity-field', function(e) {
+    $(document).on('change', '.quantity-field', function (e) {
         setValue(e);
     });
 </script>
