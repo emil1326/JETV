@@ -1,5 +1,5 @@
 <?php
-
+isAuthenticated();
 $selectedMember = null;
 
 if (isset($_GET['Member']))
