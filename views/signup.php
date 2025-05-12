@@ -1,6 +1,12 @@
 <?php
 require 'partials/head.php';
 require 'partials/header.php';
+
+$messageKey = $messageKey ?? '';
+
+if (!isset($messageKey) || $messageKey != null)
+    $messageKey = '';
+
 ?>
 <div class="container marketing">
 
@@ -13,7 +19,11 @@ require 'partials/header.php';
 
             <form method="post">
 
-                <?= $messageKey ?? '' ?>
+                <?php if ($messageKey != ''): ?>
+                    <div class="alert alert-danger">
+                        <?= $messageKey ?>
+                    </div>
+                <?php endif; ?>
 
                 <div class="mb-3">
                     <label for="firstName" class="form-label">Prénom</label>
