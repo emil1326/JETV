@@ -107,8 +107,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     $commentText = trim($_POST['comment']);
 
-    if (!empty($commentText) && isset($_POST['playerID'], $_POST['itemID'])) {
-        $commentModel->addComment($_POST['itemID'], $_POST['playerID'], $commentText);
+    if (!empty($commentText) && isset($_POST['playerID'], $_POST['itemID'], $_POST['stars'])) {
+        $commentModel->addComment($_POST['itemID'], $_POST['playerID'], $commentText, $_POST['stars']);
     }
     redirect('/details?itemID=' . $_POST['itemID']);
 } else {

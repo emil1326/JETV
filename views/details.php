@@ -258,20 +258,42 @@ $inShop ?? false;
 
 
 <div id='commentSection'>
-    <form id="commentSection-form" class="form-comment mt-3" method="POST" action="/details">
+    <h1 style="margin-top:20px;text-align:center; font-size:23px; font-weight: bold;">Commentaires</h1>
+    <form id="commentSection-form" class="form-comment mt-3" method="POST" action="/details" style="width: 80%;
+  justify-content: center;
+  display: flex;
+  align-content: center;
+  flex-direction: column;
+  margin:auto">
         <div class="form-group">
-            <label for="comment">Ajouter un commentaire :</label>
+            <label for="comment" style="font-size:19px">Ajouter un commentaire :</label>
             <input type="hidden" name="itemID" value="<?= $item->getId() ?>">
             <input type="hidden" name="playerID" value="<?= $user->getId() ?>">
             <textarea class="form-control" id="comment" name="comment" rows="3" required></textarea>
         </div>
-        <button type="submit" class="btn btn-primary mt-2">Envoyer</button>
+        <div style="display:flex; flex-direction:row ;">
+            <select name="stars" id="stars" class="form-select mb-2"
+                style="margin-bottom: 0px !important;flex:1; background-color:#303030; border:none; color:white;"
+                required>
+                <option value="">Choisir une note</option>
+                <option value="1">⭐ </option>
+                <option value="2">⭐⭐ </option>
+                <option value="3">⭐⭐⭐ </option>
+                <option value="4">⭐⭐⭐⭐ </option>
+                <option value="5">⭐⭐⭐⭐⭐ </option>
+            </select>
+
+            <button type="submit" class="btn btn-primary mt-2"
+                style="margin-top:0px !important;flex:1;background-color:#303030; border:none;"><i
+                    class="fas fa-paper-plane"></i></button>
+
+        </div>
     </form>
 
     <div>
         <?php if (isset($commentsData) && $commentsData != null): ?>
             <?php foreach ($commentsData as $comment): ?>
-                <div style="background-color: #303030; height: 120px; margin: 20px;">
+                <div style="background-color: #303030; height: auto;  padding-bottom: 10px; margin: 20px;">
                     <div style="display: flex; margin: 20px; padding-top: 20px;">
                         <img src="public/images/users/<?= $comment['userProfileImage']; ?>" class="rounded-circle"
                             style="width: 30px; border-radius:10% !important; cursor:pointer;" alt="Avatar" />
