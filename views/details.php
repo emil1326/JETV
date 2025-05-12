@@ -270,7 +270,7 @@ $inShop ?? false;
             <?php foreach ($commentsData as $comment): ?>
                 <div style="background-color: #303030; height: 120px; margin: 20px;">
                     <div style="display: flex; margin: 20px; padding-top: 20px;">
-                        <img src="public/images/users/<?= $user->getprofileimage(); ?>" class="rounded-circle"
+                        <img src="public/images/users/<?= $comment['userProfileImage']; ?>" class="rounded-circle"
                             style="width: 30px; border-radius:10% !important; cursor:pointer;" alt="Avatar" />
                         <p style="margin-left: 10px;"><?= $comment['username']; ?></p>
                     </div>
