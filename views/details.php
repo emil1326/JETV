@@ -258,7 +258,7 @@ $inShop ?? false;
 
 
 <div id='commentSection'>
-    <form id='commentSection-form'>
+    <form id='commentSection-form' method="post">
         <label for='content'>Commentaire</label>
         <textarea type='text' name='content' id='commentSection-form-content'></textarea>
 
@@ -266,9 +266,18 @@ $inShop ?? false;
     </form>
 
     <div>
-        <?php if ($comment != null): ?>
-            <?php foreach ($comments as $comment): ?>
-
+        <?php if (isset($commentsData) && $commentsData != null): ?>
+            <?php foreach ($commentsData as $comment): ?>
+                <div style="background-color: #303030; height: 120px; margin: 20px;">
+                    <div style="display: flex; margin: 20px; padding-top: 20px;">
+                        <img src="public/images/users/<?= $user->getprofileimage(); ?>" class="rounded-circle"
+                            style="width: 30px; border-radius:10% !important; cursor:pointer;" alt="Avatar" />
+                        <p style="margin-left: 10px;"><?= $comment['username']; ?></p>
+                    </div>
+                    <div style="margin-left: 20px;">
+                        <p><?= $comment['comment']; ?></p>
+                    </div>
+                </div>
             <?php endforeach; ?>
         <?php endif; ?>
     </div>
@@ -276,6 +285,10 @@ $inShop ?? false;
 
 
 <script>
+    $("#commentSection-form").on('submit', (e) => {
+
+    });
+
     function incrementValue(e) {
         e.preventDefault();
         const button = $(e.target);

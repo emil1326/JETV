@@ -40,16 +40,16 @@ class CommentModel extends Model
     public function selectAllByItemId(int $itemID): null|array
     {
         try {
-            $stm = $this->pdo->prepare('GetAllCommentaires(:id)');
+            $stm = $this->pdo->prepare('call GetAllCommentaires(:id)');
             $stm->bindValue(':id', $itemID, PDO::PARAM_INT);
             $stm->execute();
 
-            $data = $stm->fetch(PDO::FETCH_ASSOC);
+            $data = $stm->fetchAll(PDO::FETCH_ASSOC);
 
             if (!empty($data)) {
                 foreach ($data as $row) {
                     $items[] = new Comment(
-                        $row['itemID'],
+                        $row['commentaireID'],
                         $row['joueureID'],
                         $itemID,
                         $row['commentaire'],

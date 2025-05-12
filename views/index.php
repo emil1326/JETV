@@ -48,14 +48,14 @@ if (!isset($couldntGetCaps))
 <!-- comment -->
 
 <?php if ($canGetCaps): ?>
-    
+
     <!-- floating popup getCaps -->
 
     <div id="daily" class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true"
         data-bs-autohide="false" style="text-align:center; font-size:18px; background-color: #bdbfbe">
         <div class=" d-flex" style="justify-content: center;">
             <div class="toast-body" style="color:black;">
-                Hello! Réclamez vos 200 caps journalier.
+                Hello! Réclamez vos 200 caps quotidien !
 
 
                 <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="toast" aria-label="Close"
@@ -66,7 +66,7 @@ if (!isset($couldntGetCaps))
         </div>
     </div>
 <?php elseif ($gotCaps): ?>
-    
+
     <!-- floating popup gotCaps -->
 
     <div id="daily2" class="toast2 align-items-center" role="alert" aria-live="assertive" aria-atomic="true"
@@ -84,7 +84,7 @@ if (!isset($couldntGetCaps))
         </div>
     </div>
 <?php elseif ($couldntGetCaps): ?>
-    
+
     <!-- floating popup error got caps -->
 
     <div id="daily3" class="toast2 align-items-center" role="alert" aria-live="assertive" aria-atomic="true"

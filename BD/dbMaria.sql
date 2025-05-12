@@ -156,7 +156,7 @@ create table commentaires
 (
     itemID int,
     joueureID int,
-    commentaireID int,
+    commentaireID int auto_increment,
     
     foreign key (itemID) references item(itemID),
     foreign key (joueureID) references joueure(joueureID),

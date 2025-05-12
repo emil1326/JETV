@@ -160,7 +160,7 @@
                 $user = $userModel->selectById($_SESSION['playerID']);
                 ?>
                 <div id="profilNotCollapse">
-                    <img src="public/images/users/<?= $user->getProfileImage(); ?>" class="rounded-circle"
+                    <img src="public/images/users/<?= $user->getprofileimage(); ?>" class="rounded-circle"
                         style="width: 50px; border-radius:10% !important; cursor:pointer;" alt="Avatar" />
                     <a href="/profileForm" class="profile-link" style="margin:0px; margin-left:20px;">
                         <?= $user->getUsername(); ?>
@@ -260,38 +260,38 @@
                             </div>
                         <?php endif; ?>
                         <a class="nav-link navtagsw nopadding <?php if (isset($accueilActif) && $accueilActif)
-                            echo 'active' ?>" aria-current="page" href="/">Accueil</a>
-                        </li>
-                        <li class="nav-item nopadding">
-                            <a class="nav-link navtagsw nopadding <?php if (isset($shopActif) && $shopActif)
-                            echo 'active' ?>" href="/shop">Shop</a>
-                        </li>
+                                                                    echo 'active' ?>" aria-current="page" href="/">Accueil</a>
+                    </li>
+                    <li class="nav-item nopadding">
+                        <a class="nav-link navtagsw nopadding <?php if (isset($shopActif) && $shopActif)
+                                                                    echo 'active' ?>" href="/shop">Shop</a>
+                    </li>
                     <?php if (isAuthenticated()): ?>
                         <li class="nav-item nopadding">
                             <a class="nav-link navtagsw nopadding <?php if (isset($enigmaActif) && $enigmaActif)
-                                echo 'active' ?>" href="/enigma">Enigma</a>
-                            </li>
+                                                                        echo 'active' ?>" href="/enigma">Enigma</a>
+                        </li>
 
-                            <li class="nav-item nopadding">
-                                <a class="nav-link navtagsw nopadding <?php if (isset($backActif) && $backActif)
-                                echo 'active' ?>" href="/backpack">Backpack</a>
-                            </li>
+                        <li class="nav-item nopadding">
+                            <a class="nav-link navtagsw nopadding <?php if (isset($backActif) && $backActif)
+                                                                        echo 'active' ?>" href="/backpack">Backpack</a>
+                        </li>
 
-                            <li class="nav-item nopadding">
-                                <a class="nav-link navtagsw nopadding 
+                        <li class="nav-item nopadding">
+                            <a class="nav-link navtagsw nopadding 
                                 <?php if (isset($cartActif) && $cartActif)
-                                echo 'active' ?>" href="/cart"><i class="bi bi-cart"></i>
-                                    <?php
-                            $totalCountHeader = 0;
-                            $modelCartHeader = new CartModel(Database::getInstance()->getPDO());
-                            $itemsCart = $modelCartHeader->selectAll($_SESSION['playerID']);
-                            if (isset($itemsCart))
-                                foreach ($itemsCart as $itemDataHeader) {
-                                    $quantityHeader = $itemDataHeader['quantity'];
-                                    $totalCountHeader += $quantityHeader;
-                                }
-                            echo $totalCountHeader;
-                            ?>
+                                    echo 'active' ?>" href="/cart"><i class="bi bi-cart"></i>
+                                <?php
+                                $totalCountHeader = 0;
+                                $modelCartHeader = new CartModel(Database::getInstance()->getPDO());
+                                $itemsCart = $modelCartHeader->selectAll($_SESSION['playerID']);
+                                if (isset($itemsCart))
+                                    foreach ($itemsCart as $itemDataHeader) {
+                                        $quantityHeader = $itemDataHeader['quantity'];
+                                        $totalCountHeader += $quantityHeader;
+                                    }
+                                echo $totalCountHeader;
+                                ?>
                             </a>
                         </li>
 
