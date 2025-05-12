@@ -166,7 +166,7 @@ class UserModel extends Model
 
         $data = $stm->fetch(PDO::FETCH_ASSOC);
 
-        if (!empty($data) && isset($data['lastTime'])) {
+        if (!empty($data)) {
             return (int)$data['lastTime'];
         }
         return 0;
