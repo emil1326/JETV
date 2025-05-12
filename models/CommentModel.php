@@ -65,13 +65,14 @@ class CommentModel extends Model
             throw new PDOException($e->getMessage(), $e->getCode());
         }
     }
-    public function addComment(int $itemID, int $joueureID, string $commentaire): bool
+    public function addComment(int $itemID, int $joueureID, string $commentaire, int $evals): bool
     {
         try {
-            $stm = $this->pdo->prepare('INSERT INTO commentaires (itemID, joueureID, commentaire, evaluations) VALUES (:itemID, :joueureID, :commentaire, 1)');
+            $stm = $this->pdo->prepare('INSERT INTO commentaires (itemID, joueureID, commentaire, evaluations) VALUES (:itemID, :joueureID, :commentaire, :evaluations)');
             $stm->bindValue(':itemID', $itemID, PDO::PARAM_INT);
             $stm->bindValue(':joueureID', $joueureID, PDO::PARAM_INT);
             $stm->bindValue(':commentaire', $commentaire, PDO::PARAM_STR);
+            $stm->bindValue(':evaluations', $evals, PDO::PARAM_INT);
             return $stm->execute();
         } catch (PDOException $e) {
             throw new PDOException($e->getMessage(), $e->getCode());
